@@ -8,10 +8,11 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
 :root{
-  --bg:#06060e;--surface:#10101e;--border:rgba(255,255,255,0.07);
-  --p1:#4af0b0;--p2:#f0804a;
-  --muted:#4a4a6a;--text:#d8d8ee;
-  --danger:#f04a4a;--warn:#f0c04a;--info:#4ab0f0;
+  --bg:#0e0e18;--surface:#16162a;--border:rgba(255,255,255,0.1);
+  --p1:#4a9fff;--p2:#ff4a6a;
+  --p1d:#1a5fcc;--p2d:#cc1a3a;
+  --muted:#5a5a80;--text:#e0e0f0;
+  --danger:#ff4a6a;--warn:#ffcc44;--info:#4a9fff;
   --font:'Noto Sans KR',sans-serif;
 }
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:var(--font);color:var(--text);}
@@ -91,52 +92,56 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 #jk2{background:radial-gradient(circle,rgba(240,128,74,0.5),rgba(240,128,74,0.15));border:2px solid rgba(240,128,74,0.5);}
 
 /* action buttons */
-.act-btns{position:absolute;bottom:20px;display:flex;flex-direction:column;gap:10px;align-items:center;}
-#ab1{right:16px;}
-#ab2{left:16px;}
-.act-btn{width:60px;height:60px;border-radius:50%;border:none;font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
-.shoot-btn1{background:radial-gradient(circle,rgba(74,240,176,0.25),rgba(74,240,176,0.08));border:2px solid rgba(74,240,176,0.4);color:var(--p1);}
-.shoot-btn2{background:radial-gradient(circle,rgba(240,128,74,0.25),rgba(240,128,74,0.08));border:2px solid rgba(240,128,74,0.4);color:var(--p2);}
-.jump-btn1{background:rgba(74,240,176,0.06);border:1.5px solid rgba(74,240,176,0.25);color:rgba(74,240,176,0.7);width:46px;height:46px;}
-.jump-btn2{background:rgba(240,128,74,0.06);border:1.5px solid rgba(240,128,74,0.25);color:rgba(240,128,74,0.7);width:46px;height:46px;}
-.reload-btn1{background:rgba(74,240,176,0.05);border:1.5px solid rgba(74,240,176,0.2);color:rgba(74,240,176,0.5);width:38px;height:38px;font-size:8px;}
-.reload-btn2{background:rgba(240,128,74,0.05);border:1.5px solid rgba(240,128,74,0.2);color:rgba(240,128,74,0.5);width:38px;height:38px;font-size:8px;}
+.act-btns{position:absolute;bottom:20px;display:flex;align-items:flex-end;gap:10px;}
+#ab1{right:8px;}
+#ab2{left:8px;}
+.act-btn{border:none;font-family:var(--font);font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:16px;transition:transform .08s,opacity .08s;}
+.act-btn:active{transform:scale(.9);opacity:.8;}
+
+/* SHOOT — big, chunky */
+.shoot-btn1{width:76px;height:76px;border-radius:50%;background:var(--p1);color:#000;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #1a9060,0 0 24px rgba(74,240,176,0.3);}
+.shoot-btn2{width:76px;height:76px;border-radius:50%;background:var(--p2);color:#000;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #903010,0 0 24px rgba(240,128,74,0.3);}
+
+/* JUMP — medium, pill shape */
+.jump-btn1{width:56px;height:56px;border-radius:50%;background:rgba(74,240,176,0.15);border:2px solid rgba(74,240,176,0.5);color:var(--p1);font-size:18px;box-shadow:0 3px 0 rgba(74,240,176,0.2);}
+.jump-btn2{width:56px;height:56px;border-radius:50%;background:rgba(240,128,74,0.15);border:2px solid rgba(240,128,74,0.5);color:var(--p2);font-size:18px;box-shadow:0 3px 0 rgba(240,128,74,0.2);}
+
+/* RELOAD — small */
+.reload-btn1{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);color:rgba(74,240,176,0.7);font-size:8px;letter-spacing:.5px;}
+.reload-btn2{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);color:rgba(240,128,74,0.7);font-size:8px;letter-spacing:.5px;}
 
 /* mobile mode indicator */
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,6,14,.97);}
-.ov-card{max-width:580px;width:100%;padding:32px;text-align:center;}
-.ov-title{font-size:52px;font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:4px;}
-.ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:20px;}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(14,14,24,.97);overflow-y:auto;}
+.ov-card{max-width:480px;width:100%;padding:28px 20px 32px;text-align:center;margin:auto;}
+.ov-title{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+.ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:18px;}
 
 /* Map select in title screen */
 #mapSelScreen{margin-bottom:20px;}
 .map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
-.map-card{border:1px solid var(--border);border-radius:6px;padding:10px;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);}
-.map-card:hover{background:rgba(255,255,255,0.05);}
-.map-card.sel{border-color:var(--p1);background:rgba(74,240,176,0.07);}
-.map-card-name{font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:4px;}
+.map-card{border:2px solid var(--border);border-radius:12px;padding:10px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.02);}
+.map-card:hover{background:rgba(255,255,255,0.05);transform:scale(1.02);}
+.map-card.sel{border-color:var(--p1);background:rgba(74,240,176,0.08);transform:scale(1.02);}
+.map-card-name{font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:2px;}
 .map-card-desc{font-size:8px;color:var(--muted);letter-spacing:.5px;}
 .map-card-preview{width:100%;height:36px;border-radius:3px;margin-bottom:6px;overflow:hidden;position:relative;}
 
 /* Mode select */
 .mode-row{display:flex;gap:8px;margin-bottom:20px;justify-content:center;}
-.mode-btn{flex:1;max-width:160px;padding:8px 12px;border-radius:4px;border:1px solid var(--border);background:rgba(255,255,255,0.02);cursor:pointer;transition:all .2s;font-family:var(--font);}
-.mode-btn:hover{background:rgba(255,255,255,0.05);}
-.mode-btn.sel{border-color:var(--p1);background:rgba(74,240,176,0.07);}
-.mode-btn-name{font-size:10px;font-weight:700;letter-spacing:2px;color:#fff;margin-bottom:3px;}
+.mode-btn{flex:1;max-width:160px;padding:10px 12px;border-radius:12px;border:2px solid var(--border);background:rgba(255,255,255,0.02);cursor:pointer;transition:all .15s;font-family:var(--font);}
+.mode-btn:hover{background:rgba(255,255,255,0.05);transform:scale(1.02);}
+.mode-btn.sel{border-color:var(--p1);background:rgba(74,240,176,0.08);transform:scale(1.02);}
+.mode-btn-name{font-size:10px;font-weight:900;letter-spacing:1px;color:#fff;margin-bottom:3px;}
 .mode-btn-desc{font-size:8px;color:var(--muted);}
 
-/* Controls guide */
-.ov-ctrl{text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-bottom:20px;}
-.ctrl-hdr{font-size:8px;letter-spacing:3px;padding:6px 0 4px;border-bottom:1px solid var(--border);grid-column:span 1;}
-.ctrl-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);}
-.ctrl-k{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:2px;border:1px solid var(--border);}
-.ctrl-d{font-size:10px;color:var(--muted);}
-.btn-go{background:var(--p1);color:#000;border:none;padding:13px 48px;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:3px;border-radius:4px;cursor:pointer;transition:all .15s;pointer-events:all;}
-.btn-go:hover{background:#6af8c0;transform:scale(1.03);}
+/* Controls guide - removed */
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:8px;text-transform:uppercase;}
+.btn-go{background:linear-gradient(135deg,#4a9fff,#6ab8ff);color:#fff;border:none;padding:15px 56px;font-family:var(--font);font-size:14px;font-weight:900;letter-spacing:2px;border-radius:99px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1a5fcc,0 0 32px rgba(74,159,255,0.35);}
+.btn-go:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 7px 0 #1a5fcc,0 0 48px rgba(74,159,255,0.5);}
+.btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 #1a5fcc;}
 .score-row{display:flex;justify-content:center;gap:40px;margin:16px 0 24px;}
 .sr-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
 .sr-lbl{font-size:8px;letter-spacing:3px;color:var(--muted);}
@@ -187,7 +192,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="cs-wave" id="wv">WAVE 1</div>
   </div>
   <div id="kfeed"></div>
-  <div id="noEnemyBadge" style="display:none">⚡ 연습 모드</div>
+  <div id="noEnemyBadge" style="display:none">연습 모드</div>
   <div class="ammo-hud ah1">
     <div class="gun-lbl n1" id="gn1">PISTOL</div>
     <div class="ammo-big n1"><span id="ac1">15</span><span style="font-size:11px;color:var(--muted);">/</span><span style="font-size:11px;color:var(--muted);" id="am1">15</span></div>
@@ -231,14 +236,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="joystick-base"></div>
     <div class="joystick-knob" id="jk1"></div>
   </div>
-  <div class="act-btns" id="ab1" style="position:absolute;bottom:20px;right:8px;flex-direction:row;gap:8px;">
-    <div>
-      <button class="act-btn reload-btn1" id="rld1Btn" style="font-size:7px;width:40px;height:40px;">🔄<br>재장전</button>
+  <div class="act-btns" id="ab1" style="right:8px;bottom:24px;">
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+      <button class="act-btn reload-btn1" id="rld1Btn">재장전</button>
+      <button class="act-btn jump-btn1" id="jmp1Btn">▲</button>
     </div>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <button class="act-btn jump-btn1" id="jmp1Btn">↑<br><span style="font-size:7px;">점프</span></button>
-      <button class="act-btn shoot-btn1" id="sht1Btn" style="width:68px;height:68px;">🔫<br><span style="font-size:9px;">발사</span></button>
-    </div>
+    <button class="act-btn shoot-btn1" id="sht1Btn">발사</button>
   </div>
 </div>
 <div id="mobileCtrl2">
@@ -246,13 +249,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="joystick-base"></div>
     <div class="joystick-knob" id="jk2"></div>
   </div>
-  <div class="act-btns" id="ab2" style="position:absolute;bottom:20px;left:8px;flex-direction:row;gap:8px;">
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <button class="act-btn jump-btn2" id="jmp2Btn">↑<br><span style="font-size:7px;">점프</span></button>
-      <button class="act-btn shoot-btn2" id="sht2Btn" style="width:68px;height:68px;">🔫<br><span style="font-size:9px;">발사</span></button>
-    </div>
-    <div>
-      <button class="act-btn reload-btn2" id="rld2Btn" style="font-size:7px;width:40px;height:40px;">🔄<br>재장전</button>
+  <div class="act-btns" id="ab2" style="left:8px;bottom:24px;">
+    <button class="act-btn shoot-btn2" id="sht2Btn">발사</button>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+      <button class="act-btn reload-btn2" id="rld2Btn">재장전</button>
+      <button class="act-btn jump-btn2" id="jmp2Btn">▲</button>
     </div>
   </div>
 </div>
@@ -266,45 +267,29 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 
     <!-- MAP SELECTION -->
     <div id="mapSelScreen">
-      <div class="sec-lbl">▸ 맵 선택</div>
+      <div class="sec-lbl">맵 선택</div>
       <div class="map-grid" id="mapGrid"></div>
     </div>
 
     <!-- MODE SELECTION -->
-    <div style="margin-bottom:16px;">
-      <div class="sec-lbl">▸ 게임 모드</div>
+    <div style="margin-bottom:20px;">
+      <div class="sec-lbl">게임 모드</div>
       <div class="mode-row">
         <div class="mode-btn sel" id="mode-normal" onclick="setMode('normal')">
-          <div class="mode-btn-name">일반 모드</div>
-          <div class="mode-btn-desc">적 웨이브 + PvP</div>
+          <div class="mode-btn-name">일반</div>
+          <div class="mode-btn-desc">웨이브 + PvP</div>
         </div>
         <div class="mode-btn" id="mode-pvp" onclick="setMode('pvp')">
-          <div class="mode-btn-name">PvP 모드</div>
-          <div class="mode-btn-desc">적 없음 · 순수 대결</div>
+          <div class="mode-btn-name">PvP</div>
+          <div class="mode-btn-desc">적 없음</div>
         </div>
         <div class="mode-btn" id="mode-coop" onclick="setMode('coop')">
-          <div class="mode-btn-name">협동 모드</div>
-          <div class="mode-btn-desc">함께 적 처치</div>
+          <div class="mode-btn-name">협동</div>
+          <div class="mode-btn-desc">같이 처치</div>
         </div>
       </div>
     </div>
 
-    <!-- CONTROLS -->
-    <div class="ov-ctrl" id="ctrlGuide">
-      <div class="ctrl-hdr n1">P1 — WASD + 마우스 (PC)</div>
-      <div class="ctrl-hdr n2">P2 — 방향키 + Enter</div>
-      <div class="ctrl-row"><span class="ctrl-k">A D</span><span class="ctrl-d">이동</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">← →</span><span class="ctrl-d">이동</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">W / Space</span><span class="ctrl-d">점프</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">↑</span><span class="ctrl-d">점프</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">클릭</span><span class="ctrl-d">발사</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">Enter</span><span class="ctrl-d">발사</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">R</span><span class="ctrl-d">재장전</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">Shift</span><span class="ctrl-d">재장전</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">1~5</span><span class="ctrl-d">총 교체</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">총 클릭</span><span class="ctrl-d">총 교체</span></div>
-    </div>
-    <div style="font-size:9px;color:var(--muted);margin-bottom:16px;text-align:center;">📱 모바일: 조이스틱으로 이동, 버튼으로 발사/점프</div>
     <button class="btn-go" id="btnStart">시작하기</button>
   </div>
 
