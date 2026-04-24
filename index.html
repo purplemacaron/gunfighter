@@ -2,11 +2,11 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
 <title>건파이터 2P</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
 :root{
   --bg:#06060e;--surface:#10101e;--border:rgba(255,255,255,0.07);
   --p1:#4af0b0;--p2:#f0804a;
@@ -15,7 +15,9 @@
   --font:'Noto Sans KR',sans-serif;
 }
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:var(--font);color:var(--text);}
-#c{display:block;position:absolute;top:0;left:0;cursor:none;}
+#c{display:block;position:absolute;top:0;left:0;}
+
+/* ── HUD ──────────────────────────────────── */
 #hud{position:absolute;inset:0;pointer-events:none;z-index:10;}
 .ph{position:absolute;top:12px;display:flex;flex-direction:column;gap:5px;}
 .ph1{left:12px;}.ph2{right:12px;align-items:flex-end;}
@@ -24,51 +26,111 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .bar-row{display:flex;align-items:center;gap:5px;margin-top:3px;}
 .bar-lbl{font-size:8px;color:var(--muted);letter-spacing:1px;width:16px;}
 .bar{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden;}
-.bar.hp{width:120px;}.bar.sh{width:80px;}
+.bar.hp{width:90px;}.bar.sh{width:60px;}
 .bar-fill{height:100%;border-radius:2px;transition:width .1s;}
 .hp1f{background:var(--p1);}.sh1f{background:var(--info);}
 .hp2f{background:var(--p2);}.sh2f{background:var(--info);}
-#gunBar1,#gunBar2{position:absolute;bottom:10px;display:flex;gap:5px;pointer-events:all;z-index:12;}
-#gunBar1{left:12px;}#gunBar2{right:12px;}
-.gs{width:54px;height:60px;border-radius:5px;border:1px solid var(--border);background:rgba(255,255,255,0.02);
+
+/* ── GUN BARS ─────────────────────────────── */
+#gunBar1,#gunBar2{position:absolute;display:flex;gap:4px;pointer-events:all;z-index:12;}
+#gunBar1{left:12px;bottom:10px;}
+#gunBar2{right:12px;bottom:10px;}
+.gs{width:50px;height:56px;border-radius:5px;border:1px solid var(--border);background:rgba(255,255,255,0.02);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:all .15s;}
-.gs:hover{background:rgba(255,255,255,0.05);}
-.gs.a1{border-color:var(--p1);background:rgba(74,240,176,0.07);}
-.gs.a2{border-color:var(--p2);background:rgba(240,128,74,0.07);}
+.gs:active{transform:scale(.95);}
+.gs.a1{border-color:var(--p1);background:rgba(74,240,176,0.09);}
+.gs.a2{border-color:var(--p2);background:rgba(240,128,74,0.09);}
 .gs-k{font-size:8px;color:var(--muted);}
-.gs-ico{width:26px;height:18px;}
-.gs-n{font-size:7px;color:var(--muted);letter-spacing:.3px;}
-.ammo-hud{position:absolute;bottom:80px;display:flex;flex-direction:column;gap:2px;}
-.ah1{left:12px;}.ah2{right:12px;align-items:flex-end;}
-.ammo-big{font-size:26px;font-weight:900;line-height:1;letter-spacing:-1px;}
-.ammo-res{font-size:10px;color:var(--muted);}
-.ammo-pips{display:flex;gap:2px;flex-wrap:wrap;max-width:150px;margin-top:2px;}
+.gs-ico{width:28px;height:20px;}
+.gs-n{font-size:6px;color:var(--muted);letter-spacing:.3px;}
+
+/* ── AMMO HUD ─────────────────────────────── */
+.ammo-hud{position:absolute;display:flex;flex-direction:column;gap:2px;}
+.ah1{left:12px;bottom:76px;}.ah2{right:12px;bottom:76px;align-items:flex-end;}
+.ammo-big{font-size:22px;font-weight:900;line-height:1;letter-spacing:-1px;}
+.ammo-res{font-size:9px;color:var(--muted);}
+.ammo-pips{display:flex;gap:2px;flex-wrap:wrap;max-width:130px;margin-top:2px;}
 .ah2 .ammo-pips{justify-content:flex-end;}
-.pip{width:5px;height:12px;border-radius:1px;}
+.pip{width:4px;height:10px;border-radius:1px;}
 .pf1{background:var(--p1);}.pf2{background:var(--p2);}.pe{background:rgba(255,255,255,0.07);}
 .gun-lbl{font-size:9px;font-weight:700;letter-spacing:1px;}
-.rld-bar{height:2px;border-radius:1px;background:rgba(255,255,255,0.06);overflow:hidden;margin-top:2px;width:120px;}
+.rld-bar{height:2px;border-radius:1px;background:rgba(255,255,255,0.06);overflow:hidden;margin-top:2px;width:100px;}
 .rld-fill{height:100%;background:var(--warn);width:0%;}
+
+/* ── SCORE ────────────────────────────────── */
 #cscore{position:absolute;top:12px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;}
-.cs-kills{font-size:28px;font-weight:900;letter-spacing:-2px;display:flex;gap:20px;align-items:center;}
-.cs-sep{font-size:16px;color:var(--muted);}
+.cs-kills{font-size:26px;font-weight:900;letter-spacing:-2px;display:flex;gap:16px;align-items:center;}
+.cs-sep{font-size:14px;color:var(--muted);}
 .cs-wave{font-size:8px;letter-spacing:3px;color:var(--muted);margin-top:2px;}
-#kfeed{position:absolute;top:56px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:3px;align-items:center;z-index:11;pointer-events:none;}
+
+/* ── KILL FEED ────────────────────────────── */
+#kfeed{position:absolute;top:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:3px;align-items:center;z-index:11;pointer-events:none;}
 .kf{font-size:10px;padding:2px 10px;border-radius:2px;background:rgba(0,0,0,0.6);white-space:nowrap;animation:kfIn .2s ease;}
 @keyframes kfIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
-#mapSel{position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;gap:0;pointer-events:all;z-index:12;}
-.ms{padding:4px 12px;font-size:8px;letter-spacing:2px;border:1px solid var(--border);background:rgba(255,255,255,0.02);cursor:pointer;color:var(--muted);transition:all .15s;}
-.ms:hover{background:rgba(255,255,255,0.04);}
-.ms.ac{color:#fff;background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2);}
-.xh{position:absolute;pointer-events:none;z-index:15;transform:translate(-50%,-50%);}
+
+/* ── DAMAGE VIGNETTE ──────────────────────── */
 #dv1,#dv2{position:absolute;inset:0;pointer-events:none;z-index:8;opacity:0;transition:opacity .1s;}
 #dv1{background:radial-gradient(ellipse at 20% 50%,transparent 50%,rgba(240,74,74,.6) 100%);}
 #dv2{background:radial-gradient(ellipse at 80% 50%,transparent 50%,rgba(240,74,74,.6) 100%);}
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,6,14,.93);}
-.ov-card{max-width:520px;width:100%;padding:40px;text-align:center;}
-.ov-title{font-size:52px;font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:6px;}
-.ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:28px;}
-.ov-ctrl{text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-bottom:28px;}
+
+/* ── CROSSHAIR ────────────────────────────── */
+.xh{position:absolute;pointer-events:none;z-index:15;transform:translate(-50%,-50%);}
+
+/* ── MOBILE CONTROLS ──────────────────────── */
+#mobileCtrl1,#mobileCtrl2{position:absolute;bottom:0;pointer-events:all;z-index:20;display:none;}
+#mobileCtrl1{left:0;width:50%;height:220px;}
+#mobileCtrl2{right:0;width:50%;height:220px;}
+
+/* joystick */
+.joystick-zone{position:absolute;bottom:16px;width:120px;height:120px;border-radius:50%;}
+#jz1{left:16px;}
+#jz2{right:16px;}
+.joystick-base{width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.08);}
+.joystick-knob{position:absolute;width:44px;height:44px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+#jk1{background:radial-gradient(circle,rgba(74,240,176,0.5),rgba(74,240,176,0.15));border:2px solid rgba(74,240,176,0.5);}
+#jk2{background:radial-gradient(circle,rgba(240,128,74,0.5),rgba(240,128,74,0.15));border:2px solid rgba(240,128,74,0.5);}
+
+/* action buttons */
+.act-btns{position:absolute;bottom:20px;display:flex;flex-direction:column;gap:10px;align-items:center;}
+#ab1{right:16px;}
+#ab2{left:16px;}
+.act-btn{width:60px;height:60px;border-radius:50%;border:none;font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+.shoot-btn1{background:radial-gradient(circle,rgba(74,240,176,0.25),rgba(74,240,176,0.08));border:2px solid rgba(74,240,176,0.4);color:var(--p1);}
+.shoot-btn2{background:radial-gradient(circle,rgba(240,128,74,0.25),rgba(240,128,74,0.08));border:2px solid rgba(240,128,74,0.4);color:var(--p2);}
+.jump-btn1{background:rgba(74,240,176,0.06);border:1.5px solid rgba(74,240,176,0.25);color:rgba(74,240,176,0.7);width:46px;height:46px;}
+.jump-btn2{background:rgba(240,128,74,0.06);border:1.5px solid rgba(240,128,74,0.25);color:rgba(240,128,74,0.7);width:46px;height:46px;}
+.reload-btn1{background:rgba(74,240,176,0.05);border:1.5px solid rgba(74,240,176,0.2);color:rgba(74,240,176,0.5);width:38px;height:38px;font-size:8px;}
+.reload-btn2{background:rgba(240,128,74,0.05);border:1.5px solid rgba(240,128,74,0.2);color:rgba(240,128,74,0.5);width:38px;height:38px;font-size:8px;}
+
+/* mobile mode indicator */
+#mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
+
+/* ── OVERLAY ──────────────────────────────── */
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,6,14,.97);}
+.ov-card{max-width:580px;width:100%;padding:32px;text-align:center;}
+.ov-title{font-size:52px;font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:4px;}
+.ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:20px;}
+
+/* Map select in title screen */
+#mapSelScreen{margin-bottom:20px;}
+.map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.map-card{border:1px solid var(--border);border-radius:6px;padding:10px;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);}
+.map-card:hover{background:rgba(255,255,255,0.05);}
+.map-card.sel{border-color:var(--p1);background:rgba(74,240,176,0.07);}
+.map-card-name{font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:4px;}
+.map-card-desc{font-size:8px;color:var(--muted);letter-spacing:.5px;}
+.map-card-preview{width:100%;height:36px;border-radius:3px;margin-bottom:6px;overflow:hidden;position:relative;}
+
+/* Mode select */
+.mode-row{display:flex;gap:8px;margin-bottom:20px;justify-content:center;}
+.mode-btn{flex:1;max-width:160px;padding:8px 12px;border-radius:4px;border:1px solid var(--border);background:rgba(255,255,255,0.02);cursor:pointer;transition:all .2s;font-family:var(--font);}
+.mode-btn:hover{background:rgba(255,255,255,0.05);}
+.mode-btn.sel{border-color:var(--p1);background:rgba(74,240,176,0.07);}
+.mode-btn-name{font-size:10px;font-weight:700;letter-spacing:2px;color:#fff;margin-bottom:3px;}
+.mode-btn-desc{font-size:8px;color:var(--muted);}
+
+/* Controls guide */
+.ov-ctrl{text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-bottom:20px;}
 .ctrl-hdr{font-size:8px;letter-spacing:3px;padding:6px 0 4px;border-bottom:1px solid var(--border);grid-column:span 1;}
 .ctrl-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);}
 .ctrl-k{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:2px;border:1px solid var(--border);}
@@ -79,6 +141,32 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .sr-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
 .sr-lbl{font-size:8px;letter-spacing:3px;color:var(--muted);}
 .sr-val{font-size:40px;font-weight:900;letter-spacing:-2px;}
+
+/* section label */
+.sec-lbl{font-size:8px;letter-spacing:3px;color:var(--muted);text-align:left;margin-bottom:8px;}
+
+/* enemy toggle */
+#noEnemyBadge{position:absolute;top:52px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:2px;color:var(--warn);padding:2px 10px;border:1px solid rgba(240,192,74,.3);border-radius:2px;pointer-events:none;z-index:11;}
+
+/* mobile gun quick-switch */
+#mGunSwitch1,#mGunSwitch2{position:absolute;pointer-events:all;z-index:21;display:none;gap:3px;}
+#mGunSwitch1{bottom:160px;left:8px;}
+#mGunSwitch2{bottom:160px;right:8px;}
+.mgs{width:40px;height:44px;border-radius:4px;border:1px solid var(--border);background:rgba(255,255,255,.02);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;}
+.mgs.a1{border-color:var(--p1);background:rgba(74,240,176,.08);}
+.mgs.a2{border-color:var(--p2);background:rgba(240,128,74,.08);}
+.mgs-ico{width:22px;height:16px;}
+.mgs-n{font-size:5px;color:var(--muted);}
+
+@media(max-width:600px){
+  .bar.hp{width:70px;}.bar.sh{width:50px;}
+  .ov-card{padding:20px 16px;}
+  .ov-title{font-size:38px;}
+  .map-grid{grid-template-columns:repeat(2,1fr);}
+  .ammo-big{font-size:18px;}
+  #gunBar1,#gunBar2{display:none;}
+  #mGunSwitch1,#mGunSwitch2{display:flex;}
+}
 </style>
 </head>
 <body>
@@ -90,7 +178,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="bar-row"><span class="bar-lbl">SH</span><div class="bar sh"><div class="bar-fill sh1f" id="sh1" style="width:100%"></div></div></div>
   </div>
   <div class="ph ph2">
-    <div class="p-name n2">P2</div>
+    <div class="p-name n2" style="text-align:right">P2</div>
     <div class="bar-row" style="flex-direction:row-reverse;"><span class="bar-lbl" style="text-align:right">HP</span><div class="bar hp"><div class="bar-fill hp2f" id="hp2" style="width:100%"></div></div></div>
     <div class="bar-row" style="flex-direction:row-reverse;"><span class="bar-lbl" style="text-align:right">SH</span><div class="bar sh"><div class="bar-fill sh2f" id="sh2" style="width:100%"></div></div></div>
   </div>
@@ -99,43 +187,115 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="cs-wave" id="wv">WAVE 1</div>
   </div>
   <div id="kfeed"></div>
+  <div id="noEnemyBadge" style="display:none">⚡ 연습 모드</div>
   <div class="ammo-hud ah1">
     <div class="gun-lbl n1" id="gn1">PISTOL</div>
-    <div class="ammo-big n1"><span id="ac1">15</span><span style="font-size:13px;color:var(--muted);">/</span><span style="font-size:13px;color:var(--muted);" id="am1">15</span></div>
+    <div class="ammo-big n1"><span id="ac1">15</span><span style="font-size:11px;color:var(--muted);">/</span><span style="font-size:11px;color:var(--muted);" id="am1">15</span></div>
     <div class="ammo-res" id="ar1">예비 120</div>
     <div class="rld-bar"><div class="rld-fill" id="rb1"></div></div>
     <div class="ammo-pips" id="ap1"></div>
   </div>
   <div class="ammo-hud ah2">
     <div class="gun-lbl n2" id="gn2" style="text-align:right">PISTOL</div>
-    <div class="ammo-big n2" style="text-align:right"><span id="ac2">15</span><span style="font-size:13px;color:var(--muted);">/</span><span style="font-size:13px;color:var(--muted);" id="am2">15</span></div>
+    <div class="ammo-big n2" style="text-align:right"><span id="ac2">15</span><span style="font-size:11px;color:var(--muted);">/</span><span style="font-size:11px;color:var(--muted);" id="am2">15</span></div>
     <div class="ammo-res" id="ar2" style="text-align:right">예비 120</div>
     <div class="rld-bar" style="align-self:flex-end"><div class="rld-fill" id="rb2"></div></div>
     <div class="ammo-pips" id="ap2"></div>
   </div>
   <div id="dv1"></div><div id="dv2"></div>
 </div>
+
+<!-- desktop gun bars -->
 <div id="gunBar1"></div>
 <div id="gunBar2"></div>
-<div class="xh" id="xh1">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <line x1="12" y1="1" x2="12" y2="8" stroke="#4af0b0" stroke-width="1.5"/>
-    <line x1="12" y1="16" x2="12" y2="23" stroke="#4af0b0" stroke-width="1.5"/>
-    <line x1="1" y1="12" x2="8" y2="12" stroke="#4af0b0" stroke-width="1.5"/>
-    <line x1="16" y1="12" x2="23" y2="12" stroke="#4af0b0" stroke-width="1.5"/>
-    <circle cx="12" cy="12" r="2" stroke="#4af0b0" stroke-width="1" fill="none"/>
+
+<!-- mobile gun switch -->
+<div id="mGunSwitch1"></div>
+<div id="mGunSwitch2"></div>
+
+<!-- crosshair (desktop only) -->
+<div class="xh" id="xh1" style="display:none">
+  <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+    <line x1="13" y1="1" x2="13" y2="8" stroke="#4af0b0" stroke-width="1.5"/>
+    <line x1="13" y1="18" x2="13" y2="25" stroke="#4af0b0" stroke-width="1.5"/>
+    <line x1="1" y1="13" x2="8" y2="13" stroke="#4af0b0" stroke-width="1.5"/>
+    <line x1="18" y1="13" x2="25" y2="13" stroke="#4af0b0" stroke-width="1.5"/>
+    <circle cx="13" cy="13" r="2.5" stroke="#4af0b0" stroke-width="1" fill="none"/>
+    <circle cx="13" cy="13" r="1" fill="#4af0b0" opacity=".6"/>
   </svg>
 </div>
+
+<!-- mobile controls -->
+<div id="mobileCtrl1">
+  <div class="joystick-zone" id="jz1">
+    <div class="joystick-base"></div>
+    <div class="joystick-knob" id="jk1"></div>
+  </div>
+  <div class="act-btns" id="ab1" style="position:absolute;bottom:20px;right:8px;flex-direction:row;gap:8px;">
+    <div>
+      <button class="act-btn reload-btn1" id="rld1Btn" style="font-size:7px;width:40px;height:40px;">🔄<br>재장전</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="act-btn jump-btn1" id="jmp1Btn">↑<br><span style="font-size:7px;">점프</span></button>
+      <button class="act-btn shoot-btn1" id="sht1Btn" style="width:68px;height:68px;">🔫<br><span style="font-size:9px;">발사</span></button>
+    </div>
+  </div>
+</div>
+<div id="mobileCtrl2">
+  <div class="joystick-zone" id="jz2" style="right:16px;left:auto;">
+    <div class="joystick-base"></div>
+    <div class="joystick-knob" id="jk2"></div>
+  </div>
+  <div class="act-btns" id="ab2" style="position:absolute;bottom:20px;left:8px;flex-direction:row;gap:8px;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="act-btn jump-btn2" id="jmp2Btn">↑<br><span style="font-size:7px;">점프</span></button>
+      <button class="act-btn shoot-btn2" id="sht2Btn" style="width:68px;height:68px;">🔫<br><span style="font-size:9px;">발사</span></button>
+    </div>
+    <div>
+      <button class="act-btn reload-btn2" id="rld2Btn" style="font-size:7px;width:40px;height:40px;">🔄<br>재장전</button>
+    </div>
+  </div>
+</div>
+
+<!-- overlay -->
 <div id="ov">
+  <!-- START CARD -->
   <div class="ov-card" id="startCard">
     <div class="ov-title">건<span style="color:var(--p1)">파</span><span style="color:var(--p2)">이</span>터</div>
     <div class="ov-sub">2P LOCAL GUNFIGHTER</div>
-    <div class="ov-ctrl">
-      <div class="ctrl-hdr n1">P1 — WASD + 마우스</div>
+
+    <!-- MAP SELECTION -->
+    <div id="mapSelScreen">
+      <div class="sec-lbl">▸ 맵 선택</div>
+      <div class="map-grid" id="mapGrid"></div>
+    </div>
+
+    <!-- MODE SELECTION -->
+    <div style="margin-bottom:16px;">
+      <div class="sec-lbl">▸ 게임 모드</div>
+      <div class="mode-row">
+        <div class="mode-btn sel" id="mode-normal" onclick="setMode('normal')">
+          <div class="mode-btn-name">일반 모드</div>
+          <div class="mode-btn-desc">적 웨이브 + PvP</div>
+        </div>
+        <div class="mode-btn" id="mode-pvp" onclick="setMode('pvp')">
+          <div class="mode-btn-name">PvP 모드</div>
+          <div class="mode-btn-desc">적 없음 · 순수 대결</div>
+        </div>
+        <div class="mode-btn" id="mode-coop" onclick="setMode('coop')">
+          <div class="mode-btn-name">협동 모드</div>
+          <div class="mode-btn-desc">함께 적 처치</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="ov-ctrl" id="ctrlGuide">
+      <div class="ctrl-hdr n1">P1 — WASD + 마우스 (PC)</div>
       <div class="ctrl-hdr n2">P2 — 방향키 + Enter</div>
       <div class="ctrl-row"><span class="ctrl-k">A D</span><span class="ctrl-d">이동</span></div>
       <div class="ctrl-row"><span class="ctrl-k">← →</span><span class="ctrl-d">이동</span></div>
-      <div class="ctrl-row"><span class="ctrl-k">W</span><span class="ctrl-d">점프</span></div>
+      <div class="ctrl-row"><span class="ctrl-k">W / Space</span><span class="ctrl-d">점프</span></div>
       <div class="ctrl-row"><span class="ctrl-k">↑</span><span class="ctrl-d">점프</span></div>
       <div class="ctrl-row"><span class="ctrl-k">클릭</span><span class="ctrl-d">발사</span></div>
       <div class="ctrl-row"><span class="ctrl-k">Enter</span><span class="ctrl-d">발사</span></div>
@@ -144,8 +304,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
       <div class="ctrl-row"><span class="ctrl-k">1~5</span><span class="ctrl-d">총 교체</span></div>
       <div class="ctrl-row"><span class="ctrl-k">총 클릭</span><span class="ctrl-d">총 교체</span></div>
     </div>
+    <div style="font-size:9px;color:var(--muted);margin-bottom:16px;text-align:center;">📱 모바일: 조이스틱으로 이동, 버튼으로 발사/점프</div>
     <button class="btn-go" id="btnStart">시작하기</button>
   </div>
+
+  <!-- GAME OVER CARD -->
   <div class="ov-card" id="goCard" style="display:none">
     <div class="ov-title" id="winTxt">P1 승리</div>
     <div class="ov-sub">GAME OVER</div>
@@ -156,14 +319,150 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <button class="btn-go" id="btnRestart">다시 시작</button>
   </div>
 </div>
+
 <script>
-// ─── SVG GUN ICONS ───────────────────────────────────────
+// ─── SVG GUN ICONS (detailed, realistic) ─────────────────────────────────────
 const GICO={
-  pistol:'<svg viewBox="0 0 28 18" fill="none"><rect x="0" y="6" width="18" height="7" rx="1.5" fill="currentColor" opacity=".9"/><rect x="18" y="6" width="7" height="5" rx="1" fill="currentColor"/><rect x="7" y="13" width="6" height="5" rx="1" fill="currentColor" opacity=".65"/><rect x="2" y="5" width="4" height="2" rx=".5" fill="currentColor" opacity=".4"/></svg>',
-  smg:   '<svg viewBox="0 0 28 18" fill="none"><rect x="0" y="5" width="20" height="6" rx="1.5" fill="currentColor" opacity=".9"/><rect x="20" y="5" width="6" height="4" rx="1" fill="currentColor"/><rect x="8" y="11" width="5" height="7" rx="1" fill="currentColor" opacity=".65"/><rect x="13" y="11" width="3" height="4" rx=".5" fill="currentColor" opacity=".4"/><rect x="1" y="4" width="2" height="2" rx=".5" fill="currentColor" opacity=".3"/></svg>',
-  shotgun:'<svg viewBox="0 0 28 16" fill="none"><rect x="0" y="5" width="22" height="5" rx="1.5" fill="currentColor" opacity=".9"/><rect x="22" y="5" width="5" height="4" rx="1" fill="currentColor"/><rect x="9" y="10" width="5" height="6" rx="1" fill="currentColor" opacity=".65"/><rect x="4" y="4" width="11" height="2" rx=".5" fill="currentColor" opacity=".35"/></svg>',
-  rifle: '<svg viewBox="0 0 28 16" fill="none"><rect x="0" y="4" width="22" height="6" rx="1.5" fill="currentColor" opacity=".9"/><rect x="22" y="4" width="5" height="5" rx="1" fill="currentColor"/><rect x="10" y="10" width="4" height="6" rx="1" fill="currentColor" opacity=".65"/><rect x="15" y="10" width="3" height="3" rx=".5" fill="currentColor" opacity=".4"/><rect x="2" y="3" width="2.5" height="2" rx=".5" fill="currentColor" opacity=".35"/><rect x="6" y="3" width="1.5" height="2" rx=".5" fill="currentColor" opacity=".25"/></svg>',
-  sniper:'<svg viewBox="0 0 28 14" fill="none"><rect x="0" y="5" width="24" height="4" rx="1" fill="currentColor" opacity=".9"/><rect x="24" y="5" width="3" height="3" rx=".5" fill="currentColor"/><rect x="11" y="9" width="3" height="5" rx="1" fill="currentColor" opacity=".65"/><rect x="6" y="3" width="7" height="2.5" rx=".5" fill="currentColor" opacity=".45"/><rect x="2" y="4" width="2" height="2" rx=".3" fill="currentColor" opacity=".3"/></svg>',
+  pistol:`<svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- barrel -->
+    <rect x="22" y="8" width="16" height="5" rx="1" fill="currentColor" opacity=".95"/>
+    <!-- muzzle highlight -->
+    <rect x="36" y="9" width="3" height="3" rx=".5" fill="currentColor" opacity=".5"/>
+    <!-- slide -->
+    <rect x="10" y="7" width="13" height="7" rx="1.5" fill="currentColor" opacity=".9"/>
+    <!-- ejection port -->
+    <rect x="14" y="7.5" width="5" height="2.5" rx=".5" fill="rgba(0,0,0,0.5)"/>
+    <!-- frame -->
+    <rect x="8" y="12" width="14" height="4" rx="1" fill="currentColor" opacity=".8"/>
+    <!-- trigger guard -->
+    <path d="M11 16 Q10 20 14 20 L17 20 L17 16" fill="currentColor" opacity=".55"/>
+    <!-- grip -->
+    <rect x="10" y="16" width="8" height="7" rx="1.5" fill="currentColor" opacity=".7"/>
+    <!-- grip texture lines -->
+    <line x1="11.5" y1="17" x2="11.5" y2="22" stroke="rgba(0,0,0,0.35)" stroke-width=".8"/>
+    <line x1="13" y1="17" x2="13" y2="22" stroke="rgba(0,0,0,0.35)" stroke-width=".8"/>
+    <line x1="14.5" y1="17" x2="14.5" y2="22" stroke="rgba(0,0,0,0.35)" stroke-width=".8"/>
+    <!-- hammer -->
+    <rect x="8" y="10" width="3" height="3" rx=".5" fill="currentColor" opacity=".6"/>
+    <!-- sight front -->
+    <rect x="34" y="7" width="2" height="2" rx=".3" fill="currentColor" opacity=".7"/>
+    <!-- sight rear -->
+    <rect x="19" y="7" width="3" height="2" rx=".3" fill="currentColor" opacity=".6"/>
+  </svg>`,
+  smg:`<svg viewBox="0 0 40 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- barrel -->
+    <rect x="26" y="9" width="12" height="4" rx="1" fill="currentColor" opacity=".95"/>
+    <!-- suppressor hint -->
+    <rect x="36" y="8.5" width="3" height="5" rx="1" fill="currentColor" opacity=".4"/>
+    <!-- receiver -->
+    <rect x="10" y="8" width="18" height="6" rx="1.5" fill="currentColor" opacity=".9"/>
+    <!-- charging handle -->
+    <rect x="24" y="6.5" width="3" height="3" rx=".5" fill="currentColor" opacity=".55"/>
+    <!-- trigger guard -->
+    <path d="M14 14 Q13 18 17 18 L20 18 L20 14" fill="currentColor" opacity=".5"/>
+    <!-- pistol grip -->
+    <rect x="14" y="14" width="7" height="8" rx="1.5" fill="currentColor" opacity=".7"/>
+    <!-- grip texture -->
+    <line x1="15.5" y1="15" x2="15.5" y2="21" stroke="rgba(0,0,0,0.3)" stroke-width=".8"/>
+    <line x1="17" y1="15" x2="17" y2="21" stroke="rgba(0,0,0,0.3)" stroke-width=".8"/>
+    <line x1="18.5" y1="15" x2="18.5" y2="21" stroke="rgba(0,0,0,0.3)" stroke-width=".8"/>
+    <!-- magazine -->
+    <rect x="16" y="18" width="5" height="7" rx="1" fill="currentColor" opacity=".65"/>
+    <!-- stock folded -->
+    <rect x="5" y="9" width="7" height="4" rx="1" fill="currentColor" opacity=".5"/>
+    <rect x="5" y="10" width="5" height="2" rx=".5" fill="rgba(0,0,0,.2)"/>
+    <!-- rail/sight -->
+    <rect x="10" y="7" width="14" height="1.5" rx=".5" fill="currentColor" opacity=".4"/>
+    <!-- front sight -->
+    <rect x="33" y="8" width="1.5" height="2" rx=".3" fill="currentColor" opacity=".6"/>
+  </svg>`,
+  shotgun:`<svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- barrel (double) -->
+    <rect x="20" y="6" width="18" height="3.5" rx="1" fill="currentColor" opacity=".9"/>
+    <rect x="20" y="10" width="18" height="3.5" rx="1" fill="currentColor" opacity=".9"/>
+    <!-- muzzle -->
+    <rect x="36" y="5.5" width="3" height="8" rx=".8" fill="currentColor" opacity=".5"/>
+    <!-- receiver -->
+    <rect x="10" y="7" width="12" height="7" rx="2" fill="currentColor" opacity=".85"/>
+    <!-- trigger guard -->
+    <path d="M14 14 Q13 18 17 18 L20 18 L20 14" fill="currentColor" opacity=".5"/>
+    <!-- grip -->
+    <rect x="13" y="14" width="8" height="7" rx="1.5" fill="currentColor" opacity=".7"/>
+    <!-- grip texture -->
+    <line x1="14.5" y1="15" x2="14.5" y2="20" stroke="rgba(0,0,0,0.3)" stroke-width=".8"/>
+    <line x1="16" y1="15" x2="16" y2="20" stroke="rgba(0,0,0,0.3)" stroke-width=".8"/>
+    <line x1="17.5" y1="15" x2="17.5" y2="20" stroke="rgba(0,0,0,0.3)" stroke-width=".8"/>
+    <!-- stock -->
+    <rect x="3" y="8" width="9" height="6" rx="2" fill="currentColor" opacity=".6"/>
+    <!-- barrel rib -->
+    <line x1="20" y1="9" x2="38" y2="9" stroke="rgba(0,0,0,0.25)" stroke-width=".6"/>
+    <!-- ejector -->
+    <rect x="16" y="6.5" width="2" height="1.5" rx=".3" fill="rgba(0,0,0,.4)"/>
+  </svg>`,
+  rifle:`<svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- barrel -->
+    <rect x="24" y="8.5" width="14" height="4" rx="1" fill="currentColor" opacity=".95"/>
+    <!-- flash hider -->
+    <rect x="36" y="7.5" width="3" height="6" rx=".8" fill="currentColor" opacity=".5"/>
+    <line x1="36.5" y1="8" x2="36.5" y2="13" stroke="rgba(0,0,0,.4)" stroke-width=".8"/>
+    <line x1="38" y1="8" x2="38" y2="13" stroke="rgba(0,0,0,.4)" stroke-width=".8"/>
+    <!-- upper receiver -->
+    <rect x="10" y="7" width="16" height="5" rx="1.5" fill="currentColor" opacity=".9"/>
+    <!-- charging handle -->
+    <rect x="22" y="5.5" width="3" height="3" rx=".5" fill="currentColor" opacity=".55"/>
+    <!-- lower receiver + trigger -->
+    <rect x="9" y="11" width="16" height="4" rx="1" fill="currentColor" opacity=".8"/>
+    <path d="M14 15 Q13 19 17 19 L20 19 L20 15" fill="currentColor" opacity=".5"/>
+    <!-- pistol grip -->
+    <rect x="14" y="15" width="7" height="6" rx="1.5" fill="currentColor" opacity=".7"/>
+    <!-- magazine -->
+    <rect x="15" y="19" width="6" height="3" rx=".8" fill="currentColor" opacity=".6"/>
+    <!-- handguard -->
+    <rect x="18" y="8" width="7" height="3" rx=".5" fill="rgba(0,0,0,.15)"/>
+    <line x1="19.5" y1="8.5" x2="19.5" y2="10.5" stroke="rgba(255,255,255,.15)" stroke-width=".6"/>
+    <line x1="21" y1="8.5" x2="21" y2="10.5" stroke="rgba(255,255,255,.15)" stroke-width=".6"/>
+    <line x1="22.5" y1="8.5" x2="22.5" y2="10.5" stroke="rgba(255,255,255,.15)" stroke-width=".6"/>
+    <!-- stock -->
+    <rect x="3" y="8.5" width="8" height="4" rx="1.5" fill="currentColor" opacity=".55"/>
+    <rect x="5" y="9" width="5" height="3" rx=".5" fill="rgba(0,0,0,.2)"/>
+    <!-- scope rail -->
+    <rect x="10" y="6.5" width="12" height="1.5" rx=".5" fill="currentColor" opacity=".4"/>
+    <!-- front sight -->
+    <rect x="33" y="7" width="1.5" height="2" rx=".3" fill="currentColor" opacity=".7"/>
+  </svg>`,
+  sniper:`<svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- barrel (long) -->
+    <rect x="22" y="9" width="17" height="3.5" rx="1" fill="currentColor" opacity=".95"/>
+    <!-- muzzle brake -->
+    <rect x="36" y="8" width="3" height="5.5" rx=".8" fill="currentColor" opacity=".5"/>
+    <line x1="36.8" y1="8.5" x2="36.8" y2="13" stroke="rgba(0,0,0,.4)" stroke-width=".7"/>
+    <line x1="38.2" y1="8.5" x2="38.2" y2="13" stroke="rgba(0,0,0,.4)" stroke-width=".7"/>
+    <!-- receiver -->
+    <rect x="10" y="8" width="14" height="5.5" rx="1.5" fill="currentColor" opacity=".9"/>
+    <!-- bolt handle -->
+    <rect x="20" y="5.5" width="4" height="3" rx=".5" fill="currentColor" opacity=".6"/>
+    <circle cx="24" cy="7" r="1.5" fill="currentColor" opacity=".55"/>
+    <!-- SCOPE (key feature) -->
+    <rect x="12" y="4" width="11" height="5" rx="1.5" fill="currentColor" opacity=".8"/>
+    <!-- scope lenses -->
+    <circle cx="14" cy="6.5" r="1.8" fill="rgba(74,176,240,0.4)" stroke="currentColor" stroke-width=".6" opacity=".8"/>
+    <circle cx="21" cy="6.5" r="2" fill="rgba(74,176,240,0.35)" stroke="currentColor" stroke-width=".6" opacity=".8"/>
+    <!-- scope body detail -->
+    <rect x="16" y="4.5" width="3.5" height="4" rx=".3" fill="rgba(0,0,0,.2)"/>
+    <!-- bipod legs -->
+    <line x1="16" y1="14" x2="14" y2="20" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
+    <line x1="19" y1="14" x2="21" y2="20" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
+    <!-- trigger guard + grip -->
+    <path d="M13 13.5 Q12 17.5 16 17.5 L19 17.5 L19 13.5" fill="currentColor" opacity=".5"/>
+    <rect x="13" y="13.5" width="7" height="5" rx="1.5" fill="currentColor" opacity=".7"/>
+    <!-- stock -->
+    <rect x="3" y="9" width="8" height="4" rx="1.5" fill="currentColor" opacity=".55"/>
+    <rect x="4.5" y="9.5" width="5" height="3" rx=".5" fill="rgba(0,0,0,.2)"/>
+    <!-- cheekrest -->
+    <rect x="4" y="7.5" width="6" height="2" rx="1" fill="currentColor" opacity=".4"/>
+    <!-- magazine -->
+    <rect x="14" y="18" width="5" height="2.5" rx=".6" fill="currentColor" opacity=".6"/>
+  </svg>`,
 };
 
 // ─── GUN DEFINITIONS ─────────────────────────────────────
@@ -178,11 +477,12 @@ const GUNS=[
 // ─── MAP DEFINITIONS ──────────────────────────────────────
 const MAPS={
   factory:{
-    label:'공장',
+    label:'공장',desc:'산업 지구 · 수직 구조',
     bg0:'#06060e',bg1:'#0c0c1c',
     gc:'#151525',gt:'#252540',
     pc:'#1a1a30',pg:'rgba(74,176,240,0.5)',
     sky:'rgba(74,176,240,0.025)',
+    previewColors:['#151525','#1a1a30','#252540'],
     plats(W,H){
       const p=[];
       p.push({x:-3e3,y:H-56,w:9e3,h:56,g:true});
@@ -195,11 +495,12 @@ const MAPS={
     }
   },
   rooftop:{
-    label:'옥상',
+    label:'옥상',desc:'도심 옥상 · 계단형',
     bg0:'#050510',bg1:'#08081c',
     gc:'#0e0e22',gt:'#1a1a3c',
     pc:'#141430',pg:'rgba(192,132,240,0.5)',
     sky:'rgba(192,132,240,0.03)',
+    previewColors:['#0e0e22','#141430','#1a1a3c'],
     plats(W,H){
       const p=[];
       p.push({x:-3e3,y:H-56,w:9e3,h:56,g:true});
@@ -211,11 +512,12 @@ const MAPS={
     }
   },
   cave:{
-    label:'동굴',
+    label:'동굴',desc:'지하 동굴 · 좁은 통로',
     bg0:'#040409',bg1:'#070714',
     gc:'#0c0c16',gt:'#181828',
     pc:'#121222',pg:'rgba(240,128,74,0.5)',
     sky:'rgba(240,128,74,0.02)',
+    previewColors:['#0c0c16','#121222','#181828'],
     plats(W,H){
       const p=[];
       p.push({x:-3e3,y:H-56,w:9e3,h:56,g:true});
@@ -228,20 +530,19 @@ const MAPS={
     }
   },
   arena:{
-    label:'아레나',
+    label:'아레나',desc:'대칭 경기장 · 밸런스',
     bg0:'#080608',bg1:'#100e10',
     gc:'#181618',gt:'#282428',
     pc:'#1e1c1e',pg:'rgba(240,74,74,0.5)',
     sky:'rgba(240,74,74,0.02)',
+    previewColors:['#181618','#1e1c1e','#282428'],
     plats(W,H){
       const p=[];
       p.push({x:-3e3,y:H-56,w:9e3,h:56,g:true});
-      // symmetric arena
       const defs=[[100,H-180,160],[400,H-280,140],[700,H-360,200],[1000,H-280,140],[1300,H-180,160],
                   [250,H-440,120],[700,H-480,160],[1150,H-440,120],
                   [700,H-140,100]];
       defs.forEach(([x,y,w])=>p.push({x,y,w,h:14}));
-      // pillars
       [{x:320,y:H-200,w:14,h:145},{x:1120,y:H-200,w:14,h:145},
        {x:580,y:H-310,w:14,h:110},{x:860,y:H-310,w:14,h:110}].forEach(v=>p.push({...v,wall:true}));
       return p;
@@ -250,6 +551,7 @@ const MAPS={
 };
 let mapId='factory';
 let platforms=[];
+let gameMode='normal'; // 'normal' | 'pvp' | 'coop'
 
 // ─── CANVAS ──────────────────────────────────────────────
 const cv=document.getElementById('c');
@@ -266,6 +568,7 @@ window.addEventListener('resize',resize);
 let running=false,started=false;
 let wave=1,wTimer=0,wSpawned=0;
 let bullets=[],enemies=[],parts=[],floats=[];
+let isMobile=false;
 
 function mkP(i){
   return{i,x:i===0?180:520,y:300,w:26,h:34,vx:0,vy:0,onGround:false,
@@ -274,6 +577,22 @@ function mkP(i){
     aim:{x:400,y:300},shootHeld:false};
 }
 const P=[mkP(0),mkP(1)];
+
+// ─── DETECT MOBILE ──────────────────────────────────────
+function detectMobile(){
+  isMobile=('ontouchstart' in window)||window.innerWidth<768;
+  document.getElementById('mobileCtrl1').style.display=isMobile?'block':'none';
+  document.getElementById('mobileCtrl2').style.display=isMobile?'block':'none';
+  document.getElementById('mGunSwitch1').style.display=isMobile?'flex':'none';
+  document.getElementById('mGunSwitch2').style.display=isMobile?'flex':'none';
+  if(isMobile){
+    document.getElementById('xh1').style.display='none';
+    cv.style.cursor='default';
+  } else {
+    document.getElementById('xh1').style.display='block';
+    cv.style.cursor='none';
+  }
+}
 
 // ─── INPUT ───────────────────────────────────────────────
 const keys={};
@@ -290,20 +609,144 @@ document.addEventListener('keydown',e=>{
   e.preventDefault();
 });
 document.addEventListener('keyup',e=>{ keys[e.code]=false; });
+
 cv.addEventListener('mousemove',e=>{
+  if(isMobile) return;
   document.getElementById('xh1').style.cssText=`left:${e.clientX}px;top:${e.clientY}px;`;
   if(running){ P[0].aim.x=e.clientX+cam.x; P[0].aim.y=e.clientY+cam.y; }
 });
-cv.addEventListener('mousedown',e=>{ P[0].shootHeld=true; if(running&&!P[0].guns[P[0].gi].auto) shoot(P[0]); });
-cv.addEventListener('mouseup',()=>P[0].shootHeld=false);
-cv.style.cursor='none';
+cv.addEventListener('mousedown',e=>{
+  if(isMobile) return;
+  P[0].shootHeld=true; if(running&&!P[0].guns[P[0].gi].auto) shoot(P[0]);
+});
+cv.addEventListener('mouseup',()=>{ if(!isMobile) P[0].shootHeld=false; });
 
-document.getElementById('btnStart').addEventListener('click',startGame);
-document.getElementById('btnRestart').addEventListener('click',startGame);
+// ─── JOYSTICK SYSTEM ─────────────────────────────────────
+const joys=[
+  {pid:0,el:null,knob:null,active:false,tid:-1,startX:0,startY:0,dx:0,dy:0},
+  {pid:1,el:null,knob:null,active:false,tid:-1,startX:0,startY:0,dx:0,dy:0},
+];
+
+function initJoysticks(){
+  joys[0].el=document.getElementById('jz1');
+  joys[0].knob=document.getElementById('jk1');
+  joys[1].el=document.getElementById('jz2');
+  joys[1].knob=document.getElementById('jk2');
+
+  joys.forEach((j,ji)=>{
+    const zone=j.el;
+    zone.addEventListener('touchstart',e=>{
+      e.preventDefault();
+      const t=e.changedTouches[0];
+      const r=zone.getBoundingClientRect();
+      j.active=true; j.tid=t.identifier;
+      j.startX=r.left+r.width/2; j.startY=r.top+r.height/2;
+      j.dx=0; j.dy=0;
+    },{passive:false});
+    document.addEventListener('touchmove',e=>{
+      if(!j.active) return;
+      for(const t of e.changedTouches){
+        if(t.identifier===j.tid){
+          const maxR=46;
+          const rx=t.clientX-j.startX,ry=t.clientY-j.startY;
+          const len=Math.hypot(rx,ry);
+          const cx2=len>maxR?rx/len*maxR:rx;
+          const cy2=len>maxR?ry/len*maxR:ry;
+          j.knob.style.transform=`translate(calc(-50% + ${cx2}px),calc(-50% + ${cy2}px))`;
+          j.dx=cx2/maxR; j.dy=cy2/maxR;
+          break;
+        }
+      }
+    },{passive:false});
+    document.addEventListener('touchend',e=>{
+      for(const t of e.changedTouches){
+        if(t.identifier===j.tid){
+          j.active=false; j.dx=0; j.dy=0;
+          j.knob.style.transform='translate(-50%,-50%)';
+          break;
+        }
+      }
+    },{passive:false});
+  });
+}
+
+// ─── MOBILE BUTTONS ───────────────────────────────────────
+const mobileShoot=[false,false];
+const mobileJump=[false,false];
+
+function setupMobileButtons(){
+  const makeBtn=(id,onDown,onUp)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('touchstart',e=>{e.preventDefault();onDown();},{passive:false});
+    el.addEventListener('touchend',e=>{e.preventDefault();if(onUp)onUp();},{passive:false});
+    el.addEventListener('touchcancel',e=>{e.preventDefault();if(onUp)onUp();},{passive:false});
+  };
+  makeBtn('sht1Btn',()=>{
+    mobileShoot[0]=true;
+    if(running&&!P[0].guns[P[0].gi].auto) shoot(P[0]);
+  },()=>{ mobileShoot[0]=false; });
+  makeBtn('sht2Btn',()=>{
+    mobileShoot[1]=true;
+    if(running&&!P[1].guns[P[1].gi].auto) shoot(P[1]);
+  },()=>{ mobileShoot[1]=false; });
+  makeBtn('jmp1Btn',()=>{ mobileJump[0]=true; },()=>{ mobileJump[0]=false; });
+  makeBtn('jmp2Btn',()=>{ mobileJump[1]=true; },()=>{ mobileJump[1]=false; });
+  makeBtn('rld1Btn',()=>{ if(running) reload(P[0]); });
+  makeBtn('rld2Btn',()=>{ if(running) reload(P[1]); });
+}
+
+// ─── MAP SELECT BUILD ─────────────────────────────────────
+function buildMapGrid(){
+  const grid=document.getElementById('mapGrid');
+  grid.innerHTML='';
+  Object.keys(MAPS).forEach(id=>{
+    const m=MAPS[id];
+    const card=document.createElement('div');
+    card.className='map-card'+(id===mapId?' sel':'');
+    card.dataset.id=id;
+
+    // mini preview canvas
+    const pv=document.createElement('canvas');
+    pv.width=120; pv.height=36;
+    pv.style.cssText='width:100%;height:36px;border-radius:3px;display:block;';
+    const pc=pv.getContext('2d');
+    // draw mini preview
+    const g=pc.createLinearGradient(0,0,0,36);
+    g.addColorStop(0,m.bg0); g.addColorStop(1,m.bg1);
+    pc.fillStyle=g; pc.fillRect(0,0,120,36);
+    pc.fillStyle=m.gc; pc.fillRect(0,28,120,8);
+    pc.fillStyle=m.pc;
+    // draw some mini platforms
+    [[5,20,22],[30,15,18],[55,12,20],[80,18,22],[100,10,15]].forEach(([x,y,w])=>{
+      pc.fillRect(x,y,w,3);
+    });
+
+    card.appendChild(pv);
+    card.innerHTML+=`<div class="map-card-name">${m.label}</div><div class="map-card-desc">${m.desc}</div>`;
+    card.prepend(pv);
+
+    card.addEventListener('click',()=>{
+      mapId=id;
+      document.querySelectorAll('.map-card').forEach(c=>c.classList.remove('sel'));
+      card.classList.add('sel');
+      platforms=MAPS[id].plats(W,H);
+    });
+    grid.appendChild(card);
+  });
+}
+
+function setMode(m){
+  gameMode=m;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('mode-'+m).classList.add('sel');
+}
+window.setMode=setMode;
 
 // ─── GUN BAR BUILD ───────────────────────────────────────
 function buildBars(){
   [0,1].forEach(pi=>{
+    // desktop bar
     const bar=document.getElementById('gunBar'+(pi+1));
     bar.innerHTML='';
     GUNS.forEach((g,gi)=>{
@@ -313,24 +756,18 @@ function buildBars(){
       s.addEventListener('click',()=>{ if(running) switchGun(P[pi],gi); });
       bar.appendChild(s);
     });
-  });
-}
 
-// ─── MAP SELECTOR ────────────────────────────────────────
-function buildMapSel(){
-  let old=document.getElementById('mapSel');
-  if(old) old.remove();
-  const el=document.createElement('div');
-  el.id='mapSel';
-  el.style.cssText='position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;gap:0;pointer-events:all;z-index:12;';
-  Object.keys(MAPS).forEach(id=>{
-    const btn=document.createElement('div');
-    btn.className='ms'+(id===mapId?' ac':'');
-    btn.textContent=MAPS[id].label;
-    btn.addEventListener('click',()=>{ mapId=id; platforms=MAPS[id].plats(W,H); buildMapSel(); });
-    el.appendChild(btn);
+    // mobile mini bar
+    const mbar=document.getElementById('mGunSwitch'+(pi+1));
+    mbar.innerHTML='';
+    GUNS.forEach((g,gi)=>{
+      const s=document.createElement('div');
+      s.className='mgs'+(P[pi].gi===gi?' a'+(pi+1):'');
+      s.innerHTML=`<div class="mgs-ico" style="color:${pi===0?'var(--p1)':'var(--p2)'}">${GICO[g.id]}</div><div class="mgs-n">${g.name}</div>`;
+      s.addEventListener('touchstart',e=>{ e.preventDefault(); if(running) switchGun(P[pi],gi); },{passive:false});
+      mbar.appendChild(s);
+    });
   });
-  document.getElementById('hud').appendChild(el);
 }
 
 // ─── GUN SYSTEM ──────────────────────────────────────────
@@ -378,8 +815,8 @@ function tickGuns(p,dt){
     document.getElementById('rb'+(p.i+1)).style.width='0%';
   }
   if(g.auto){
-    if(p.i===0&&p.shootHeld) shoot(p);
-    if(p.i===1&&(keys['Enter']||keys['NumpadEnter'])) shoot(p);
+    if(p.i===0&&(p.shootHeld||(isMobile&&mobileShoot[0]))) shoot(p);
+    if(p.i===1&&((keys['Enter']||keys['NumpadEnter'])||(isMobile&&mobileShoot[1]))) shoot(p);
   }
 }
 
@@ -391,6 +828,7 @@ const ET=[
   {type:'sniper',w:22,h:30,hp:50, sp:0.4,dmg:65,sc:250,col:'#4060e0',fr:3200,rng:700,ranged:true},
 ];
 function spawnEnemy(){
+  if(gameMode==='pvp') return; // no enemies in pvp mode
   const t=ET[Math.min(Math.floor(Math.random()*(1+Math.floor(wave/3))),ET.length-1)];
   const base=P[Math.random()<.5?0:1];
   const side=Math.random()<.5?-1:1;
@@ -434,8 +872,36 @@ let lastT=0;
 function loop(ts){
   const dt=Math.min(ts-lastT,50); lastT=ts;
   if(!running){requestAnimationFrame(loop);return;}
-  // P2 auto-aim
-  const p2=P[1]; p2.aim.x=p2.x+p2.w/2+p2.facing*260; p2.aim.y=p2.y+p2.h/2;
+
+  // P2 auto-aim (desktop mode) or joystick aim (mobile)
+  const p2=P[1];
+  if(isMobile){
+    // mobile P2: aim in joystick direction
+    const j=joys[1];
+    if(j.active&&(Math.abs(j.dx)>.1||Math.abs(j.dy)>.1)){
+      p2.aim.x=p2.x+p2.w/2+j.dx*300;
+      p2.aim.y=p2.y+p2.h/2+j.dy*200;
+    } else {
+      p2.aim.x=p2.x+p2.w/2+p2.facing*260;
+      p2.aim.y=p2.y+p2.h/2;
+    }
+  } else {
+    p2.aim.x=p2.x+p2.w/2+p2.facing*260;
+    p2.aim.y=p2.y+p2.h/2;
+  }
+
+  // P1 mobile aim: aim in facing direction
+  if(isMobile){
+    const j=joys[0];
+    if(j.active&&(Math.abs(j.dx)>.1||Math.abs(j.dy)>.1)){
+      P[0].aim.x=P[0].x+P[0].w/2+j.dx*300;
+      P[0].aim.y=P[0].y+P[0].h/2+j.dy*200;
+    } else {
+      P[0].aim.x=P[0].x+P[0].w/2+P[0].facing*260;
+      P[0].aim.y=P[0].y+P[0].h/2;
+    }
+  }
+
   P.forEach(p=>{ if(p.alive){tickPlayer(p,dt);tickGuns(p,dt);} });
   tickBullets(); tickEnemies(dt); tickParts(dt); tickCam(); tickWave(dt);
   updateHUD(); draw();
@@ -444,12 +910,23 @@ function loop(ts){
 
 function tickPlayer(p,dt){
   let mx=0;
+  const ji=joys[p.i];
   if(p.i===0){
-    if(keys['KeyA']) mx=-1; if(keys['KeyD']) mx=1;
-    if((keys['KeyW']||keys['Space'])&&p.onGround) p.vy=JV;
+    if(isMobile){
+      mx=Math.abs(ji.dx)>.15?ji.dx:0;
+      if(mobileJump[0]&&p.onGround){ p.vy=JV; mobileJump[0]=false; }
+    } else {
+      if(keys['KeyA']) mx=-1; if(keys['KeyD']) mx=1;
+      if((keys['KeyW']||keys['Space'])&&p.onGround) p.vy=JV;
+    }
   } else {
-    if(keys['ArrowLeft']) mx=-1; if(keys['ArrowRight']) mx=1;
-    if(keys['ArrowUp']&&p.onGround) p.vy=JV;
+    if(isMobile){
+      mx=Math.abs(ji.dx)>.15?ji.dx:0;
+      if(mobileJump[1]&&p.onGround){ p.vy=JV; mobileJump[1]=false; }
+    } else {
+      if(keys['ArrowLeft']) mx=-1; if(keys['ArrowRight']) mx=1;
+      if(keys['ArrowUp']&&p.onGround) p.vy=JV;
+    }
   }
   p.vx=mx*SPD; if(Math.abs(mx)>.1) p.facing=mx>0?1:-1;
   p.vy+=GR; p.x+=p.vx; p.y+=p.vy;
@@ -465,14 +942,12 @@ function tickBullets(){
     const b=bullets[i];
     b.trail.unshift({x:b.x,y:b.y}); if(b.trail.length>5) b.trail.pop();
     b.x+=b.vx; b.y+=b.vy; b.life--;
-    // platform hit
     for(const p of platforms){
       if(b.x>p.x&&b.x<p.x+p.w&&b.y>p.y&&b.y<p.y+(p.h||16)){
         spawnSparks(b.x,b.y,'#666',3); bullets.splice(i,1); continue outer;
       }
     }
     if(b.life<=0){bullets.splice(i,1);continue;}
-    // hit enemies
     if(b.own===0||b.own===1){
       for(let j=enemies.length-1;j>=0;j--){
         const e=enemies[j]; if(!e.alive) continue;
@@ -481,10 +956,13 @@ function tickBullets(){
           bullets.splice(i,1); continue outer;
         }
       }
-      // friendly fire
-      const tgt=P[1-b.own];
-      if(tgt.alive&&tgt.inv<=0&&b.x>tgt.x&&b.x<tgt.x+tgt.w&&b.y>tgt.y&&b.y<tgt.y+tgt.h){
-        hurtPlayer(tgt,b.dmg*.4); spawnSparks(b.x,b.y,b.col,3); bullets.splice(i,1); continue outer;
+      // friendly fire (only in normal/coop)
+      if(gameMode==='normal'||gameMode==='pvp'){
+        const tgt=P[1-b.own];
+        if(tgt.alive&&tgt.inv<=0&&b.x>tgt.x&&b.x<tgt.x+tgt.w&&b.y>tgt.y&&b.y<tgt.y+tgt.h){
+          const ffDmg=gameMode==='pvp'?b.dmg:b.dmg*.4;
+          hurtPlayer(tgt,ffDmg); spawnSparks(b.x,b.y,b.col,3); bullets.splice(i,1); continue outer;
+        }
       }
     }
     if(b.own==='e'){
@@ -518,10 +996,11 @@ function hurtEnemy(e,idx,dmg,killer){
 }
 
 function tickEnemies(dt){
+  if(gameMode==='pvp') return;
   for(const e of enemies){
     if(!e.alive) continue;
-    // nearest alive player
     let tgt=null,best=Infinity;
+    // coop mode: both players are targets
     P.forEach(p=>{ if(!p.alive) return; const d=Math.hypot(p.x-e.x,p.y-e.y); if(d<best){best=d;tgt=p;} });
     if(!tgt) continue;
     const tx=tgt.x+tgt.w/2,ty=tgt.y+tgt.h/2,ex=e.x+e.w/2,ey=e.y+e.h/2;
@@ -555,17 +1034,29 @@ function tickParts(dt){
 }
 
 function tickWave(dt){
+  if(gameMode==='pvp') return;
   const total=6+wave*4;
   if(enemies.length===0&&wSpawned>=total){wave++;wSpawned=0;addFloat(W/2,H*.4,'WAVE '+wave,'#4af0b0',22);}
   if(wSpawned<total){ wTimer-=dt; if(wTimer<=0){spawnEnemy();wSpawned++;wTimer=Math.max(700,2200-wave*120);} }
 }
 
 function checkEnd(){
-  if(P[0].alive&&P[1].alive) return;
+  if(gameMode==='coop'){
+    if(P[0].alive||P[1].alive) return;
+  } else {
+    if(P[0].alive&&P[1].alive) return;
+  }
   running=false;
-  const w=P[0].alive?0:1;
-  const wc=w===0?'var(--p1)':'var(--p2)';
-  document.getElementById('winTxt').innerHTML=`<span style="color:${wc}">P${w+1}</span> 승리`;
+  let wc,wTxt;
+  if(gameMode==='coop'){
+    wTxt='패배...';
+    wc='var(--danger)';
+  } else {
+    const w=P[0].alive?0:1;
+    wc=w===0?'var(--p1)':'var(--p2)';
+    wTxt=`<span style="color:${wc}">P${w+1}</span> 승리`;
+  }
+  document.getElementById('winTxt').innerHTML=wTxt;
   document.getElementById('fk1').textContent=P[0].kills;
   document.getElementById('fk2').textContent=P[1].kills;
   document.getElementById('startCard').style.display='none';
@@ -640,7 +1131,6 @@ function drawRanges(){
     cx.lineWidth=1; cx.setLineDash([4,8]);
     cx.beginPath(); cx.arc(pcx,pcy,g.range,0,Math.PI*2); cx.stroke();
     cx.setLineDash([]);
-    // direction line to aim
     const ang=Math.atan2(p.aim.y-pcy,p.aim.x-pcx);
     const ex2=pcx+Math.cos(ang)*g.range,ey2=pcy+Math.sin(ang)*g.range;
     cx.strokeStyle=p.i===0?'rgba(74,240,176,0.18)':'rgba(240,128,74,0.18)';
@@ -654,7 +1144,6 @@ function drawRanges(){
 function drawPlayer(p){
   const x=p.x,y=p.y+p.recoilY;
   const col=p.i===0?'#4af0b0':'#f0804a';
-  // shadow
   cx.fillStyle='rgba(0,0,0,0.22)';
   cx.beginPath(); cx.ellipse(x+p.w/2,p.y+p.h,p.w*.42,4,0,0,Math.PI*2); cx.fill();
   if(p.inv>0&&Math.floor(p.inv/70)%2===0) return;
@@ -676,7 +1165,14 @@ function drawPlayer(p){
   cx.fillStyle=col;
   const bl=g.id==='sniper'?30:g.id==='shotgun'?20:g.id==='rifle'?26:22;
   cx.fillRect(6,-3,bl,6);
+  // barrel detail
   cx.fillStyle='rgba(255,255,255,0.6)'; cx.fillRect(6+bl-2,-2,3,4);
+  // grip detail
+  cx.fillStyle=col+'55'; cx.fillRect(8,-5,6,3);
+  if(g.id==='sniper'){
+    cx.fillStyle=col+'70'; cx.fillRect(10,-7,7,3); // scope
+    cx.fillStyle='rgba(74,176,240,0.5)'; cx.fillRect(11,-6.5,5,2);
+  }
   cx.restore();
   // label
   cx.fillStyle=col; cx.font='bold 8px sans-serif'; cx.textAlign='center';
@@ -685,6 +1181,7 @@ function drawPlayer(p){
 }
 
 function drawEnemies(){
+  if(gameMode==='pvp') return;
   for(const e of enemies){
     if(!e.alive) continue;
     cx.save(); cx.translate(e.x+e.w/2,e.y+e.h/2);
@@ -766,7 +1263,11 @@ function updateHUD(){
   });
   document.getElementById('k1').textContent=P[0].kills;
   document.getElementById('k2').textContent=P[1].kills;
-  document.getElementById('wv').textContent='WAVE '+wave;
+  if(gameMode==='pvp'){
+    document.getElementById('wv').textContent='PvP 모드';
+  } else {
+    document.getElementById('wv').textContent='WAVE '+wave;
+  }
 }
 function updateAmmo(p){
   const i=p.i+1,g=p.guns[p.gi];
@@ -788,6 +1289,7 @@ function startGame(){
   document.getElementById('ov').style.display='none';
   document.getElementById('startCard').style.display='block';
   document.getElementById('goCard').style.display='none';
+  document.getElementById('noEnemyBadge').style.display=gameMode==='pvp'?'block':'none';
   wave=1; wTimer=0; wSpawned=0;
   bullets=[]; enemies=[]; parts=[]; floats=[];
   [0,1].forEach(i=>{
@@ -801,10 +1303,17 @@ function startGame(){
 }
 window.startGame=startGame;
 
+document.getElementById('btnStart').addEventListener('click',startGame);
+document.getElementById('btnRestart').addEventListener('click',startGame);
+
 // ─── INIT ────────────────────────────────────────────────
 resize();
-buildMapSel();
+detectMobile();
+window.addEventListener('resize',detectMobile);
+buildMapGrid();
 buildBars();
+initJoysticks();
+setupMobileButtons();
 cx.fillStyle='#06060e'; cx.fillRect(0,0,W,H);
 </script>
 </body>
