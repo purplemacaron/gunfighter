@@ -41,9 +41,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .hp2f{background:var(--p2);}.sh2f{background:var(--info);}
 
 /* ── GUN BARS ─────────────────────────────── */
-#gunBar1,#gunBar2{position:absolute;display:flex;gap:4px;pointer-events:all;z-index:12;}
-#gunBar1{left:12px;bottom:10px;}
-#gunBar2{right:12px;bottom:10px;}
+#gunBar1,#gunBar2{position:absolute;display:flex;gap:4px;pointer-events:all;z-index:12;max-width:min(46vw,700px);overflow-x:auto;padding:16px 6px 6px;border-radius:10px;background:rgba(15,23,42,.18);backdrop-filter:blur(2px);}
+#gunBar1{left:12px;bottom:10px;justify-content:flex-start;}
+#gunBar2{right:12px;bottom:10px;justify-content:flex-end;}
+#gunBar1::before,#gunBar2::before{position:absolute;top:3px;font-size:7px;letter-spacing:1px;color:rgba(255,255,255,.66);font-weight:700;}
+#gunBar1::before{content:'P1 선택 총';left:7px;}
+#gunBar2::before{content:'P2 선택 총';right:7px;}
 .gs{width:50px;height:56px;border-radius:5px;border:1px solid var(--border);background:rgba(255,255,255,0.02);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:all .15s;}
 .gs:active{transform:scale(.95);}
@@ -122,8 +125,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(240,244,255,.97);overflow-y:auto;overflow-x:hidden;}
-.ov-card{max-width:700px;width:100%;padding:16px 20px 20px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 10%,#f8fbff 0%,#e7efff 60%,#dbe7ff 100%);overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
+.ov-card{max-width:700px;width:100%;padding:16px 20px 20px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:pan-y;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
   .ov-card-title-block{width:100%;margin-bottom:8px;}
@@ -133,6 +136,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 }
 .ov-title{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:3px;color:#1e293b;}
 .ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;}
+
+/* Arcade splash */
+#arcadeCard{max-width:520px;padding:28px 20px 30px;border-radius:24px;background:linear-gradient(180deg,#0f172a 0%,#1e293b 100%);box-shadow:0 24px 70px rgba(15,23,42,.45);}
+.arcade-title{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;color:#f8fafc;text-shadow:0 0 22px rgba(59,130,246,.45);}
+.arcade-sub{font-size:11px;letter-spacing:5px;color:#93c5fd;margin:8px 0 16px;}
+.arcade-guns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:2px 0 10px;}
+.arcade-gun{border:2px solid rgba(255,255,255,.18);border-radius:16px;background:linear-gradient(180deg,rgba(15,23,42,.9),rgba(30,41,59,.95));color:#bfdbfe;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:var(--font);transition:transform .12s,border-color .12s,box-shadow .12s;touch-action:manipulation;}
+.arcade-gun:hover,.arcade-gun:focus-visible{transform:translateY(-2px) scale(1.02);border-color:#60a5fa;box-shadow:0 0 22px rgba(59,130,246,.3);}
+.arcade-gun:active{transform:translateY(1px) scale(.98);}
+.arcade-gun svg{width:66px;height:36px;}
+.arcade-gun span{font-size:10px;font-weight:800;letter-spacing:1px;}
+.arcade-tip{font-size:10px;color:#cbd5e1;letter-spacing:.5px;}
 
 /* Map select in title screen */
 #mapSelScreen{margin-bottom:14px;width:100%;}
@@ -175,7 +190,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .mgs-n{font-size:5px;color:var(--muted);}
 
 .gun-pick{width:100%;margin-bottom:14px;}
-.gp-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.gp-row{display:grid;grid-template-columns:1fr;gap:8px;}
 .gp-card{border:2px solid rgba(0,0,0,.12);background:#fff;border-radius:12px;padding:8px;}
 .gp-title{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:5px;font-weight:700;}
 .gp-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-height:250px;overflow:auto;padding-right:2px;}
@@ -191,6 +206,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   .bar.hp{width:70px;}.bar.sh{width:50px;}
   .ov-card{padding:20px 16px;}
   .ov-title{font-size:38px;}
+  #arcadeCard{padding:24px 14px 22px;}
+  .arcade-title{font-size:40px;}
   .map-grid{grid-template-columns:repeat(2,1fr);}
   .ammo-big{font-size:18px;}
   #gunBar1,#gunBar2{display:none;}
@@ -294,8 +311,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 
 <!-- overlay -->
 <div id="ov">
+  <!-- ARCADE SPLASH -->
+  <div class="ov-card" id="arcadeCard">
+    <div class="arcade-title">ARCADE READY</div>
+    <div class="arcade-sub">GUNFIGHTER 2P</div>
+    <div class="arcade-guns" style="grid-template-columns:1fr;max-width:260px;">
+      <button class="arcade-gun" type="button" data-open-setup>
+        <svg viewBox="0 0 56 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="3" y="9" width="22" height="6" rx="1.5" fill="currentColor" opacity=".8"/>
+          <rect x="31" y="9" width="22" height="6" rx="1.5" fill="currentColor"/>
+          <rect x="24" y="10" width="8" height="4" rx="1" fill="currentColor" opacity=".55"/>
+          <path d="M21 15h8v6h-5.2c-1.6 0-2.7-1.5-2.8-3z" fill="currentColor" opacity=".65"/>
+          <path d="M27 15h8v6h-5.2c-1.6 0-2.7-1.5-2.8-3z" fill="currentColor" opacity=".5"/>
+        </svg>
+        <span>총 선택 화면 열기</span>
+      </button>
+    </div>
+    <div class="arcade-tip">총 그림을 탭하면 설정 화면으로 이동합니다.</div>
+  </div>
+
   <!-- START CARD -->
-  <div class="ov-card" id="startCard">
+  <div class="ov-card" id="startCard" style="display:none">
     <div class="ov-card-title-block" style="width:100%;text-align:center;">
       <div class="ov-title">건<span style="color:var(--p1)">파</span><span style="color:var(--p2)">이</span>터</div>
       <div class="ov-sub">LOCAL GUNFIGHTER</div>
@@ -326,17 +362,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
       <div class="sec-lbl">시작 무기 선택</div>
       <div class="gp-row">
         <div class="gp-card">
-          <div class="gp-title">P1 시작 총</div>
+          <div class="gp-title">P1 선택 총</div>
           <div class="gp-list" id="startGun1"></div>
         </div>
         <div class="gp-card">
-          <div class="gp-title">P2 시작 총</div>
+          <div class="gp-title">P2 선택 총</div>
           <div class="gp-list" id="startGun2"></div>
         </div>
       </div>
     </div>
 
-    <button class="btn-go" id="btnStart">시작하기</button>
+    <div style="position:sticky;bottom:0;width:100%;padding-top:10px;background:linear-gradient(180deg,rgba(240,244,255,0) 0%,rgba(240,244,255,.95) 44%,rgba(240,244,255,1) 100%);">
+      <button class="btn-go" id="btnStart">시작하기</button>
+    </div>
   </div>
 
   <!-- GAME OVER CARD -->
@@ -1138,6 +1176,7 @@ function checkEnd(){
   document.getElementById('winTxt').innerHTML=wTxt;
   document.getElementById('fk1').textContent=P[0].kills;
   document.getElementById('fk2').textContent=P[1].kills;
+  document.getElementById('arcadeCard').style.display='none';
   document.getElementById('startCard').style.display='none';
   document.getElementById('goCard').style.display='block';
   document.getElementById('ov').style.display='flex';
@@ -1236,14 +1275,19 @@ function drawPlayer(p){
   cx.fillStyle=col+'30'; cx.fillRect(-p.w/2+2,-p.h/2+2,p.w-4,p.h*.42);
   // visor
   cx.fillStyle=col+'cc'; cx.fillRect(-p.w/2+3,-p.h/2+5,p.w-6,7);
+  // carry strap/shoulder gear
+  cx.strokeStyle=col+'70'; cx.lineWidth=1.8;
+  cx.beginPath(); cx.moveTo(-p.w/2+3,-p.h/2+4); cx.lineTo(p.w/2-3,p.h/2-6); cx.stroke();
   // gun arm
   const aimAng=Math.atan2(p.aim.y-(y+p.h/2),p.aim.x-(x+p.w/2))*p.facing;
   cx.save(); cx.rotate(Math.max(-.65,Math.min(.65,aimAng)));
   const g=p.guns[p.gi];
-  cx.fillStyle=col+'88'; cx.fillRect(3,-3,6,6);
+  cx.fillStyle=col+'88'; cx.fillRect(2,-3,7,6);
+  cx.fillStyle='#0f172a'; cx.fillRect(0,-1,4,3); // hand
   cx.fillStyle=col;
   const bl=g.id==='sniper'?30:g.id==='shotgun'?20:g.id==='rifle'?26:22;
   cx.fillRect(6,-3,bl,6);
+  cx.fillStyle='rgba(15,23,42,.8)'; cx.fillRect(10,2,6,4); // magazine
   // barrel detail
   cx.fillStyle='rgba(255,255,255,0.6)'; cx.fillRect(6+bl-2,-2,3,4);
   // grip detail
@@ -1251,6 +1295,10 @@ function drawPlayer(p){
   if(g.id==='sniper'){
     cx.fillStyle=col+'70'; cx.fillRect(10,-7,7,3); // scope
     cx.fillStyle='rgba(74,176,240,0.5)'; cx.fillRect(11,-6.5,5,2);
+  }
+  if(g.cool<120){
+    cx.fillStyle='rgba(255,240,190,0.85)';
+    cx.beginPath(); cx.arc(6+bl+2,0,2.2,0,Math.PI*2); cx.fill();
   }
   cx.restore();
   // label
@@ -1313,13 +1361,15 @@ function drawFloats(){
 
 // ─── EFFECTS ─────────────────────────────────────────────
 function spawnFlash(x,y,col){
-  for(let i=0;i<6;i++){const a=Math.random()*Math.PI*2,s=2+Math.random()*4;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:1.5+Math.random()*2,col,life:180,ml:180,a:1});}
+  for(let i=0;i<8;i++){const a=Math.random()*Math.PI*2,s=2+Math.random()*5;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:1.2+Math.random()*2.2,col,life:210,ml:210,a:1});}
+  parts.push({x,y,vx:0,vy:0,r:5+Math.random()*3,col:col+'55',life:120,ml:120,a:.9});
 }
 function spawnSparks(x,y,col,n){
-  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=2+Math.random()*5;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,r:1+Math.random()*2,col,life:280,ml:280,a:1});}
+  for(let i=0;i<n+2;i++){const a=Math.random()*Math.PI*2,s=2+Math.random()*6;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,r:.9+Math.random()*2.3,col,life:320,ml:320,a:1});}
 }
 function spawnDeath(x,y,col){
-  for(let i=0;i<18;i++){const a=Math.random()*Math.PI*2,s=3+Math.random()*7;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,r:2+Math.random()*3,col,life:550,ml:550,a:1});}
+  for(let i=0;i<28;i++){const a=Math.random()*Math.PI*2,s=3+Math.random()*8;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,r:2+Math.random()*3,col,life:650,ml:650,a:1});}
+  parts.push({x,y,vx:0,vy:-.3,r:12,col:col+'40',life:220,ml:220,a:.8});
 }
 function addFloat(x,y,txt,col,sz=12){
   floats.push({x,y,txt,col,sz,life:700,ml:700});
@@ -1362,6 +1412,7 @@ function updateAmmo(p){
 // ─── START ───────────────────────────────────────────────
 function startGame(){
   document.getElementById('ov').style.display='none';
+  document.getElementById('arcadeCard').style.display='none';
   document.getElementById('startCard').style.display='block';
   document.getElementById('goCard').style.display='none';
   wave=1; wTimer=0; wSpawned=0;
@@ -1382,12 +1433,21 @@ function backToLobby(){
   running=false;
   bullets=[]; enemies=[]; parts=[]; floats=[];
   document.getElementById('goCard').style.display='none';
-  document.getElementById('startCard').style.display='block';
+  document.getElementById('arcadeCard').style.display='flex';
+  document.getElementById('startCard').style.display='none';
   document.getElementById('ov').style.display='flex';
+}
+
+function openSetupScreen(){
+  document.getElementById('arcadeCard').style.display='none';
+  document.getElementById('goCard').style.display='none';
+  document.getElementById('startCard').style.display='flex';
+  document.getElementById('ov').scrollTo({top:0,behavior:'smooth'});
 }
 
 document.getElementById('btnStart').addEventListener('click',startGame);
 document.getElementById('btnRestart').addEventListener('click',backToLobby);
+document.querySelectorAll('[data-open-setup]').forEach(btn=>btn.addEventListener('click',openSetupScreen));
 
 // ─── INIT ────────────────────────────────────────────────
 resize();
