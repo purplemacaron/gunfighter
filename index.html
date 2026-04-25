@@ -16,14 +16,14 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
 :root{
-  --bg:#0b1020;--surface:#121a32;--border:rgba(96,165,250,0.35);
-  --p1:#2563eb;--p2:#ef4444;
-  --p1d:#1d4ed8;--p2d:#dc2626;
-  --muted:#93a4c5;--text:#e6ecff;
+  --bg:#f7f2ff;--surface:#fff4f8;--border:rgba(109,161,255,0.45);
+  --p1:#5b8dff;--p2:#ff7f9f;
+  --p1d:#4f70e8;--p2d:#ef6b8d;
+  --muted:#7f88aa;--text:#27304b;
   --danger:#ef4444;--warn:#f59e0b;--info:#3b82f6;
   --font:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:var(--font);color:var(--text);}
+html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135deg,#dbeafe 0%,#ffd9e4 52%,#e9e8ff 100%);font-family:var(--font);color:var(--text);}
 #c{display:block;position:absolute;top:0;left:0;}
 
 /* ── HUD ──────────────────────────────────── */
@@ -109,8 +109,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0f172a;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
-.ov-card{max-width:700px;width:100%;padding:16px 20px 20px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:pan-y;}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:linear-gradient(130deg,#d9e8ff 0%,#ffe0ea 100%);overflow:hidden;touch-action:none;}
+.ov-card{max-width:700px;width:100%;padding:14px 18px 14px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:none;max-height:100dvh;overflow:hidden;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
   .ov-card-title-block{width:100%;margin-bottom:8px;}
@@ -122,7 +122,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 .ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;}
 
 /* Arcade splash */
-#arcadeCard{max-width:520px;padding:28px 20px 30px;border-radius:24px;background:#1e40af;box-shadow:0 16px 0 #1e3a8a,0 24px 44px rgba(30,58,138,.35);border:3px solid rgba(255,255,255,.35);}
+#arcadeCard{max-width:520px;padding:24px 18px 24px;border-radius:24px;background:linear-gradient(140deg,#7fa9ff 0%,#ff9bb4 100%);box-shadow:0 14px 0 rgba(79,112,232,.9),0 24px 44px rgba(101,94,166,.28);border:3px solid rgba(255,255,255,.55);}
 .arcade-title{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;color:#fff8d6;text-shadow:2px 2px 0 rgba(28,17,74,.5);}
 .arcade-sub{font-size:11px;letter-spacing:5px;color:#ffde7d;margin:8px 0 16px;}
 .arcade-guns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:2px 0 10px;}
@@ -136,10 +136,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 /* Map select in title screen */
 #mapSelScreen{margin-bottom:14px;width:100%;}
 .map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:10px;}
-.map-card{border:3px solid rgba(37,99,235,.35);border-radius:14px;padding:9px;cursor:pointer;transition:all .15s;background:#111b35;box-shadow:0 3px 0 rgba(15,23,42,.6);}
-.map-card:hover{background:#172554;transform:translateY(-1px);}
-.map-card.sel{border-color:var(--p2);background:#3b1021;transform:translateY(-1px);}
-.map-card-name{font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:2px;color:#e2e8f0;}
+.map-card{border:3px solid rgba(91,141,255,.4);border-radius:14px;padding:8px;cursor:pointer;transition:all .15s;background:#f3f6ff;box-shadow:0 3px 0 rgba(91,141,255,.3);}
+.map-card:hover{background:#edf3ff;transform:translateY(-1px);}
+.map-card.sel{border-color:var(--p2);background:#ffeaf0;transform:translateY(-1px);}
+.map-card-name{font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:2px;color:#32406f;}
 .map-card-desc{font-size:8px;color:var(--muted);letter-spacing:.5px;}
 .map-card-preview{width:100%;height:32px;border-radius:4px;margin-bottom:5px;overflow:hidden;position:relative;}
 
@@ -155,16 +155,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 /* section label */
 .sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:7px;text-transform:uppercase;}
 
-.btn-go{background:#2563eb;color:#fff;border:2px solid #ef4444;padding:13px 48px;font-family:var(--font);font-size:14px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1e3a8a;}
-.btn-go:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 7px 0 #1e3a8a;}
-.btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 #1e3a8a;}
+.btn-go{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;border:2px solid rgba(255,255,255,.9);padding:11px 40px;font-family:var(--font);font-size:13px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 rgba(79,112,232,.85);}
+.btn-go:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 7px 0 rgba(79,112,232,.85);}
+.btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(79,112,232,.85);}
 .score-row{display:flex;justify-content:center;gap:40px;margin:14px 0 20px;}
 .sr-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
 .sr-lbl{font-size:8px;letter-spacing:3px;color:var(--muted);}
 .sr-val{font-size:38px;font-weight:900;letter-spacing:-2px;}
 
-.gun-pick{width:100%;margin-bottom:14px;}
-.gp-picked{display:flex;gap:7px;margin-bottom:7px;}
+.gun-pick{width:100%;margin-bottom:10px;}
+.gp-picked{display:flex;gap:6px;margin-bottom:6px;}
 .gp-picked-card{flex:1;border:2px dashed rgba(0,0,0,.15);border-radius:12px;background:#f8fbff;padding:8px;display:flex;align-items:center;gap:8px;}
 .gp-picked-ico{width:36px;height:20px;flex:none;}
 .gp-picked-meta{display:flex;flex-direction:column;align-items:flex-start;text-align:left;}
@@ -173,8 +173,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 .gp-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
 .gp-card{border:2px solid rgba(0,0,0,.12);background:#fff;border-radius:12px;padding:8px;}
 .gp-title{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:5px;font-weight:700;}
-.gp-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-height:250px;overflow-y:auto;overflow-x:hidden;padding-right:2px;touch-action:pan-y;-webkit-overflow-scrolling:touch;}
-.gp-item{border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;background:#f8fbff;transition:all .12s;}
+.gp-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;max-height:none;overflow:hidden;padding-right:0;touch-action:none;}
+.gp-item{border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:5px 3px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:#f8fbff;transition:all .12s;}
 .gp-item:hover{transform:translateY(-1px);background:#eff6ff;}
 .gp-item.sel{border-color:var(--p1);background:#dbeafe;}
 .gp-item.sel.p2{border-color:var(--p2);background:#fee2e2;}
@@ -182,8 +182,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 .gp-name{font-size:7px;line-height:1.1;color:#334155;font-weight:800;letter-spacing:.2px;text-align:center;}
 .gp-stat{font-size:6px;color:var(--muted);letter-spacing:.2px;}
 
-.record-box{width:100%;margin-bottom:12px;border:3px solid rgba(82,57,35,.2);background:#fff7ea;border-radius:14px;padding:10px;box-shadow:0 3px 0 rgba(108,71,43,.24);}
-.round-box{width:100%;margin-bottom:12px;border:3px dashed rgba(82,57,35,.25);background:#fff4e0;border-radius:14px;padding:10px;}
+.record-box{width:100%;margin-bottom:8px;border:3px solid rgba(82,57,35,.2);background:#fff7ea;border-radius:14px;padding:8px;box-shadow:0 3px 0 rgba(108,71,43,.24);}
+.round-box{width:100%;margin-bottom:8px;border:3px dashed rgba(82,57,35,.25);background:#fff4e0;border-radius:14px;padding:8px;}
 .round-row{display:flex;justify-content:space-between;gap:8px;align-items:center;}
 .round-btns{display:flex;gap:7px;}
 .round-btn{border:2px solid rgba(82,57,35,.25);background:#fff;border-radius:10px;padding:6px 10px;font-size:9px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 rgba(108,71,43,.2);}
@@ -203,15 +203,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
 .record-item{display:flex;flex-direction:column;align-items:center;}
 .record-lbl{font-size:8px;color:var(--muted);}
 .record-val{font-size:20px;font-weight:900;line-height:1.1;}
+#startCard{max-width:min(1100px,98vw);height:100dvh;justify-content:flex-start;gap:6px;}
+#startCard .ov-card-title-block{margin-bottom:2px!important;}
+#startCard .ov-sub{margin-bottom:6px;}
+#startCard .sec-lbl{margin-bottom:4px;}
+#startCard .skill-pick{margin-bottom:8px;}
+#startCard .record-val{font-size:17px;}
+#startCard .gp-name{font-size:6px;}
+#startCard .gp-stat{font-size:5px;}
+.start-actions{position:static;width:100%;padding-top:4px;background:transparent;}
 
 @media(max-width:600px){
   .bar.hp{width:70px;}.bar.sh{width:50px;}
-  .ov-card{padding:20px 16px;}
-  .ov-title{font-size:38px;}
+  .ov-card{padding:12px 10px;}
+  .ov-title{font-size:30px;}
   #arcadeCard{padding:24px 14px 22px;}
   .arcade-title{font-size:40px;}
   .map-grid{grid-template-columns:repeat(2,1fr);}
   .ammo-big{font-size:18px;}
+  #startCard .record-row{gap:10px;}
+  #startCard .record-val{font-size:15px;}
+  #startCard .gp-list{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
 </style>
 </head>
@@ -398,7 +410,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:
       </div>
     </div>
 
-    <div style="position:sticky;bottom:0;width:100%;padding-top:10px;background:#f0f4ff;">
+    <div class="start-actions">
       <button class="btn-go" id="btnStart">시작하기</button>
     </div>
   </div>
@@ -758,6 +770,10 @@ function mkP(i){
     hp:100,maxHp:100,sh:60,maxSh:60,shDelay:0,
     gi:0,guns:[],facing:i===0?1:-1,recoilY:0,inv:0,alive:true,kills:0,
     aim:{x:400,y:300},shootHeld:false,botMx:0,botJump:false};
+}
+function resetBaseVitals(p){
+  p.maxHp=100; p.hp=100;
+  p.maxSh=60; p.sh=60;
 }
 const P=[mkP(0),mkP(1)];
 
@@ -1649,9 +1665,12 @@ function startGame(){
   bullets=[]; enemies=[]; parts=[]; floats=[];
   [0,1].forEach(i=>{
     Object.assign(P[i],mkP(i));
+    resetBaseVitals(P[i]);
     P[i].x=i===0?180:W-230; P[i].y=H-200;
     initGuns(P[i]); updateAmmo(P[i]);
     applySkillToPlayer(P[i]);
+    P[i].hp=P[i].maxHp;
+    P[i].sh=P[i].maxSh;
     const pick=(gameMode==='solo'&&i===1)?Math.floor(Math.random()*GUNS.length):startGun[i];
     switchGun(P[i],pick);
   });
