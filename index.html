@@ -166,13 +166,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 
 /* mobile gun quick-switch */
 #mGunSwitch1,#mGunSwitch2{position:absolute;pointer-events:all;z-index:21;display:none;gap:3px;}
-#mGunSwitch1{bottom:160px;left:8px;}
-#mGunSwitch2{bottom:160px;right:8px;}
+#mGunSwitch1{bottom:30px;left:146px;}
+#mGunSwitch2{bottom:30px;right:146px;}
 .mgs{width:40px;height:44px;border-radius:4px;border:1px solid var(--border);background:rgba(255,255,255,.02);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;}
 .mgs.a1{border-color:var(--p1);background:rgba(74,240,176,.08);}
 .mgs.a2{border-color:var(--p2);background:rgba(240,128,74,.08);}
 .mgs-ico{width:22px;height:16px;}
 .mgs-n{font-size:5px;color:var(--muted);}
+
+.gun-pick{width:100%;margin-bottom:14px;}
+.gp-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.gp-card{border:2px solid rgba(0,0,0,.12);background:#fff;border-radius:12px;padding:8px;}
+.gp-title{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:5px;font-weight:700;}
+.gp-sel{width:100%;padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,.14);font-family:var(--font);font-weight:700;background:#f8fbff;color:#0f172a;}
 
 @media(max-width:600px){
   .bar.hp{width:70px;}.bar.sh{width:50px;}
@@ -285,7 +291,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   <div class="ov-card" id="startCard">
     <div class="ov-card-title-block" style="width:100%;text-align:center;">
       <div class="ov-title">건<span style="color:var(--p1)">파</span><span style="color:var(--p2)">이</span>터</div>
-      <div class="ov-sub">2P LOCAL GUNFIGHTER</div>
+      <div class="ov-sub">LOCAL GUNFIGHTER</div>
     </div>
 
     <!-- MAP SELECTION -->
@@ -298,13 +304,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="mode-section">
       <div class="sec-lbl">게임 모드</div>
       <div class="mode-row">
-        <div class="mode-btn sel" id="mode-normal" onclick="setMode('normal')">
-          <div class="mode-btn-name">일반</div>
-          <div class="mode-btn-desc">웨이브 + PvP</div>
+        <div class="mode-btn sel" id="mode-versus" onclick="setMode('versus')">
+          <div class="mode-btn-name">2인 대전</div>
+          <div class="mode-btn-desc">P1 vs P2</div>
         </div>
-        <div class="mode-btn" id="mode-coop" onclick="setMode('coop')">
-          <div class="mode-btn-name">협동</div>
-          <div class="mode-btn-desc">같이 처치</div>
+        <div class="mode-btn" id="mode-solo" onclick="setMode('solo')">
+          <div class="mode-btn-name">1인 모드</div>
+          <div class="mode-btn-desc">P2 봇이 공격</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gun-pick">
+      <div class="sec-lbl">시작 무기 선택</div>
+      <div class="gp-row">
+        <div class="gp-card">
+          <div class="gp-title">P1 시작 총</div>
+          <select class="gp-sel" id="startGun1"></select>
+        </div>
+        <div class="gp-card">
+          <div class="gp-title">P2 시작 총</div>
+          <select class="gp-sel" id="startGun2"></select>
         </div>
       </div>
     </div>
@@ -327,6 +347,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 <script>
 // ─── SVG GUN ICONS (detailed, realistic) ─────────────────────────────────────
 const GICO={
+  revolver:`<svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="22" y="9" width="16" height="4" rx="1" fill="currentColor" opacity=".9"/>
+    <circle cx="16" cy="12" r="4.5" fill="currentColor" opacity=".75"/>
+    <circle cx="16" cy="12" r="2.2" fill="rgba(0,0,0,.35)"/>
+    <rect x="8" y="10" width="9" height="4" rx="1" fill="currentColor" opacity=".85"/>
+    <path d="M11 14 Q10 18 14 18 L17 18 L17 14" fill="currentColor" opacity=".6"/>
+    <rect x="10" y="14" width="8" height="8" rx="1.5" fill="currentColor" opacity=".7"/>
+  </svg>`,
   pistol:`<svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- barrel -->
     <rect x="22" y="8" width="16" height="5" rx="1" fill="currentColor" opacity=".95"/>
@@ -434,6 +462,16 @@ const GICO={
     <!-- front sight -->
     <rect x="33" y="7" width="1.5" height="2" rx=".3" fill="currentColor" opacity=".7"/>
   </svg>`,
+  lmg:`<svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="22" y="8" width="16" height="4.5" rx="1" fill="currentColor" opacity=".95"/>
+    <rect x="9" y="7" width="15" height="6" rx="1.2" fill="currentColor" opacity=".88"/>
+    <rect x="8" y="12" width="17" height="3.5" rx="1" fill="currentColor" opacity=".8"/>
+    <rect x="13" y="15" width="8" height="7" rx="1.5" fill="currentColor" opacity=".68"/>
+    <rect x="15" y="13.5" width="5" height="8.5" rx="1" fill="currentColor" opacity=".7"/>
+    <rect x="3" y="8.5" width="7" height="4" rx="1.2" fill="currentColor" opacity=".55"/>
+    <line x1="16" y1="15" x2="14" y2="21" stroke="currentColor" stroke-width="1.1" opacity=".5"/>
+    <line x1="19" y1="15" x2="21" y2="21" stroke="currentColor" stroke-width="1.1" opacity=".5"/>
+  </svg>`,
   sniper:`<svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- barrel (long) -->
     <rect x="22" y="9" width="17" height="3.5" rx="1" fill="currentColor" opacity=".95"/>
@@ -471,21 +509,23 @@ const GICO={
 
 // ─── GUN DEFINITIONS ─────────────────────────────────────
 const GUNS=[
+  {id:'revolver',name:'REVOLVER',type:'반자동',key:'1',damage:52,fireRate:520, magSize:6, reserveMax:54, reloadTime:1400,bulletSpeed:17,spread:.018,auto:false,pellets:1,range:620,recoil:4.8},
   {id:'pistol', name:'PISTOL', type:'반자동',key:'1',damage:28,fireRate:380, magSize:15,reserveMax:120,reloadTime:1100,bulletSpeed:15,spread:.025,auto:false,pellets:1,range:500, recoil:2.5},
   {id:'smg',    name:'MP5',   type:'자동',  key:'2',damage:14,fireRate:110, magSize:30,reserveMax:270,reloadTime:1500,bulletSpeed:14,spread:.07, auto:true, pellets:1,range:380, recoil:1.2},
   {id:'shotgun',name:'SHOTGUN',type:'산탄', key:'3',damage:16,fireRate:720, magSize:8, reserveMax:48, reloadTime:2100,bulletSpeed:11,spread:.17, auto:false,pellets:8,range:280, recoil:6},
   {id:'rifle',  name:'AK-47', type:'자동',  key:'4',damage:33,fireRate:175, magSize:30,reserveMax:150,reloadTime:1900,bulletSpeed:17,spread:.045,auto:true, pellets:1,range:600, recoil:3.5},
-  {id:'sniper', name:'SNIPER',type:'볼트',  key:'5',damage:130,fireRate:1700,magSize:5, reserveMax:30, reloadTime:2700,bulletSpeed:24,spread:.004,auto:false,pellets:1,range:1200,recoil:9},
+  {id:'lmg',    name:'L86 LMG',type:'자동', key:'5',damage:24,fireRate:95,  magSize:60,reserveMax:300,reloadTime:2600,bulletSpeed:16,spread:.055,auto:true,pellets:1,range:640,recoil:2.8},
+  {id:'sniper', name:'SNIPER',type:'볼트',  key:'6',damage:130,fireRate:1700,magSize:5, reserveMax:30, reloadTime:2700,bulletSpeed:24,spread:.004,auto:false,pellets:1,range:1200,recoil:9},
 ];
 
 // ─── MAP DEFINITIONS ──────────────────────────────────────
 const MAPS={
   factory:{
     label:'공장',desc:'산업 지구 · 수직 구조',
-    bg0:'#06060e',bg1:'#0c0c1c',
-    gc:'#151525',gt:'#252540',
-    pc:'#1a1a30',pg:'rgba(74,176,240,0.5)',
-    sky:'rgba(74,176,240,0.025)',
+    bg0:'#dff1ff',bg1:'#bfe0ff',
+    gc:'#a7c8e8',gt:'#86b6e6',
+    pc:'#95b9de',pg:'rgba(20,96,180,0.55)',
+    sky:'rgba(120,180,255,0.18)',
     previewColors:['#151525','#1a1a30','#252540'],
     plats(W,H){
       const p=[];
@@ -500,10 +540,10 @@ const MAPS={
   },
   rooftop:{
     label:'옥상',desc:'도심 옥상 · 계단형',
-    bg0:'#050510',bg1:'#08081c',
-    gc:'#0e0e22',gt:'#1a1a3c',
-    pc:'#141430',pg:'rgba(192,132,240,0.5)',
-    sky:'rgba(192,132,240,0.03)',
+    bg0:'#e7f7ff',bg1:'#c9e9ff',
+    gc:'#b0d4ea',gt:'#9ac4e4',
+    pc:'#9bc0d9',pg:'rgba(64,126,210,0.55)',
+    sky:'rgba(170,210,255,0.18)',
     previewColors:['#0e0e22','#141430','#1a1a3c'],
     plats(W,H){
       const p=[];
@@ -517,10 +557,10 @@ const MAPS={
   },
   cave:{
     label:'동굴',desc:'지하 동굴 · 좁은 통로',
-    bg0:'#040409',bg1:'#070714',
-    gc:'#0c0c16',gt:'#181828',
-    pc:'#121222',pg:'rgba(240,128,74,0.5)',
-    sky:'rgba(240,128,74,0.02)',
+    bg0:'#f7f0e4',bg1:'#ecd9bc',
+    gc:'#d9c2a1',gt:'#cda97b',
+    pc:'#c6ab87',pg:'rgba(176,106,36,0.5)',
+    sky:'rgba(255,216,164,0.18)',
     previewColors:['#0c0c16','#121222','#181828'],
     plats(W,H){
       const p=[];
@@ -535,10 +575,10 @@ const MAPS={
   },
   arena:{
     label:'아레나',desc:'대칭 경기장 · 밸런스',
-    bg0:'#080608',bg1:'#100e10',
-    gc:'#181618',gt:'#282428',
-    pc:'#1e1c1e',pg:'rgba(240,74,74,0.5)',
-    sky:'rgba(240,74,74,0.02)',
+    bg0:'#fff1f1',bg1:'#ffe2df',
+    gc:'#e5b6b0',gt:'#d99f96',
+    pc:'#d7a59d',pg:'rgba(188,76,76,0.5)',
+    sky:'rgba(255,180,180,0.2)',
     previewColors:['#181618','#1e1c1e','#282428'],
     plats(W,H){
       const p=[];
@@ -555,7 +595,8 @@ const MAPS={
 };
 let mapId='factory';
 let platforms=[];
-let gameMode='normal'; // 'normal' | 'pvp' | 'coop'
+let gameMode='versus'; // 'versus' | 'solo'
+let startGun=[0,0];
 
 // ─── CANVAS ──────────────────────────────────────────────
 const cv=document.getElementById('c');
@@ -578,7 +619,7 @@ function mkP(i){
   return{i,x:i===0?180:520,y:300,w:26,h:34,vx:0,vy:0,onGround:false,
     hp:100,maxHp:100,sh:60,maxSh:60,shDelay:0,
     gi:0,guns:[],facing:i===0?1:-1,recoilY:0,inv:0,alive:true,kills:0,
-    aim:{x:400,y:300},shootHeld:false};
+    aim:{x:400,y:300},shootHeld:false,botMx:0,botJump:false};
 }
 const P=[mkP(0),mkP(1)];
 
@@ -604,12 +645,12 @@ document.addEventListener('keydown',e=>{
   keys[e.code]=true;
   if(!running) return;
   const k=e.key;
-  if('12345'.includes(k)) switchGun(P[0],+k-1);
+  if('123456789'.includes(k)) switchGun(P[0],+k-1);
   if(e.code==='KeyQ') switchGun(P[0],P[0].gi-1);
   if(e.code==='KeyE') switchGun(P[0],P[0].gi+1);
   if(e.code==='KeyR') reload(P[0]);
-  if(e.code==='ShiftRight'||e.code==='ShiftLeft') reload(P[1]);
-  if((e.code==='Enter'||e.code==='NumpadEnter')&&!P[1].guns[P[1].gi].auto) shoot(P[1]);
+  if(gameMode!=='solo'&&(e.code==='ShiftRight'||e.code==='ShiftLeft')) reload(P[1]);
+  if(gameMode!=='solo'&&(e.code==='Enter'||e.code==='NumpadEnter')&&!P[1].guns[P[1].gi].auto) shoot(P[1]);
   e.preventDefault();
 });
 document.addEventListener('keyup',e=>{ keys[e.code]=false; });
@@ -747,6 +788,21 @@ function setMode(m){
 }
 window.setMode=setMode;
 
+function buildStartGunSelectors(){
+  ['startGun1','startGun2'].forEach((id,idx)=>{
+    const sel=document.getElementById(id);
+    sel.innerHTML='';
+    GUNS.forEach((g,gi)=>{
+      const op=document.createElement('option');
+      op.value=gi;
+      op.textContent=`${g.name} · ${g.type}`;
+      sel.appendChild(op);
+    });
+    sel.value=String(startGun[idx]);
+    sel.onchange=()=>{ startGun[idx]=Math.max(0,Math.min(GUNS.length-1,Number(sel.value)||0)); };
+  });
+}
+
 // ─── GUN BAR BUILD ───────────────────────────────────────
 function buildBars(){
   [0,1].forEach(pi=>{
@@ -756,7 +812,7 @@ function buildBars(){
     GUNS.forEach((g,gi)=>{
       const s=document.createElement('div');
       s.className='gs'+(P[pi].gi===gi?' a'+(pi+1):'');
-      s.innerHTML=`<div class="gs-k">${g.key}</div><div class="gs-ico" style="color:${pi===0?'var(--p1)':'var(--p2)'}">${GICO[g.id]}</div><div class="gs-n">${g.name}</div>`;
+      s.innerHTML=`<div class="gs-k">${gi+1}</div><div class="gs-ico" style="color:${pi===0?'var(--p1)':'var(--p2)'}">${GICO[g.id]||GICO.pistol}</div><div class="gs-n">${g.name}</div>`;
       s.addEventListener('click',()=>{ if(running) switchGun(P[pi],gi); });
       bar.appendChild(s);
     });
@@ -767,7 +823,7 @@ function buildBars(){
     GUNS.forEach((g,gi)=>{
       const s=document.createElement('div');
       s.className='mgs'+(P[pi].gi===gi?' a'+(pi+1):'');
-      s.innerHTML=`<div class="mgs-ico" style="color:${pi===0?'var(--p1)':'var(--p2)'}">${GICO[g.id]}</div><div class="mgs-n">${g.name}</div>`;
+      s.innerHTML=`<div class="mgs-ico" style="color:${pi===0?'var(--p1)':'var(--p2)'}">${GICO[g.id]||GICO.pistol}</div><div class="mgs-n">${g.name}</div>`;
       s.addEventListener('touchstart',e=>{ e.preventDefault(); if(running) switchGun(P[pi],gi); },{passive:false});
       mbar.appendChild(s);
     });
@@ -779,7 +835,7 @@ function initGuns(p){
   p.guns=GUNS.map(g=>({...g,ammo:g.magSize,res:g.reserveMax,cd:0,reloading:false,rp:0}));
 }
 function switchGun(p,idx){
-  p.gi=Math.max(0,Math.min(4,idx));
+  p.gi=Math.max(0,Math.min(GUNS.length-1,idx));
   buildBars(); updateAmmo(p);
 }
 function reload(p){
@@ -820,7 +876,9 @@ function tickGuns(p,dt){
   }
   if(g.auto){
     if(p.i===0&&(p.shootHeld||(isMobile&&mobileShoot[0]))) shoot(p);
-    if(p.i===1&&((keys['Enter']||keys['NumpadEnter'])||(isMobile&&mobileShoot[1]))) shoot(p);
+    if(p.i===1&&((gameMode==='solo'&&p.shootHeld)||(keys['Enter']||keys['NumpadEnter'])||(isMobile&&mobileShoot[1]))) shoot(p);
+  } else if(p.i===1&&gameMode==='solo'&&p.shootHeld&&Math.random()<0.35){
+    shoot(p);
   }
 }
 
@@ -831,16 +889,7 @@ const ET=[
   {type:'heavy', w:32,h:40,hp:200,sp:0.9,dmg:22,sc:300,col:'#9040e0',fr:2200,rng:420,ranged:true},
   {type:'sniper',w:22,h:30,hp:50, sp:0.4,dmg:65,sc:250,col:'#4060e0',fr:3200,rng:700,ranged:true},
 ];
-function spawnEnemy(){
-  if(gameMode==='pvp') return; // no enemies in pvp mode
-  const t=ET[Math.min(Math.floor(Math.random()*(1+Math.floor(wave/3))),ET.length-1)];
-  const base=P[Math.random()<.5?0:1];
-  const side=Math.random()<.5?-1:1;
-  enemies.push({...t,x:base.x+side*(W*.55+Math.random()*200),y:H-56-t.h,
-    vx:0,vy:0,onGround:false,
-    hp:t.hp*(.8+wave*.15),maxHp:t.hp*(.8+wave*.15),
-    cd:Math.random()*t.fr,alive:true,facing:side===-1?1:-1,flash:0});
-}
+function spawnEnemy(){}
 
 // ─── PHYSICS ─────────────────────────────────────────────
 const GR=0.45,JV=-11.5,SPD=5;
@@ -871,15 +920,36 @@ function tickCam(){
   cam.y=Math.max(-300,Math.min(H*.18,cam.y));
 }
 
+function tickSoloBot(dt){
+  if(gameMode!=='solo') return;
+  const bot=P[1],target=P[0];
+  if(!bot.alive||!target.alive) return;
+  const dx=(target.x+target.w/2)-(bot.x+bot.w/2);
+  const dy=(target.y+target.h/2)-(bot.y+bot.h/2);
+  const dist=Math.hypot(dx,dy);
+  bot.aim.x=target.x+target.w/2;
+  bot.aim.y=target.y+target.h/2;
+  bot.botMx=Math.abs(dx)>180?Math.sign(dx):Math.abs(dx)<120?-Math.sign(dx)*0.4:0;
+  bot.shootHeld=dist<bot.guns[bot.gi].range*0.95;
+  bot.botJump=false;
+  if(bot.onGround&&Math.random()<0.02) bot.botJump=true;
+  if(bot.onGround&&Math.abs(dy)>65&&Math.random()<0.06) bot.botJump=true;
+}
+
 // ─── MAIN LOOP ───────────────────────────────────────────
 let lastT=0;
 function loop(ts){
   const dt=Math.min(ts-lastT,50); lastT=ts;
   if(!running){requestAnimationFrame(loop);return;}
 
+  tickSoloBot(dt);
+
   // P2 auto-aim (desktop mode) or joystick aim (mobile)
   const p2=P[1];
-  if(isMobile){
+  if(gameMode==='solo'){
+    p2.aim.x=P[0].x+P[0].w/2;
+    p2.aim.y=P[0].y+P[0].h/2;
+  } else if(isMobile){
     // mobile P2: aim in joystick direction
     const j=joys[1];
     if(j.active&&(Math.abs(j.dx)>.1||Math.abs(j.dy)>.1)){
@@ -924,7 +994,10 @@ function tickPlayer(p,dt){
       if((keys['KeyW']||keys['Space'])&&p.onGround) p.vy=JV;
     }
   } else {
-    if(isMobile){
+    if(gameMode==='solo'){
+      mx=p.botMx||0;
+      if(p.botJump&&p.onGround){ p.vy=JV; p.botJump=false; }
+    } else if(isMobile){
       mx=Math.abs(ji.dx)>.15?ji.dx:0;
       if(mobileJump[1]&&p.onGround){ p.vy=JV; mobileJump[1]=false; }
     } else {
@@ -960,12 +1033,10 @@ function tickBullets(){
           bullets.splice(i,1); continue outer;
         }
       }
-      // friendly fire (only in normal/coop)
-      if(gameMode==='normal'||gameMode==='pvp'){
+      if(gameMode==='versus'||gameMode==='solo'){
         const tgt=P[1-b.own];
         if(tgt.alive&&tgt.inv<=0&&b.x>tgt.x&&b.x<tgt.x+tgt.w&&b.y>tgt.y&&b.y<tgt.y+tgt.h){
-          const ffDmg=gameMode==='pvp'?b.dmg:b.dmg*.4;
-          hurtPlayer(tgt,ffDmg); spawnSparks(b.x,b.y,b.col,3); bullets.splice(i,1); continue outer;
+          hurtPlayer(tgt,b.dmg); spawnSparks(b.x,b.y,b.col,3); bullets.splice(i,1); continue outer;
         }
       }
     }
@@ -1000,34 +1071,7 @@ function hurtEnemy(e,idx,dmg,killer){
 }
 
 function tickEnemies(dt){
-  if(gameMode==='pvp') return;
-  for(const e of enemies){
-    if(!e.alive) continue;
-    let tgt=null,best=Infinity;
-    // coop mode: both players are targets
-    P.forEach(p=>{ if(!p.alive) return; const d=Math.hypot(p.x-e.x,p.y-e.y); if(d<best){best=d;tgt=p;} });
-    if(!tgt) continue;
-    const tx=tgt.x+tgt.w/2,ty=tgt.y+tgt.h/2,ex=e.x+e.w/2,ey=e.y+e.h/2;
-    const dist=Math.hypot(tx-ex,ty-ey);
-    e.facing=tx<ex?-1:1;
-    if(e.ranged){
-      if(dist>e.rng) e.vx=Math.sign(tx-ex)*e.sp;
-      else if(dist<e.rng*.5) e.vx=-Math.sign(tx-ex)*e.sp*.6;
-      else e.vx=0;
-      e.cd-=dt;
-      if(e.cd<=0&&dist<e.rng){
-        const ang=Math.atan2(ty-ey,tx-ex)+(Math.random()-.5)*.12;
-        bullets.push({x:ex,y:ey,vx:Math.cos(ang)*8,vy:Math.sin(ang)*8,dmg:e.dmg,col:'#f04a4a',own:'e',life:120,maxL:120,r:3,trail:[]});
-        e.cd=e.fr+Math.random()*400;
-      }
-    } else {
-      e.vx=Math.sign(tx-ex)*e.sp;
-      if(dist<e.w+tgt.w&&tgt.inv<=0){hurtPlayer(tgt,e.dmg);tgt.inv=900;}
-    }
-    if(e.onGround&&Math.random()<.015) e.vy=JV*.75;
-    e.vy+=GR; e.x+=e.vx; e.y+=e.vy; phys(e);
-    if(e.flash>0) e.flash-=16;
-  }
+  return;
 }
 
 function tickParts(dt){
@@ -1038,28 +1082,16 @@ function tickParts(dt){
 }
 
 function tickWave(dt){
-  if(gameMode==='pvp') return;
-  const total=6+wave*4;
-  if(enemies.length===0&&wSpawned>=total){wave++;wSpawned=0;addFloat(W/2,H*.4,'WAVE '+wave,'#4af0b0',22);}
-  if(wSpawned<total){ wTimer-=dt; if(wTimer<=0){spawnEnemy();wSpawned++;wTimer=Math.max(700,2200-wave*120);} }
+  return;
 }
 
 function checkEnd(){
-  if(gameMode==='coop'){
-    if(P[0].alive||P[1].alive) return;
-  } else {
-    if(P[0].alive&&P[1].alive) return;
-  }
+  if(P[0].alive&&P[1].alive) return;
   running=false;
   let wc,wTxt;
-  if(gameMode==='coop'){
-    wTxt='패배...';
-    wc='var(--danger)';
-  } else {
-    const w=P[0].alive?0:1;
-    wc=w===0?'var(--p1)':'var(--p2)';
-    wTxt=`<span style="color:${wc}">P${w+1}</span> 승리`;
-  }
+  const w=P[0].alive?0:1;
+  wc=w===0?'var(--p1)':'var(--p2)';
+  wTxt=`<span style="color:${wc}">P${w+1}</span> 승리`;
   document.getElementById('winTxt').innerHTML=wTxt;
   document.getElementById('fk1').textContent=P[0].kills;
   document.getElementById('fk2').textContent=P[1].kills;
@@ -1185,7 +1217,7 @@ function drawPlayer(p){
 }
 
 function drawEnemies(){
-  if(gameMode==='pvp') return;
+  if(enemies.length===0) return;
   for(const e of enemies){
     if(!e.alive) continue;
     cx.save(); cx.translate(e.x+e.w/2,e.y+e.h/2);
@@ -1267,11 +1299,7 @@ function updateHUD(){
   });
   document.getElementById('k1').textContent=P[0].kills;
   document.getElementById('k2').textContent=P[1].kills;
-  if(gameMode==='pvp'){
-    document.getElementById('wv').textContent='PvP 모드';
-  } else {
-    document.getElementById('wv').textContent='WAVE '+wave;
-  }
+  document.getElementById('wv').textContent=gameMode==='solo'?'1인 모드 · P2 BOT':'2인 대전';
 }
 function updateAmmo(p){
   const i=p.i+1,g=p.guns[p.gi];
@@ -1299,6 +1327,7 @@ function startGame(){
     Object.assign(P[i],mkP(i));
     P[i].x=i===0?180:W-230; P[i].y=H-200;
     initGuns(P[i]); updateAmmo(P[i]);
+    switchGun(P[i],startGun[i]);
   });
   platforms=MAPS[mapId].plats(W,H);
   buildBars(); running=true;
@@ -1314,6 +1343,7 @@ resize();
 detectMobile();
 window.addEventListener('resize',detectMobile);
 buildMapGrid();
+buildStartGunSelectors();
 buildBars();
 initJoysticks();
 setupMobileButtons();
