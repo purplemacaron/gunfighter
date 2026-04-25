@@ -94,8 +94,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .act-btn:active{transform:scale(.9);opacity:.8;}
 
 /* SHOOT — big, chunky */
-.shoot-btn1{width:76px;height:76px;border-radius:50%;background:var(--p1);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #1d4ed8,0 0 20px rgba(37,99,235,0.35);}
-.shoot-btn2{width:76px;height:76px;border-radius:50%;background:var(--p2);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #b91c1c,0 0 20px rgba(239,68,68,0.35);}
+.shoot-btn1{width:76px;height:76px;border-radius:50%;background:#dc2626;color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #7f1d1d,0 0 20px rgba(220,38,38,0.45);}
+.shoot-btn2{width:76px;height:76px;border-radius:50%;background:#dc2626;color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #7f1d1d,0 0 20px rgba(220,38,38,0.45);}
 
 /* JUMP — medium */
 .jump-btn1{width:56px;height:56px;border-radius:50%;background:rgba(37,99,235,0.15);border:none;color:var(--p1);font-size:18px;box-shadow:0 3px 0 rgba(37,99,235,0.2);}
@@ -313,6 +313,20 @@ html,body{background:#000;color:#fff;}
 #startCard .main-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:6px;}
 #startCard .map-grid{gap:5px;}
 #startCard .map-card{padding:5px;border-radius:10px;}
+
+#ov::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 18% 60%, rgba(255,160,30,.26), transparent 30%),
+    radial-gradient(circle at 76% 56%, rgba(255,170,40,.24), transparent 34%),
+    linear-gradient(120deg, rgba(10,14,28,.82), rgba(24,30,48,.76)),
+    url("https://images.unsplash.com/photo-1572787829831-6a9f1a8ddf58?auto=format&fit=crop&w=2200&q=80") center/cover no-repeat;
+  filter:grayscale(8%) contrast(1.08);
+  opacity:.9;
+}
+#ov>*{position:relative;z-index:1;}
+#startCard{box-shadow:0 24px 80px rgba(0,0,0,.55);backdrop-filter:blur(3px);}
+.lobby-head .btn-go{font-weight:900;letter-spacing:1px;}
 #startCard .gp-row{gap:5px;}
 #startCard .gp-list{gap:3px;}
 #startCard .record-row{gap:12px;}
@@ -442,7 +456,7 @@ html,body{background:#000;color:#fff;}
   <div class="ov-card" id="startCard" style="display:flex">
     <div class="ov-card-title-block" style="width:100%;text-align:center;">
       <div class="ov-title">GUNSHOOTER</div>
-      <div class="ov-sub">SIMPLE BLACK / WHITE</div>
+      <div class="ov-sub">CITY DUEL COMMAND</div>
     </div>
 
     <div class="lobby-head">
@@ -510,7 +524,7 @@ html,body{background:#000;color:#fff;}
       </div>
 
       <div class="gun-pick">
-        <div class="sec-lbl">시작 무기 선택</div>
+        <div class="sec-lbl">총 선택 (P1 / P2)</div>
         <div class="gp-picked" id="pickedGuns"></div>
         <div class="gp-row">
           <div class="gp-card">
@@ -836,7 +850,7 @@ let skillSel=['tank','shield'];
 const BOT_CFG={reactionMs:380,aimErrorBase:68,aimErrorDist:0.065,maxRangeMul:0.56,triggerChance:0.24};
 let botAimTimer=0;
 const BGM_KEY='gunshooter_bgm_enabled_v1';
-let bgmCtx=null,bgmGain=null,bgmStarted=false,bgmEnabled=true,bgmTimer=null;
+let bgmCtx=null,bgmGain=null,bgmStarted=false,bgmEnabled=true,bgmTimer=null,bgmUnlocked=false;
 
 function startBgm(){
   if(bgmStarted||!bgmEnabled) return;
@@ -845,7 +859,7 @@ function startBgm(){
   bgmCtx=new AC();
   if(bgmCtx.state==='suspended') bgmCtx.resume().catch(()=>{});
   bgmGain=bgmCtx.createGain();
-  bgmGain.gain.value=.025;
+  bgmGain.gain.value=.11;
   bgmGain.connect(bgmCtx.destination);
   const notes=[196.00,220.00,196.00,174.61];
   let step=0;
@@ -857,7 +871,7 @@ function startBgm(){
     osc.type='sine';
     osc.frequency.value=notes[step%notes.length];
     g.gain.setValueAtTime(0.001,now);
-    g.gain.exponentialRampToValueAtTime(0.05,now+0.03);
+    g.gain.exponentialRampToValueAtTime(0.12,now+0.03);
     g.gain.exponentialRampToValueAtTime(0.001,now+0.34);
     osc.connect(g); g.connect(bgmGain); osc.start(now); osc.stop(now+0.36);
     step++;
@@ -888,6 +902,11 @@ function loadBgmPref(){
   }catch(e){}
   const btn=document.getElementById('btnBgmToggle');
   if(btn) btn.textContent=`배경음악: ${bgmEnabled?'ON':'OFF'}`;
+}
+function unlockBgmOnce(){
+  if(bgmUnlocked) return;
+  bgmUnlocked=true;
+  if(bgmEnabled) startBgm();
 }
 
 function loadRecord(){
@@ -948,10 +967,12 @@ function resize(){
   updateMapBounds();
 }
 function updateMapBounds(){
-  const xs=platforms.map(p=>p.x);
-  const xe=platforms.map(p=>p.x+p.w);
-  mapBounds.minX=Math.min(...xs)-80;
-  mapBounds.maxX=Math.max(...xe)+80;
+  const playable=platforms.filter(p=>!p.g);
+  const src=playable.length?playable:platforms;
+  const xs=src.map(p=>p.x);
+  const xe=src.map(p=>p.x+p.w);
+  mapBounds.minX=Math.min(...xs)-120;
+  mapBounds.maxX=Math.max(...xe)+120;
 }
 window.addEventListener('resize',resize);
 
@@ -1628,24 +1649,29 @@ function draw(){
 }
 
 function drawBg(){
-  const mode=MAPS[mapId].bgMode;
-  if(mode==='stripe'){
-    cx.fillStyle='#1e3a8a'; cx.fillRect(0,0,W,H);
-    cx.fillStyle='#b91c1c';
-    for(let x=0;x<W;x+=120) cx.fillRect(x,0,48,H);
-  } else if(mode==='bands'){
-    cx.fillStyle='#1e40af'; cx.fillRect(0,0,W,H/3);
-    cx.fillStyle='#991b1b'; cx.fillRect(0,H/3,W,H/3);
-    cx.fillStyle='#1e40af'; cx.fillRect(0,H*2/3,W,H/3);
-  } else if(mode==='arena'){
-    cx.fillStyle='#991b1b'; cx.fillRect(0,0,W,H);
-    cx.fillStyle='#1d4ed8'; cx.fillRect(W*0.35,0,W*0.3,H);
-    cx.fillStyle='rgba(255,255,255,.7)'; cx.fillRect(Math.floor(W/2)-2,0,4,H);
-  } else {
-    cx.fillStyle='#2563eb'; cx.fillRect(0,0,Math.ceil(W/2),H);
-    cx.fillStyle='#ef4444'; cx.fillRect(Math.floor(W/2),0,Math.ceil(W/2),H);
-    cx.fillStyle='rgba(255,255,255,.88)'; cx.fillRect(Math.floor(W/2)-1,0,2,H);
+  const g=cx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#3a3a3a');
+  g.addColorStop(.5,'#2b2b2b');
+  g.addColorStop(1,'#1a1a1a');
+  cx.fillStyle=g;
+  cx.fillRect(0,0,W,H);
+
+  cx.globalAlpha=.22;
+  for(let y=0;y<H;y+=80){
+    cx.fillStyle=(Math.floor(y/80)%2===0)?'#ffffff':'#000000';
+    cx.fillRect(0,y,W,40);
   }
+  cx.globalAlpha=1;
+
+  cx.strokeStyle='rgba(255,255,255,.12)';
+  cx.lineWidth=2;
+  cx.beginPath();
+  cx.moveTo(0,H*0.7);
+  for(let x=0;x<=W;x+=40){
+    const waveY=H*0.7+Math.sin((x+performance.now()*0.05)/120)*10;
+    cx.lineTo(x,waveY);
+  }
+  cx.stroke();
 }
 
 function drawPlats(){
@@ -1924,6 +1950,9 @@ detectMobile();
 window.addEventListener('resize',detectMobile);
 loadRecord();
 loadBgmPref();
+window.addEventListener('pointerdown',unlockBgmOnce,{once:true});
+window.addEventListener('touchstart',unlockBgmOnce,{once:true});
+window.addEventListener('keydown',unlockBgmOnce,{once:true});
 renderRecord();
 buildMapGrid();
 initSetupTabs();
