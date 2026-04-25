@@ -236,6 +236,71 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
   #startCard .record-val{font-size:15px;}
   #startCard .gp-list{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
+
+/* ── SIMPLE BLACK & WHITE LOBBY REFRESH ─────────────────── */
+:root{
+  --bg:#000;
+  --surface:#0d0d0d;
+  --text:#fff;
+  --muted:#b5b5b5;
+  --p1:#fff;
+  --p2:#d0d0d0;
+  --p1d:#bfbfbf;
+  --p2d:#9a9a9a;
+}
+html,body{background:#000;color:#fff;}
+#ov{background:#000;}
+#startCard{
+  max-width:min(980px,96vw);
+  border:1px solid #2e2e2e;
+  border-radius:14px;
+  background:#0a0a0a;
+  padding:14px;
+}
+#startCard .ov-title,#goCard .ov-title{color:#fff;letter-spacing:0;}
+#startCard .ov-sub,#goCard .ov-sub{color:#bdbdbd;letter-spacing:2px;}
+.setup-menu{gap:6px;}
+.setup-tab{
+  background:#121212;
+  color:#fff;
+  border:1px solid #3a3a3a;
+  border-radius:10px;
+}
+.setup-tab.sel{background:#fff;color:#000;border-color:#fff;}
+.setup-screen{background:#0f0f0f;border:1px solid #262626;border-radius:10px;padding:10px;max-height:52dvh;}
+.sec-lbl,.record-title,.gp-title,.record-lbl{color:#c3c3c3;}
+.map-card,.gp-card,.record-box,.round-box,.skill-item,.gp-item{
+  background:#151515;
+  border:1px solid #343434;
+  color:#fff;
+}
+.map-card-name,.mode-btn-name,.skill-name,.gp-name{color:#fff;}
+.map-card-desc,.mode-btn-desc,.skill-desc,.gp-stat{color:#a5a5a5;}
+.map-card.sel,.gp-item.sel,.gp-item.sel.p2,.skill-item.sel,.skill-item.sel.p2,.round-btn.sel{background:#fff;color:#000;border-color:#fff;}
+.mode-btn{background:#151515;border:1px solid #343434;}
+.mode-btn.sel{background:#fff;border-color:#fff;}
+.mode-btn.sel .mode-btn-name,.mode-btn.sel .mode-btn-desc{color:#000;}
+.btn-go,.btn-reset,.round-btn{
+  background:#fff;
+  color:#000;
+  border:1px solid #fff;
+  box-shadow:none;
+}
+.btn-go:hover,.btn-reset:hover,.round-btn:hover{transform:none;filter:none;}
+.btn-go.secondary{
+  background:#111;
+  color:#fff;
+  border:1px solid #4a4a4a;
+}
+.lobby-head{
+  width:100%;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:10px;
+}
+.lobby-head .btn-go{min-width:170px;}
 </style>
 </head>
 <body>
@@ -357,14 +422,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
   <!-- START CARD -->
   <div class="ov-card" id="startCard" style="display:flex">
     <div class="ov-card-title-block" style="width:100%;text-align:center;">
-      <div class="ov-title">GUN<span style="color:var(--p1)">SHOO</span><span style="color:var(--p2)">TER</span></div>
-      <div class="ov-sub">LOCAL GUNSHOOTER</div>
+      <div class="ov-title">GUNSHOOTER</div>
+      <div class="ov-sub">SIMPLE BLACK / WHITE</div>
+    </div>
+
+    <div class="lobby-head">
+      <button class="btn-go" id="btnStart">게임 시작</button>
+      <button class="btn-go secondary" id="btnBgmToggle" type="button">배경음악: OFF</button>
     </div>
 
     <div class="setup-menu">
       <button class="setup-tab sel" type="button" data-setup-screen="main">메인</button>
-      <button class="setup-tab" type="button" data-setup-screen="record">랭킹</button>
-      <button class="setup-tab" type="button" data-setup-screen="weapon">무기 선택</button>
+      <button class="setup-tab" type="button" data-setup-screen="weapon">설정</button>
+      <button class="setup-tab" type="button" data-setup-screen="record">기록</button>
     </div>
 
     <div class="setup-screen active" id="screen-main">
@@ -397,9 +467,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
           </div>
         </div>
 
-        <div class="start-actions full">
-          <button class="btn-go" id="btnStart">시작하기</button>
-        </div>
       </div>
     </div>
 
@@ -740,44 +807,47 @@ const SKILLS=[
 let skillSel=['tank','shield'];
 const BOT_CFG={reactionMs:380,aimErrorBase:68,aimErrorDist:0.065,maxRangeMul:0.56,triggerChance:0.24};
 let botAimTimer=0;
-let bgmCtx=null,bgmGain=null,bgmStarted=false;
+let bgmCtx=null,bgmGain=null,bgmStarted=false,bgmEnabled=false,bgmTimer=null;
 
 function startBgm(){
-  if(bgmStarted) return;
+  if(bgmStarted||!bgmEnabled) return;
   const AC=window.AudioContext||window.webkitAudioContext;
   if(!AC) return;
   bgmCtx=new AC();
   bgmGain=bgmCtx.createGain();
-  bgmGain.gain.value=.04;
+  bgmGain.gain.value=.025;
   bgmGain.connect(bgmCtx.destination);
-  const notes=[261.63,329.63,392.0,329.63,293.66,349.23,440.0,349.23];
-  const bass=[130.81,146.83,164.81,146.83];
+  const notes=[196.00,220.00,196.00,174.61];
   let step=0;
   const tick=()=>{
-    if(!bgmCtx||bgmCtx.state==='closed') return;
+    if(!bgmCtx||bgmCtx.state==='closed'||!bgmEnabled) return;
     const now=bgmCtx.currentTime;
     const osc=bgmCtx.createOscillator();
     const g=bgmCtx.createGain();
-    osc.type='square';
+    osc.type='sine';
     osc.frequency.value=notes[step%notes.length];
     g.gain.setValueAtTime(0.001,now);
-    g.gain.exponentialRampToValueAtTime(0.08,now+0.02);
-    g.gain.exponentialRampToValueAtTime(0.001,now+0.24);
-    osc.connect(g); g.connect(bgmGain); osc.start(now); osc.stop(now+0.25);
-
-    const osc2=bgmCtx.createOscillator();
-    const g2=bgmCtx.createGain();
-    osc2.type='triangle';
-    osc2.frequency.value=bass[step%bass.length];
-    g2.gain.setValueAtTime(0.001,now);
-    g2.gain.exponentialRampToValueAtTime(0.05,now+0.03);
-    g2.gain.exponentialRampToValueAtTime(0.001,now+0.3);
-    osc2.connect(g2); g2.connect(bgmGain); osc2.start(now); osc2.stop(now+0.31);
+    g.gain.exponentialRampToValueAtTime(0.05,now+0.03);
+    g.gain.exponentialRampToValueAtTime(0.001,now+0.34);
+    osc.connect(g); g.connect(bgmGain); osc.start(now); osc.stop(now+0.36);
     step++;
-    setTimeout(tick,290);
+    bgmTimer=setTimeout(tick,420);
   };
   bgmStarted=true;
   tick();
+}
+function stopBgm(){
+  if(bgmTimer){ clearTimeout(bgmTimer); bgmTimer=null; }
+  bgmStarted=false;
+  if(bgmCtx&&bgmCtx.state!=='closed') bgmCtx.close();
+  bgmCtx=null;
+}
+function toggleBgm(){
+  bgmEnabled=!bgmEnabled;
+  const btn=document.getElementById('btnBgmToggle');
+  if(btn) btn.textContent=`배경음악: ${bgmEnabled?'ON':'OFF'}`;
+  if(bgmEnabled) startBgm();
+  else stopBgm();
 }
 
 function loadRecord(){
@@ -1820,10 +1890,9 @@ function openSetupScreen(){
 }
 
 document.getElementById('btnStart').addEventListener('click',()=>{ startBgm(); startGame(); });
+document.getElementById('btnBgmToggle').addEventListener('click',toggleBgm);
 document.getElementById('btnRestart').addEventListener('click',backToLobby);
 document.getElementById('btnResetRecord').addEventListener('click',resetRecord);
-window.addEventListener('keydown',startBgm,{once:true});
-window.addEventListener('touchstart',startBgm,{once:true});
 
 // ─── INIT ────────────────────────────────────────────────
 resize();
