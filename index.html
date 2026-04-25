@@ -14,6 +14,7 @@
 <title>GUNSHOOTER 2P</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
+button{outline:none;border:none;}
 :root{
   --bg:#0b1220;--surface:#111b34;--border:rgba(255,255,255,0.65);
   --p1:#2f7dff;--p2:#ff3b59;
@@ -97,22 +98,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .shoot-btn2{width:76px;height:76px;border-radius:50%;background:var(--p2);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #b91c1c,0 0 20px rgba(239,68,68,0.35);}
 
 /* JUMP — medium */
-.jump-btn1{width:56px;height:56px;border-radius:50%;background:rgba(37,99,235,0.15);border:2px solid rgba(37,99,235,0.5);color:var(--p1);font-size:18px;box-shadow:0 3px 0 rgba(37,99,235,0.2);}
-.jump-btn2{width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,0.15);border:2px solid rgba(239,68,68,0.5);color:var(--p2);font-size:18px;box-shadow:0 3px 0 rgba(239,68,68,0.2);}
+.jump-btn1{width:56px;height:56px;border-radius:50%;background:rgba(37,99,235,0.15);border:none;color:var(--p1);font-size:18px;box-shadow:0 3px 0 rgba(37,99,235,0.2);}
+.jump-btn2{width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,0.15);border:none;color:var(--p2);font-size:18px;box-shadow:0 3px 0 rgba(239,68,68,0.2);}
 
 /* RELOAD — small */
-.reload-btn1{width:40px;height:40px;border-radius:12px;background:rgba(37,99,235,0.1);border:1.5px solid rgba(37,99,235,0.3);color:var(--p1);font-size:8px;letter-spacing:.5px;}
-.reload-btn2{width:40px;height:40px;border-radius:12px;background:rgba(239,68,68,0.1);border:1.5px solid rgba(239,68,68,0.3);color:var(--p2);font-size:8px;letter-spacing:.5px;}
+.reload-btn1{width:40px;height:40px;border-radius:12px;background:rgba(37,99,235,0.1);border:none;color:var(--p1);font-size:8px;letter-spacing:.5px;}
+.reload-btn2{width:40px;height:40px;border-radius:12px;background:rgba(239,68,68,0.1);border:none;color:var(--p2);font-size:8px;letter-spacing:.5px;}
 
 /* mobile mode indicator */
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:linear-gradient(130deg,#3b82f6 0%,#1d4ed8 35%,#7c3aed 62%,#f43f5e 100%);overflow:hidden;touch-action:none;}
-#ov::before{content:'';position:absolute;inset:-20%;pointer-events:none;background:
-  radial-gradient(circle at 12% 20%,rgba(255,255,255,.24) 0 8%,transparent 34%),
-  radial-gradient(circle at 85% 25%,rgba(255,255,255,.17) 0 7%,transparent 28%),
-  radial-gradient(circle at 52% 82%,rgba(255,255,255,.14) 0 6%,transparent 26%);}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0f172a;overflow:hidden;touch-action:none;}
 .ov-card{max-width:700px;width:100%;padding:14px 18px 14px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:none;max-height:100dvh;overflow:hidden;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
@@ -149,16 +146,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 /* Mode select */
 .mode-section{width:100%;margin-bottom:8px;}
 .mode-row{display:flex;gap:7px;margin-bottom:0;justify-content:center;}
-.mode-btn{flex:1;max-width:150px;padding:7px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.75);background:rgba(10,20,45,.52);cursor:pointer;transition:all .15s;font-family:var(--font);box-shadow:none;}
+.mode-btn{flex:1;max-width:150px;padding:7px 8px;border-radius:14px;border:none;background:#1e3a8a;cursor:pointer;transition:all .15s;font-family:var(--font);box-shadow:none;}
 .mode-btn:hover{background:#172554;transform:translateY(-1px);}
-.mode-btn.sel{border-color:var(--p2);background:#3b1021;transform:translateY(-1px);}
+.mode-btn.sel{background:#b91c1c;transform:translateY(-1px);}
 .mode-btn-name{font-size:10px;font-weight:900;letter-spacing:1px;color:#e2e8f0;margin-bottom:3px;}
 .mode-btn-desc{font-size:8px;color:var(--muted);}
 
 /* section label */
 .sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:7px;text-transform:uppercase;}
 
-.btn-go{background:#2563eb;color:#fff;border:2px solid #fff;padding:10px 30px;font-family:var(--font);font-size:12px;font-weight:900;letter-spacing:1.5px;border-radius:14px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:none;}
+.btn-go{background:#2563eb;color:#fff;border:none;padding:10px 30px;font-family:var(--font);font-size:12px;font-weight:900;letter-spacing:1.5px;border-radius:14px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:none;}
 .btn-go:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 7px 0 rgba(79,112,232,.85);}
 .btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(79,112,232,.85);}
 .score-row{display:flex;justify-content:center;gap:40px;margin:14px 0 20px;}
@@ -174,10 +171,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .gp-picked-role{font-size:8px;letter-spacing:1px;color:var(--muted);font-weight:700;}
 .gp-picked-name{font-size:10px;font-weight:900;color:#e2e8f0;}
 .gp-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.gp-card{border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.94);border-radius:12px;padding:6px;}
+.gp-card{border:none;background:rgba(255,255,255,.94);border-radius:12px;padding:6px;}
 .gp-title{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:5px;font-weight:700;}
 .gp-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;max-height:none;overflow:hidden;padding-right:0;touch-action:none;}
-.gp-item{border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;background:#f8fbff;transition:all .12s;}
+.gp-item{border:none;border-radius:10px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;background:#f8fbff;transition:all .12s;}
 .gp-item:hover{transform:translateY(-1px);background:#eff6ff;}
 .gp-item.sel{border-color:var(--p1);background:#dbeafe;}
 .gp-item.sel.p2{border-color:var(--p2);background:#fee2e2;}
@@ -185,16 +182,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .gp-name{font-size:7px;line-height:1.1;color:#334155;font-weight:800;letter-spacing:.2px;text-align:center;}
 .gp-stat{font-size:6px;color:var(--muted);letter-spacing:.2px;}
 
-.record-box{width:100%;margin-bottom:6px;border:2px solid rgba(255,255,255,.65);background:rgba(13,23,46,.56);border-radius:14px;padding:6px;backdrop-filter:blur(2px);box-shadow:none;}
-.round-box{width:100%;margin-bottom:6px;border:2px solid rgba(255,255,255,.65);background:rgba(15,19,40,.55);border-radius:14px;padding:6px;backdrop-filter:blur(2px);}
+.record-box{width:100%;margin-bottom:6px;border:none;background:rgba(13,23,46,.72);border-radius:14px;padding:10px;box-shadow:none;}
+.round-box{width:100%;margin-bottom:6px;border:none;background:rgba(15,19,40,.72);border-radius:14px;padding:10px;}
 .round-row{display:flex;justify-content:space-between;gap:8px;align-items:center;}
 .round-btns{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
-.round-btn{border:2px solid rgba(82,57,35,.25);background:#fff;border-radius:10px;padding:5px 8px;font-size:8px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 rgba(108,71,43,.2);}
-.round-btn.sel{border-color:#ff8e3b;background:#ffe3c6;}
+.round-btn{border:none;background:#dbeafe;border-radius:10px;padding:5px 8px;font-size:8px;font-weight:800;cursor:pointer;box-shadow:none;}
+.round-btn.sel{background:#fecaca;}
 .skill-pick{width:100%;margin-bottom:6px;}
 .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .skill-list{display:flex;flex-direction:column;gap:6px;}
-.skill-item{border:2px solid rgba(82,57,35,.2);border-radius:12px;background:#fff7ea;padding:6px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px;cursor:pointer;box-shadow:0 2px 0 rgba(108,71,43,.18);}
+.skill-item{border:none;border-radius:12px;background:#fff7ea;padding:6px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px;cursor:pointer;box-shadow:none;}
 .skill-item.sel{border-color:var(--p1);background:#dbeafe;}
 .skill-item.sel.p2{border-color:var(--p2);background:#ffe1dc;}
 .skill-name{font-size:10px;font-weight:900;}
@@ -206,28 +203,25 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .record-item{display:flex;flex-direction:column;align-items:center;}
 .record-lbl{font-size:8px;color:var(--muted);}
 .record-val{font-size:20px;font-weight:900;line-height:1.1;}
-#startCard{max-width:min(1320px,99vw);height:100dvh;display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:min-content;align-content:start;justify-content:stretch;gap:6px;overflow:hidden;overscroll-behavior:contain;padding:8px 10px 10px;background:rgba(10,15,30,.24);backdrop-filter:blur(3px);border:none;border-radius:16px;}
-#startCard .ov-card-title-block{grid-column:1/-1;margin-bottom:0!important;}
-#startCard #mapSelScreen{grid-column:1/4;margin-bottom:0;}
-#startCard .mode-section{grid-column:4/7;margin-bottom:0;}
-#startCard .record-box{grid-column:7/10;margin-bottom:0;}
-#startCard .round-box{grid-column:10/-1;margin-bottom:0;}
-#startCard .skill-pick{grid-column:1/7;margin-bottom:0;}
-#startCard .gun-pick{grid-column:7/-1;margin-bottom:0;}
-#startCard .start-actions{grid-column:1/-1;display:flex;justify-content:center;padding-top:2px;}
+#startCard{max-width:min(900px,96vw);display:flex!important;height:auto;min-height:86dvh;gap:10px;overflow:hidden;padding:16px;background:#0b1220;border:none;border-radius:16px;}
 #startCard .ov-card-title-block{margin-bottom:2px!important;}
 #startCard .ov-sub{margin-bottom:6px;}
 #startCard .sec-lbl{margin-bottom:4px;}
-#startCard .skill-pick{margin-bottom:0;}
 #startCard .record-val{font-size:17px;}
 #startCard .gp-name{font-size:6px;}
 #startCard .gp-stat{font-size:5px;}
 .start-actions{position:static;width:100%;padding-top:4px;background:transparent;}
+.setup-menu{display:flex;gap:8px;width:100%;}
+.setup-tab{flex:1;border:none;background:#1e3a8a;color:#e2e8f0;border-radius:12px;padding:9px 8px;font-weight:800;font-size:11px;cursor:pointer;}
+.setup-tab.sel{background:#b91c1c;}
+.setup-screen{display:none;width:100%;max-height:58dvh;overflow:auto;padding-right:4px;}
+.setup-screen.active{display:block;}
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.main-grid .full{grid-column:1/-1;}
 
 @media(max-width:1050px){
-  #startCard{grid-template-columns:repeat(2,minmax(0,1fr));height:auto;min-height:100dvh;overflow:auto;}
-  #startCard .ov-card-title-block,#startCard .start-actions,#startCard .gun-pick{grid-column:1/-1;}
-  #startCard #mapSelScreen,#startCard .mode-section,#startCard .record-box,#startCard .round-box,#startCard .skill-pick{grid-column:auto;}
+  .main-grid{grid-template-columns:1fr;}
+  .setup-screen{max-height:62dvh;}
 }
 
 @media(max-width:600px){
@@ -238,7 +232,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
   .arcade-title{font-size:40px;}
   .map-grid{grid-template-columns:repeat(2,1fr);}
   .ammo-big{font-size:18px;}
-  #startCard{grid-template-columns:1fr;overflow:auto;}
   #startCard .record-row{gap:10px;}
   #startCard .record-val{font-size:15px;}
   #startCard .gp-list{grid-template-columns:repeat(3,minmax(0,1fr));}
@@ -368,68 +361,82 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
       <div class="ov-sub">LOCAL GUNSHOOTER</div>
     </div>
 
-    <!-- MAP SELECTION -->
-    <div id="mapSelScreen">
-      <div class="sec-lbl">맵 선택</div>
-      <div class="map-grid" id="mapGrid"></div>
+    <div class="setup-menu">
+      <button class="setup-tab sel" type="button" data-setup-screen="main">메인</button>
+      <button class="setup-tab" type="button" data-setup-screen="record">랭킹</button>
+      <button class="setup-tab" type="button" data-setup-screen="weapon">무기 선택</button>
     </div>
 
-    <!-- MODE SELECTION (인원은 메인 화면에서만 선택) -->
-    <div class="mode-section">
-      <div class="sec-lbl">게임 모드</div>
-      <div class="mode-row">
-        <div class="mode-btn sel" id="mode-versus" onclick="setMode('versus')">
-          <div class="mode-btn-name">2인 대전</div>
-          <div class="mode-btn-desc">P1 vs P2</div>
+    <div class="setup-screen active" id="screen-main">
+      <div class="main-grid">
+        <!-- MAP SELECTION -->
+        <div id="mapSelScreen">
+          <div class="sec-lbl">맵 선택</div>
+          <div class="map-grid" id="mapGrid"></div>
         </div>
-        <div class="mode-btn" id="mode-solo" onclick="setMode('solo')">
-          <div class="mode-btn-name">1인 모드</div>
-          <div class="mode-btn-desc">P2 봇이 공격</div>
+
+        <!-- MODE SELECTION -->
+        <div class="mode-section">
+          <div class="sec-lbl">게임 모드</div>
+          <div class="mode-row">
+            <div class="mode-btn sel" id="mode-versus" onclick="setMode('versus')">
+              <div class="mode-btn-name">2인 대전</div>
+              <div class="mode-btn-desc">P1 vs P2</div>
+            </div>
+            <div class="mode-btn" id="mode-solo" onclick="setMode('solo')">
+              <div class="mode-btn-name">1인 모드</div>
+              <div class="mode-btn-desc">P2 봇이 공격</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="record-box">
-      <div class="record-head">
-        <div class="record-title" id="recordTitle">로컬 기록 · 2인 대전</div>
-        <button class="btn-reset" id="btnResetRecord" type="button">초기화</button>
-      </div>
-      <div class="record-row">
-        <div class="record-item"><div class="record-lbl" id="rLbl1">P1 승</div><div class="record-val n1" id="rw1">0</div></div>
-        <div class="record-item"><div class="record-lbl" id="rLbl2">P2 승</div><div class="record-val n2" id="rw2">0</div></div>
-        <div class="record-item"><div class="record-lbl">총 판수</div><div class="record-val" id="rtg">0</div></div>
-      </div>
-    </div>
-
-    <div class="round-box">
-      <div class="round-row">
-        <div class="record-title">라운드 설정 (선승)</div>
-        <div class="round-btns" id="roundBtns"></div>
-      </div>
-    </div>
-
-    <div class="skill-pick">
-      <div class="sec-lbl">장착 스킬</div>
-      <div class="skill-grid" id="skillGrid"></div>
-    </div>
-
-    <div class="gun-pick">
-      <div class="sec-lbl">시작 무기 선택</div>
-      <div class="gp-picked" id="pickedGuns"></div>
-      <div class="gp-row">
-        <div class="gp-card">
-          <div class="gp-title">P1 시작 총</div>
-          <div class="gp-list" id="startGun1"></div>
+        <div class="round-box full">
+          <div class="round-row">
+            <div class="record-title">라운드 설정 (선승)</div>
+            <div class="round-btns" id="roundBtns"></div>
+          </div>
         </div>
-        <div class="gp-card">
-          <div class="gp-title">P2 시작 총</div>
-          <div class="gp-list" id="startGun2"></div>
+
+        <div class="start-actions full">
+          <button class="btn-go" id="btnStart">시작하기</button>
         </div>
       </div>
     </div>
 
-    <div class="start-actions">
-      <button class="btn-go" id="btnStart">시작하기</button>
+    <div class="setup-screen" id="screen-record">
+      <div class="record-box">
+        <div class="record-head">
+          <div class="record-title" id="recordTitle">로컬 기록 · 2인 대전</div>
+          <button class="btn-reset" id="btnResetRecord" type="button">초기화</button>
+        </div>
+        <div class="record-row">
+          <div class="record-item"><div class="record-lbl" id="rLbl1">P1 승</div><div class="record-val n1" id="rw1">0</div></div>
+          <div class="record-item"><div class="record-lbl" id="rLbl2">P2 승</div><div class="record-val n2" id="rw2">0</div></div>
+          <div class="record-item"><div class="record-lbl">총 판수</div><div class="record-val" id="rtg">0</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-screen" id="screen-weapon">
+      <div class="skill-pick">
+        <div class="sec-lbl">장착 스킬</div>
+        <div class="skill-grid" id="skillGrid"></div>
+      </div>
+
+      <div class="gun-pick">
+        <div class="sec-lbl">시작 무기 선택</div>
+        <div class="gp-picked" id="pickedGuns"></div>
+        <div class="gp-row">
+          <div class="gp-card">
+            <div class="gp-title">P1 시작 총</div>
+            <div class="gp-list" id="startGun1"></div>
+          </div>
+          <div class="gp-card">
+            <div class="gp-title">P2 시작 총</div>
+            <div class="gp-list" id="startGun2"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -640,10 +647,10 @@ const GUNS=[
 const MAPS={
   factory:{
     label:'공장',desc:'산업 지구 · 수직 구조',
-    bg0:'#dff1ff',bg1:'#bfe0ff',
-    gc:'#a7c8e8',gt:'#86b6e6',
-    pc:'#95b9de',pg:'rgba(20,96,180,0.55)',
-    sky:'rgba(120,180,255,0.18)',
+    bgMode:'split',
+    gc:'#1e40af',gt:'#1d4ed8',
+    pc:'#2563eb',pg:'rgba(30,64,175,0.55)',
+    edge:'#60a5fa',
     previewColors:['#151525','#1a1a30','#252540'],
     plats(W,H){
       const p=[];
@@ -658,10 +665,10 @@ const MAPS={
   },
   rooftop:{
     label:'옥상',desc:'도심 옥상 · 계단형',
-    bg0:'#e7f7ff',bg1:'#c9e9ff',
-    gc:'#b0d4ea',gt:'#9ac4e4',
-    pc:'#9bc0d9',pg:'rgba(64,126,210,0.55)',
-    sky:'rgba(170,210,255,0.18)',
+    bgMode:'stripe',
+    gc:'#7f1d1d',gt:'#991b1b',
+    pc:'#b91c1c',pg:'rgba(127,29,29,0.55)',
+    edge:'#f87171',
     previewColors:['#0e0e22','#141430','#1a1a3c'],
     plats(W,H){
       const p=[];
@@ -675,10 +682,10 @@ const MAPS={
   },
   cave:{
     label:'동굴',desc:'지하 동굴 · 좁은 통로',
-    bg0:'#f7f0e4',bg1:'#ecd9bc',
-    gc:'#d9c2a1',gt:'#cda97b',
-    pc:'#c6ab87',pg:'rgba(176,106,36,0.5)',
-    sky:'rgba(255,216,164,0.18)',
+    bgMode:'bands',
+    gc:'#312e81',gt:'#3730a3',
+    pc:'#1d4ed8',pg:'rgba(49,46,129,0.55)',
+    edge:'#93c5fd',
     previewColors:['#0c0c16','#121222','#181828'],
     plats(W,H){
       const p=[];
@@ -693,10 +700,10 @@ const MAPS={
   },
   arena:{
     label:'아레나',desc:'대칭 경기장 · 밸런스',
-    bg0:'#fff1f1',bg1:'#ffe2df',
-    gc:'#e5b6b0',gt:'#d99f96',
-    pc:'#d7a59d',pg:'rgba(188,76,76,0.5)',
-    sky:'rgba(255,180,180,0.2)',
+    bgMode:'arena',
+    gc:'#7f1d1d',gt:'#b91c1c',
+    pc:'#1d4ed8',pg:'rgba(30,64,175,0.55)',
+    edge:'#fca5a5',
     previewColors:['#181618','#1e1c1e','#282428'],
     plats(W,H){
       const p=[];
@@ -1008,7 +1015,20 @@ function buildMapGrid(){
     pv.style.cssText='width:100%;height:36px;border-radius:3px;display:block;';
     const pc=pv.getContext('2d');
     // draw mini preview
-    pc.fillStyle=m.bg0; pc.fillRect(0,0,120,36);
+    pc.fillStyle='#1e3a8a'; pc.fillRect(0,0,120,36);
+    if(m.bgMode==='stripe'){
+      pc.fillStyle='#b91c1c';
+      for(let i=0;i<120;i+=14) pc.fillRect(i,0,7,36);
+    } else if(m.bgMode==='bands'){
+      pc.fillStyle='#1e40af'; pc.fillRect(0,0,120,12);
+      pc.fillStyle='#991b1b'; pc.fillRect(0,12,120,12);
+      pc.fillStyle='#1e40af'; pc.fillRect(0,24,120,12);
+    } else if(m.bgMode==='arena'){
+      pc.fillStyle='#991b1b'; pc.fillRect(0,0,120,36);
+      pc.fillStyle='#1e40af'; pc.fillRect(55,0,10,36);
+    } else {
+      pc.fillStyle='#b91c1c'; pc.fillRect(60,0,60,36);
+    }
     pc.fillStyle=m.gc; pc.fillRect(0,28,120,8);
     pc.fillStyle=m.pc;
     // draw some mini platforms
@@ -1046,6 +1066,22 @@ function setMode(m){
   renderRecord();
 }
 window.setMode=setMode;
+
+function setSetupScreen(name='main'){
+  document.querySelectorAll('.setup-screen').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.setup-tab').forEach(el=>el.classList.remove('sel'));
+  const screen=document.getElementById('screen-'+name);
+  if(screen) screen.classList.add('active');
+  const tab=document.querySelector(`.setup-tab[data-setup-screen="${name}"]`);
+  if(tab) tab.classList.add('sel');
+}
+
+function initSetupTabs(){
+  document.querySelectorAll('.setup-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>setSetupScreen(tab.dataset.setupScreen));
+  });
+  setSetupScreen('main');
+}
 
 function renderPickedGuns(){
   const wrap=document.getElementById('pickedGuns');
@@ -1498,12 +1534,24 @@ function draw(){
 }
 
 function drawBg(){
-  cx.fillStyle='#2563eb';
-  cx.fillRect(0,0,Math.ceil(W/2),H);
-  cx.fillStyle='#ef4444';
-  cx.fillRect(Math.floor(W/2),0,Math.ceil(W/2),H);
-  cx.fillStyle='rgba(255,255,255,.88)';
-  cx.fillRect(Math.floor(W/2)-1,0,2,H);
+  const mode=MAPS[mapId].bgMode;
+  if(mode==='stripe'){
+    cx.fillStyle='#1e3a8a'; cx.fillRect(0,0,W,H);
+    cx.fillStyle='#b91c1c';
+    for(let x=0;x<W;x+=120) cx.fillRect(x,0,48,H);
+  } else if(mode==='bands'){
+    cx.fillStyle='#1e40af'; cx.fillRect(0,0,W,H/3);
+    cx.fillStyle='#991b1b'; cx.fillRect(0,H/3,W,H/3);
+    cx.fillStyle='#1e40af'; cx.fillRect(0,H*2/3,W,H/3);
+  } else if(mode==='arena'){
+    cx.fillStyle='#991b1b'; cx.fillRect(0,0,W,H);
+    cx.fillStyle='#1d4ed8'; cx.fillRect(W*0.35,0,W*0.3,H);
+    cx.fillStyle='rgba(255,255,255,.7)'; cx.fillRect(Math.floor(W/2)-2,0,4,H);
+  } else {
+    cx.fillStyle='#2563eb'; cx.fillRect(0,0,Math.ceil(W/2),H);
+    cx.fillStyle='#ef4444'; cx.fillRect(Math.floor(W/2),0,Math.ceil(W/2),H);
+    cx.fillStyle='rgba(255,255,255,.88)'; cx.fillRect(Math.floor(W/2)-1,0,2,H);
+  }
 }
 
 function drawPlats(){
@@ -1532,12 +1580,25 @@ function drawPlats(){
 }
 
 function drawMapBounds(){
-  cx.fillStyle='rgba(30,20,18,0.22)';
-  cx.fillRect(mapBounds.minX-14,-500,14,H+700);
-  cx.fillRect(mapBounds.maxX, -500,14,H+700);
-  cx.fillStyle='rgba(255,255,255,0.22)';
-  cx.fillRect(mapBounds.minX-3,-500,2,H+700);
-  cx.fillRect(mapBounds.maxX+1,-500,2,H+700);
+  const edge=MAPS[mapId].edge||'#93c5fd';
+  cx.fillStyle='rgba(15,23,42,0.45)';
+  cx.fillRect(mapBounds.minX-18,-500,18,H+700);
+  cx.fillRect(mapBounds.maxX, -500,18,H+700);
+  cx.fillStyle=edge;
+  cx.fillRect(mapBounds.minX-2,-500,3,H+700);
+  cx.fillRect(mapBounds.maxX+1,-500,3,H+700);
+
+  // 오른쪽 맵 끝 뷰포인트(관측 타워)
+  const vx=mapBounds.maxX-84;
+  const vy=H-56;
+  cx.fillStyle='rgba(15,23,42,0.75)';
+  cx.fillRect(vx+24,vy-120,10,120);
+  cx.fillStyle=edge;
+  cx.fillRect(vx+20,vy-130,18,10);
+  cx.fillStyle='#e2e8f0';
+  cx.fillRect(vx+24,vy-126,10,4);
+  cx.fillStyle='rgba(30,64,175,0.85)';
+  cx.fillRect(vx,vy-8,64,8);
 }
 
 function drawRanges(){
@@ -1746,6 +1807,7 @@ function backToLobby(){
   document.getElementById('arcadeCard').style.display='none';
   document.getElementById('startCard').style.display='flex';
   document.getElementById('ov').style.display='flex';
+  setSetupScreen('main');
   renderRecord();
 }
 
@@ -1753,6 +1815,7 @@ function openSetupScreen(){
   document.getElementById('arcadeCard').style.display='none';
   document.getElementById('goCard').style.display='none';
   document.getElementById('startCard').style.display='flex';
+  setSetupScreen('main');
   renderRecord();
 }
 
@@ -1769,6 +1832,7 @@ window.addEventListener('resize',detectMobile);
 loadRecord();
 renderRecord();
 buildMapGrid();
+initSetupTabs();
 buildStartGunSelectors();
 buildRoundButtons();
 buildSkillSelectors();
