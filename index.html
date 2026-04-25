@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
 <style>
 /* 가로모드 강제 안내 */
-#rotate-msg{display:none;position:fixed;inset:0;z-index:9999;background:#1a1a2e;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:'Noto Sans KR',sans-serif;}
+#rotate-msg{display:none;position:fixed;inset:0;z-index:9999;background:#f0f4ff;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:'Noto Sans KR',sans-serif;}
 #rotate-msg .rm-ico{width:56px;height:56px;animation:spin .9s infinite alternate;}
-#rotate-msg p{font-size:16px;font-weight:700;color:#00d4aa;}
+#rotate-msg p{font-size:16px;font-weight:700;color:#2563eb;}
 @keyframes spin{from{transform:rotate(-20deg);}to{transform:rotate(20deg);}}
 @media(orientation:portrait){#rotate-msg{display:flex;}html,body{overflow:hidden;}}
 </style>
@@ -16,11 +16,11 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
 :root{
-  --bg:#1a1a2e;--surface:#16213e;--border:rgba(255,255,255,0.15);
-  --p1:#00d4aa;--p2:#ff6b6b;
-  --p1d:#00a884;--p2d:#e03e3e;
-  --muted:#8899aa;--text:#eef2ff;
-  --danger:#ff6b6b;--warn:#ffd166;--info:#00d4aa;
+  --bg:#f0f4ff;--surface:#ffffff;--border:rgba(0,0,0,0.12);
+  --p1:#2563eb;--p2:#ef4444;
+  --p1d:#1d4ed8;--p2d:#dc2626;
+  --muted:#94a3b8;--text:#1e293b;
+  --danger:#ef4444;--warn:#f59e0b;--info:#2563eb;
   --font:'Noto Sans KR',sans-serif;
 }
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:var(--font);color:var(--text);}
@@ -34,7 +34,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .n1{color:var(--p1);}.n2{color:var(--p2);}
 .bar-row{display:flex;align-items:center;gap:5px;margin-top:3px;}
 .bar-lbl{font-size:8px;color:var(--muted);letter-spacing:1px;width:16px;}
-.bar{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden;}
+.bar{height:4px;border-radius:2px;background:rgba(0,0,0,0.08);overflow:hidden;}
 .bar.hp{width:90px;}.bar.sh{width:60px;}
 .bar-fill{height:100%;border-radius:2px;transition:width .1s;}
 .hp1f{background:var(--p1);}.sh1f{background:var(--info);}
@@ -96,8 +96,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 #jz2{right:16px;}
 .joystick-base{width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.08);}
 .joystick-knob{position:absolute;width:44px;height:44px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-#jk1{background:radial-gradient(circle,rgba(0,212,170,0.55),rgba(0,212,170,0.18));border:2px solid rgba(0,212,170,0.6);}
-#jk2{background:radial-gradient(circle,rgba(255,107,107,0.55),rgba(255,107,107,0.18));border:2px solid rgba(255,107,107,0.6);}
+#jk1{background:radial-gradient(circle,rgba(37,99,235,0.55),rgba(37,99,235,0.18));border:2px solid rgba(37,99,235,0.6);}
+#jk2{background:radial-gradient(circle,rgba(239,68,68,0.55),rgba(239,68,68,0.18));border:2px solid rgba(239,68,68,0.6);}
 
 /* action buttons */
 .act-btns{position:absolute;bottom:20px;display:flex;align-items:flex-end;gap:10px;}
@@ -107,23 +107,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .act-btn:active{transform:scale(.9);opacity:.8;}
 
 /* SHOOT — big, chunky */
-.shoot-btn1{width:76px;height:76px;border-radius:50%;background:var(--p1);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #007a60,0 0 24px rgba(0,212,170,0.35);}
-.shoot-btn2{width:76px;height:76px;border-radius:50%;background:var(--p2);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #a02020,0 0 24px rgba(255,107,107,0.35);}
+.shoot-btn1{width:76px;height:76px;border-radius:50%;background:var(--p1);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #1d4ed8,0 0 20px rgba(37,99,235,0.35);}
+.shoot-btn2{width:76px;height:76px;border-radius:50%;background:var(--p2);color:#fff;font-size:11px;letter-spacing:1px;box-shadow:0 4px 0 #b91c1c,0 0 20px rgba(239,68,68,0.35);}
 
-/* JUMP — medium, pill shape */
-.jump-btn1{width:56px;height:56px;border-radius:50%;background:rgba(0,212,170,0.18);border:2px solid rgba(0,212,170,0.6);color:var(--p1);font-size:18px;box-shadow:0 3px 0 rgba(0,212,170,0.25);}
-.jump-btn2{width:56px;height:56px;border-radius:50%;background:rgba(255,107,107,0.18);border:2px solid rgba(255,107,107,0.6);color:var(--p2);font-size:18px;box-shadow:0 3px 0 rgba(255,107,107,0.25);}
+/* JUMP — medium */
+.jump-btn1{width:56px;height:56px;border-radius:50%;background:rgba(37,99,235,0.15);border:2px solid rgba(37,99,235,0.5);color:var(--p1);font-size:18px;box-shadow:0 3px 0 rgba(37,99,235,0.2);}
+.jump-btn2{width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,0.15);border:2px solid rgba(239,68,68,0.5);color:var(--p2);font-size:18px;box-shadow:0 3px 0 rgba(239,68,68,0.2);}
 
 /* RELOAD — small */
-.reload-btn1{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);color:rgba(0,212,170,0.85);font-size:8px;letter-spacing:.5px;}
-.reload-btn2{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,107,107,0.85);font-size:8px;letter-spacing:.5px;}
+.reload-btn1{width:40px;height:40px;border-radius:12px;background:rgba(37,99,235,0.1);border:1.5px solid rgba(37,99,235,0.3);color:var(--p1);font-size:8px;letter-spacing:.5px;}
+.reload-btn2{width:40px;height:40px;border-radius:12px;background:rgba(239,68,68,0.1);border:1.5px solid rgba(239,68,68,0.3);color:var(--p2);font-size:8px;letter-spacing:.5px;}
 
 /* mobile mode indicator */
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(10,12,28,.96);overflow-y:auto;overflow-x:hidden;}
-/* 가로모드일 때 메뉴가 좌우로 나란히 배치되어 겹치지 않도록 */
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(240,244,255,.97);overflow-y:auto;overflow-x:hidden;}
 .ov-card{max-width:700px;width:100%;padding:16px 20px 20px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
@@ -132,41 +131,38 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   .mode-section{flex:1;min-width:200px;max-width:260px;}
   .ov-card .btn-go{width:100%;margin-top:8px;}
 }
-.ov-title{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:3px;}
+.ov-title{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:3px;color:#1e293b;}
 .ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;}
 
 /* Map select in title screen */
 #mapSelScreen{margin-bottom:14px;width:100%;}
 .map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:10px;}
-.map-card{border:2px solid var(--border);border-radius:14px;padding:9px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.04);}
-.map-card:hover{background:rgba(255,255,255,0.08);transform:scale(1.02);}
-.map-card.sel{border-color:var(--p1);background:rgba(0,212,170,0.12);transform:scale(1.02);}
-.map-card-name{font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:2px;}
+.map-card{border:2px solid rgba(0,0,0,0.1);border-radius:14px;padding:9px;cursor:pointer;transition:all .15s;background:#fff;}
+.map-card:hover{background:#eff6ff;transform:scale(1.02);}
+.map-card.sel{border-color:var(--p1);background:#dbeafe;transform:scale(1.02);}
+.map-card-name{font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:2px;color:#1e293b;}
 .map-card-desc{font-size:8px;color:var(--muted);letter-spacing:.5px;}
 .map-card-preview{width:100%;height:32px;border-radius:4px;margin-bottom:5px;overflow:hidden;position:relative;}
 
 /* Mode select */
 .mode-section{width:100%;margin-bottom:14px;}
 .mode-row{display:flex;gap:7px;margin-bottom:0;justify-content:center;}
-.mode-btn{flex:1;max-width:150px;padding:9px 10px;border-radius:14px;border:2px solid var(--border);background:rgba(255,255,255,0.04);cursor:pointer;transition:all .15s;font-family:var(--font);}
-.mode-btn:hover{background:rgba(255,255,255,0.08);transform:scale(1.02);}
-.mode-btn.sel{border-color:var(--p1);background:rgba(0,212,170,0.12);transform:scale(1.02);}
-.mode-btn-name{font-size:10px;font-weight:900;letter-spacing:1px;color:#fff;margin-bottom:3px;}
+.mode-btn{flex:1;max-width:150px;padding:9px 10px;border-radius:14px;border:2px solid rgba(0,0,0,0.1);background:#fff;cursor:pointer;transition:all .15s;font-family:var(--font);}
+.mode-btn:hover{background:#eff6ff;transform:scale(1.02);}
+.mode-btn.sel{border-color:var(--p1);background:#dbeafe;transform:scale(1.02);}
+.mode-btn-name{font-size:10px;font-weight:900;letter-spacing:1px;color:#1e293b;margin-bottom:3px;}
 .mode-btn-desc{font-size:8px;color:var(--muted);}
 
 /* section label */
 .sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:7px;text-transform:uppercase;}
 
-.btn-go{background:linear-gradient(135deg,#00d4aa,#00b894);color:#fff;border:none;padding:13px 48px;font-family:var(--font);font-size:14px;font-weight:900;letter-spacing:2px;border-radius:99px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #008060,0 0 28px rgba(0,212,170,0.35);}
-.btn-go:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 7px 0 #008060,0 0 44px rgba(0,212,170,0.5);}
-.btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 #008060;}
+.btn-go{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;border:none;padding:13px 48px;font-family:var(--font);font-size:14px;font-weight:900;letter-spacing:2px;border-radius:99px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1d4ed8,0 0 24px rgba(37,99,235,0.25);}
+.btn-go:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 7px 0 #1d4ed8,0 0 36px rgba(37,99,235,0.35);}
+.btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 #1d4ed8;}
 .score-row{display:flex;justify-content:center;gap:40px;margin:14px 0 20px;}
 .sr-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
 .sr-lbl{font-size:8px;letter-spacing:3px;color:var(--muted);}
 .sr-val{font-size:38px;font-weight:900;letter-spacing:-2px;}
-
-/* enemy toggle */
-#noEnemyBadge{position:absolute;top:52px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:2px;color:var(--warn);padding:2px 10px;border:1px solid rgba(240,192,74,.3);border-radius:2px;pointer-events:none;z-index:11;}
 
 /* mobile gun quick-switch */
 #mGunSwitch1,#mGunSwitch2{position:absolute;pointer-events:all;z-index:21;display:none;gap:3px;}
@@ -207,7 +203,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
     <div class="cs-wave" id="wv">WAVE 1</div>
   </div>
   <div id="kfeed"></div>
-  <div id="noEnemyBadge" style="display:none">연습 모드</div>
   <div class="ammo-hud ah1">
     <div class="gun-lbl n1" id="gn1">PISTOL</div>
     <div class="ammo-big n1"><span id="ac1">15</span><span style="font-size:11px;color:var(--muted);">/</span><span style="font-size:11px;color:var(--muted);" id="am1">15</span></div>
@@ -276,10 +271,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 <!-- 세로모드 안내 -->
 <div id="rotate-msg">
   <svg class="rm-ico" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="16" y="8" width="24" height="40" rx="4" stroke="#00d4aa" stroke-width="2.5"/>
-    <circle cx="28" cy="42" r="2" fill="#00d4aa"/>
-    <path d="M36 22 L44 28 L36 34" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="28" y1="28" x2="44" y2="28" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="16" y="8" width="24" height="40" rx="4" stroke="#2563eb" stroke-width="2.5"/>
+    <circle cx="28" cy="42" r="2" fill="#2563eb"/>
+    <path d="M36 22 L44 28 L36 34" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="28" y1="28" x2="44" y2="28" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
   </svg>
   <p>가로 모드로 돌려주세요</p>
 </div>
@@ -306,10 +301,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
         <div class="mode-btn sel" id="mode-normal" onclick="setMode('normal')">
           <div class="mode-btn-name">일반</div>
           <div class="mode-btn-desc">웨이브 + PvP</div>
-        </div>
-        <div class="mode-btn" id="mode-pvp" onclick="setMode('pvp')">
-          <div class="mode-btn-name">PvP</div>
-          <div class="mode-btn-desc">적 없음</div>
         </div>
         <div class="mode-btn" id="mode-coop" onclick="setMode('coop')">
           <div class="mode-btn-name">협동</div>
@@ -1302,7 +1293,6 @@ function startGame(){
   document.getElementById('ov').style.display='none';
   document.getElementById('startCard').style.display='block';
   document.getElementById('goCard').style.display='none';
-  document.getElementById('noEnemyBadge').style.display=gameMode==='pvp'?'block':'none';
   wave=1; wTimer=0; wSpawned=0;
   bullets=[]; enemies=[]; parts=[]; floats=[];
   [0,1].forEach(i=>{
