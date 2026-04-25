@@ -178,7 +178,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .gp-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
 .gp-card{border:2px solid rgba(0,0,0,.12);background:#fff;border-radius:12px;padding:8px;}
 .gp-title{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:5px;font-weight:700;}
-.gp-sel{width:100%;padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,.14);font-family:var(--font);font-weight:700;background:#f8fbff;color:#0f172a;}
+.gp-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-height:250px;overflow:auto;padding-right:2px;}
+.gp-item{border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;background:#f8fbff;transition:all .12s;}
+.gp-item:hover{transform:translateY(-1px);background:#eff6ff;}
+.gp-item.sel{border-color:var(--p1);background:#dbeafe;}
+.gp-item.sel.p2{border-color:var(--p2);background:#fee2e2;}
+.gp-ico{width:30px;height:18px;}
+.gp-name{font-size:7px;line-height:1.1;color:#334155;font-weight:800;letter-spacing:.2px;text-align:center;}
+.gp-stat{font-size:6px;color:var(--muted);letter-spacing:.2px;}
 
 @media(max-width:600px){
   .bar.hp{width:70px;}.bar.sh{width:50px;}
@@ -320,11 +327,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
       <div class="gp-row">
         <div class="gp-card">
           <div class="gp-title">P1 시작 총</div>
-          <select class="gp-sel" id="startGun1"></select>
+          <div class="gp-list" id="startGun1"></div>
         </div>
         <div class="gp-card">
           <div class="gp-title">P2 시작 총</div>
-          <select class="gp-sel" id="startGun2"></select>
+          <div class="gp-list" id="startGun2"></div>
         </div>
       </div>
     </div>
@@ -340,7 +347,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
       <div class="sr-item"><div class="sr-lbl">P1 킬</div><div class="sr-val n1" id="fk1">0</div></div>
       <div class="sr-item"><div class="sr-lbl">P2 킬</div><div class="sr-val n2" id="fk2">0</div></div>
     </div>
-    <button class="btn-go" id="btnRestart">다시 시작</button>
+    <button class="btn-go" id="btnRestart">돌아가기</button>
   </div>
 </div>
 
@@ -505,17 +512,34 @@ const GICO={
     <!-- magazine -->
     <rect x="14" y="18" width="5" height="2.5" rx=".6" fill="currentColor" opacity=".6"/>
   </svg>`,
+  minigun:`<svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="7" width="16" height="7" rx="2" fill="currentColor" opacity=".86"/>
+    <rect x="25" y="8" width="10" height="5" rx="1" fill="currentColor" opacity=".9"/>
+    <circle cx="35" cy="10.5" r="2.5" fill="rgba(0,0,0,.2)"/>
+    <line x1="35" y1="8.1" x2="35" y2="12.9" stroke="currentColor" stroke-width=".9" opacity=".65"/>
+    <line x1="33" y1="10.5" x2="37" y2="10.5" stroke="currentColor" stroke-width=".9" opacity=".65"/>
+    <rect x="8" y="13" width="6" height="7" rx="1.2" fill="currentColor" opacity=".65"/>
+    <rect x="4" y="8.4" width="7" height="4" rx="1" fill="currentColor" opacity=".5"/>
+  </svg>`,
 };
 
 // ─── GUN DEFINITIONS ─────────────────────────────────────
 const GUNS=[
-  {id:'revolver',name:'REVOLVER',type:'반자동',key:'1',damage:52,fireRate:520, magSize:6, reserveMax:54, reloadTime:1400,bulletSpeed:17,spread:.018,auto:false,pellets:1,range:620,recoil:4.8},
-  {id:'pistol', name:'PISTOL', type:'반자동',key:'1',damage:28,fireRate:380, magSize:15,reserveMax:120,reloadTime:1100,bulletSpeed:15,spread:.025,auto:false,pellets:1,range:500, recoil:2.5},
-  {id:'smg',    name:'MP5',   type:'자동',  key:'2',damage:14,fireRate:110, magSize:30,reserveMax:270,reloadTime:1500,bulletSpeed:14,spread:.07, auto:true, pellets:1,range:380, recoil:1.2},
-  {id:'shotgun',name:'SHOTGUN',type:'산탄', key:'3',damage:16,fireRate:720, magSize:8, reserveMax:48, reloadTime:2100,bulletSpeed:11,spread:.17, auto:false,pellets:8,range:280, recoil:6},
-  {id:'rifle',  name:'AK-47', type:'자동',  key:'4',damage:33,fireRate:175, magSize:30,reserveMax:150,reloadTime:1900,bulletSpeed:17,spread:.045,auto:true, pellets:1,range:600, recoil:3.5},
-  {id:'lmg',    name:'L86 LMG',type:'자동', key:'5',damage:24,fireRate:95,  magSize:60,reserveMax:300,reloadTime:2600,bulletSpeed:16,spread:.055,auto:true,pellets:1,range:640,recoil:2.8},
-  {id:'sniper', name:'SNIPER',type:'볼트',  key:'6',damage:130,fireRate:1700,magSize:5, reserveMax:30, reloadTime:2700,bulletSpeed:24,spread:.004,auto:false,pellets:1,range:1200,recoil:9},
+  {id:'revolver',name:'REVOLVER',type:'반자동',damage:52,fireRate:520, magSize:6, reserveMax:54, reloadTime:1400,bulletSpeed:17,spread:.018,auto:false,pellets:1,range:620,recoil:4.8},
+  {id:'pistol', name:'PISTOL', type:'반자동',damage:28,fireRate:380, magSize:15,reserveMax:120,reloadTime:1100,bulletSpeed:15,spread:.025,auto:false,pellets:1,range:500, recoil:2.5},
+  {id:'pistol', name:'DEAGLE', type:'고화력',damage:64,fireRate:620, magSize:7,reserveMax:63,reloadTime:1600,bulletSpeed:18,spread:.02,auto:false,pellets:1,range:700,recoil:6.8},
+  {id:'smg',    name:'MP5',   type:'자동',damage:14,fireRate:110, magSize:30,reserveMax:270,reloadTime:1500,bulletSpeed:14,spread:.07, auto:true, pellets:1,range:380, recoil:1.2},
+  {id:'smg',    name:'UZI',   type:'자동',damage:11,fireRate:80, magSize:32,reserveMax:320,reloadTime:1450,bulletSpeed:13,spread:.085,auto:true,pellets:1,range:330,recoil:1.4},
+  {id:'smg',    name:'VECTOR',type:'초연사',damage:10,fireRate:62,magSize:28,reserveMax:252,reloadTime:1700,bulletSpeed:13,spread:.09,auto:true,pellets:1,range:300,recoil:1.15},
+  {id:'shotgun',name:'SHOTGUN',type:'산탄',damage:16,fireRate:720, magSize:8, reserveMax:48, reloadTime:2100,bulletSpeed:11,spread:.17, auto:false,pellets:8,range:280, recoil:6},
+  {id:'shotgun',name:'DB SHOTGUN',type:'더블배럴',damage:24,fireRate:920, magSize:2, reserveMax:34, reloadTime:1700,bulletSpeed:12,spread:.2, auto:false,pellets:12,range:260, recoil:8},
+  {id:'rifle',  name:'AK-47', type:'자동',damage:33,fireRate:175, magSize:30,reserveMax:150,reloadTime:1900,bulletSpeed:17,spread:.045,auto:true, pellets:1,range:600, recoil:3.5},
+  {id:'rifle',  name:'M4A1',  type:'안정형',damage:27,fireRate:140, magSize:30,reserveMax:180,reloadTime:1650,bulletSpeed:18,spread:.032,auto:true,pellets:1,range:650,recoil:2.4},
+  {id:'rifle',  name:'FAMAS', type:'버스트',damage:22,fireRate:95,  magSize:27,reserveMax:162,reloadTime:1800,bulletSpeed:17,spread:.04, auto:true,pellets:1,range:580,recoil:2.7},
+  {id:'lmg',    name:'L86 LMG',type:'자동',damage:24,fireRate:95,  magSize:60,reserveMax:300,reloadTime:2600,bulletSpeed:16,spread:.055,auto:true,pellets:1,range:640,recoil:2.8},
+  {id:'minigun',name:'MINIGUN',type:'탄막',damage:9,fireRate:48,magSize:120,reserveMax:480,reloadTime:3600,bulletSpeed:15,spread:.08,auto:true,pellets:1,range:520,recoil:1.9},
+  {id:'sniper', name:'DMR',type:'정밀',damage:72,fireRate:580,magSize:10,reserveMax:70,reloadTime:2200,bulletSpeed:23,spread:.01,auto:false,pellets:1,range:1000,recoil:6.2},
+  {id:'sniper', name:'SNIPER',type:'볼트',damage:130,fireRate:1700,magSize:5, reserveMax:30, reloadTime:2700,bulletSpeed:24,spread:.004,auto:false,pellets:1,range:1200,recoil:9},
 ];
 
 // ─── MAP DEFINITIONS ──────────────────────────────────────
@@ -646,6 +670,7 @@ document.addEventListener('keydown',e=>{
   if(!running) return;
   const k=e.key;
   if('123456789'.includes(k)) switchGun(P[0],+k-1);
+  if(k==='0') switchGun(P[0],9);
   if(e.code==='KeyQ') switchGun(P[0],P[0].gi-1);
   if(e.code==='KeyE') switchGun(P[0],P[0].gi+1);
   if(e.code==='KeyR') reload(P[0]);
@@ -785,21 +810,39 @@ function setMode(m){
   gameMode=m;
   document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('mode-'+m).classList.add('sel');
+  const p2Title=document.querySelector('#startGun2').previousElementSibling;
+  if(p2Title){
+    p2Title.textContent=gameMode==='solo'?'P2 봇 총기 (랜덤 지급)':'P2 시작 총';
+  }
+  buildStartGunSelectors();
 }
 window.setMode=setMode;
 
 function buildStartGunSelectors(){
   ['startGun1','startGun2'].forEach((id,idx)=>{
-    const sel=document.getElementById(id);
-    sel.innerHTML='';
+    const wrap=document.getElementById(id);
+    wrap.innerHTML='';
     GUNS.forEach((g,gi)=>{
-      const op=document.createElement('option');
-      op.value=gi;
-      op.textContent=`${g.name} · ${g.type}`;
-      sel.appendChild(op);
+      const card=document.createElement('button');
+      card.type='button';
+      card.className='gp-item'+(startGun[idx]===gi?' sel':'')+(idx===1?' p2':'');
+      const lockedBot=idx===1&&gameMode==='solo';
+      if(lockedBot){
+        card.disabled=true;
+        card.style.opacity='.45';
+        card.style.cursor='not-allowed';
+      }
+      card.innerHTML=`
+        <div class="gp-ico" style="color:${idx===0?'var(--p1)':'var(--p2)'}">${GICO[g.id]||GICO.pistol}</div>
+        <div class="gp-name">${g.name}</div>
+        <div class="gp-stat">${g.type}</div>`;
+      card.addEventListener('click',()=>{
+        if(lockedBot) return;
+        startGun[idx]=gi;
+        buildStartGunSelectors();
+      });
+      wrap.appendChild(card);
     });
-    sel.value=String(startGun[idx]);
-    sel.onchange=()=>{ startGun[idx]=Math.max(0,Math.min(GUNS.length-1,Number(sel.value)||0)); };
   });
 }
 
@@ -1327,16 +1370,24 @@ function startGame(){
     Object.assign(P[i],mkP(i));
     P[i].x=i===0?180:W-230; P[i].y=H-200;
     initGuns(P[i]); updateAmmo(P[i]);
-    switchGun(P[i],startGun[i]);
+    const pick=(gameMode==='solo'&&i===1)?Math.floor(Math.random()*GUNS.length):startGun[i];
+    switchGun(P[i],pick);
   });
   platforms=MAPS[mapId].plats(W,H);
   buildBars(); running=true;
   if(!started){started=true; lastT=performance.now(); requestAnimationFrame(loop);}
 }
 window.startGame=startGame;
+function backToLobby(){
+  running=false;
+  bullets=[]; enemies=[]; parts=[]; floats=[];
+  document.getElementById('goCard').style.display='none';
+  document.getElementById('startCard').style.display='block';
+  document.getElementById('ov').style.display='flex';
+}
 
 document.getElementById('btnStart').addEventListener('click',startGame);
-document.getElementById('btnRestart').addEventListener('click',startGame);
+document.getElementById('btnRestart').addEventListener('click',backToLobby);
 
 // ─── INIT ────────────────────────────────────────────────
 resize();
@@ -1344,6 +1395,7 @@ detectMobile();
 window.addEventListener('resize',detectMobile);
 buildMapGrid();
 buildStartGunSelectors();
+setMode(gameMode);
 buildBars();
 initJoysticks();
 setupMobileButtons();
