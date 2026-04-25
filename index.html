@@ -23,7 +23,7 @@
   --danger:#ef4444;--warn:#f59e0b;--info:#3b82f6;
   --font:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circle at 20% 20%,#1e3a8a 0%,#0b1020 45%,#111827 100%);font-family:var(--font);color:var(--text);}
+html,body{width:100%;height:100%;overflow:hidden;background:#a8d4ff;font-family:var(--font);color:var(--text);}
 #c{display:block;position:absolute;top:0;left:0;}
 
 /* ── HUD ──────────────────────────────────── */
@@ -57,7 +57,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
 #cscore{position:absolute;top:12px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;}
 .cs-kills{font-size:26px;font-weight:900;letter-spacing:-2px;display:flex;gap:16px;align-items:center;}
 .cs-sep{font-size:14px;color:var(--muted);}
-.cs-wave{font-size:8px;letter-spacing:3px;color:var(--muted);margin-top:2px;}
+.cs-wave{font-size:10px;letter-spacing:0;color:#64748b;margin-top:4px;font-weight:700;}
 
 /* ── KILL FEED ────────────────────────────── */
 #kfeed{position:absolute;top:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:3px;align-items:center;z-index:11;pointer-events:none;}
@@ -66,8 +66,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
 
 /* ── DAMAGE VIGNETTE ──────────────────────── */
 #dv1,#dv2{position:absolute;inset:0;pointer-events:none;z-index:8;opacity:0;transition:opacity .1s;}
-#dv1{background:radial-gradient(ellipse at 20% 50%,transparent 50%,rgba(240,74,74,.6) 100%);}
-#dv2{background:radial-gradient(ellipse at 80% 50%,transparent 50%,rgba(240,74,74,.6) 100%);}
+#dv1{background:rgba(239,68,68,.15);}
+#dv2{background:rgba(239,68,68,.15);}
 
 /* ── CROSSHAIR ────────────────────────────── */
 .xh{position:absolute;pointer-events:none;z-index:15;transform:translate(-50%,-50%);}
@@ -83,8 +83,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
 #jz2{right:16px;}
 .joystick-base{width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.08);}
 .joystick-knob{position:absolute;width:44px;height:44px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-#jk1{background:radial-gradient(circle,rgba(37,99,235,0.55),rgba(37,99,235,0.18));border:2px solid rgba(37,99,235,0.6);}
-#jk2{background:radial-gradient(circle,rgba(239,68,68,0.55),rgba(239,68,68,0.18));border:2px solid rgba(239,68,68,0.6);}
+#jk1{background:rgba(37,99,235,0.5);border:2px solid rgba(37,99,235,0.95);}
+#jk2{background:rgba(239,68,68,0.5);border:2px solid rgba(239,68,68,0.95);}
 
 /* action buttons */
 .act-btns{position:absolute;bottom:20px;display:flex;align-items:flex-end;gap:10px;}
@@ -109,7 +109,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 0%,#1e3a8a 0%,#111827 58%,#7f1d1d 100%);overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0f172a;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;}
 .ov-card{max-width:700px;width:100%;padding:16px 20px 20px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:pan-y;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
@@ -122,11 +122,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
 .ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;}
 
 /* Arcade splash */
-#arcadeCard{max-width:520px;padding:28px 20px 30px;border-radius:24px;background:linear-gradient(180deg,#845ef7 0%,#6d4ed8 55%,#4d2c9f 100%);box-shadow:0 16px 0 #3e227e,0 24px 44px rgba(50,18,110,.35);border:3px solid rgba(255,255,255,.35);}
+#arcadeCard{max-width:520px;padding:28px 20px 30px;border-radius:24px;background:#1e40af;box-shadow:0 16px 0 #1e3a8a,0 24px 44px rgba(30,58,138,.35);border:3px solid rgba(255,255,255,.35);}
 .arcade-title{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;color:#fff8d6;text-shadow:2px 2px 0 rgba(28,17,74,.5);}
 .arcade-sub{font-size:11px;letter-spacing:5px;color:#ffde7d;margin:8px 0 16px;}
 .arcade-guns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:2px 0 10px;}
-.arcade-gun{border:2px solid rgba(255,255,255,.2);border-radius:16px;background:linear-gradient(180deg,#2f2f77,#24245f);color:#d4f0ff;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:var(--font);transition:transform .12s,border-color .12s,box-shadow .12s;touch-action:manipulation;}
+.arcade-gun{border:2px solid rgba(255,255,255,.2);border-radius:16px;background:#1d4ed8;color:#d4f0ff;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:var(--font);transition:transform .12s,border-color .12s,box-shadow .12s;touch-action:manipulation;}
 .arcade-gun:hover,.arcade-gun:focus-visible{transform:translateY(-2px) scale(1.02);border-color:#60a5fa;box-shadow:0 0 22px rgba(59,130,246,.3);}
 .arcade-gun:active{transform:translateY(1px) scale(.98);}
 .arcade-gun svg{width:66px;height:36px;}
@@ -155,8 +155,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
 /* section label */
 .sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:7px;text-transform:uppercase;}
 
-.btn-go{background:linear-gradient(135deg,#2563eb,#ef4444);color:#fff;border:none;padding:13px 48px;font-family:var(--font);font-size:14px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1e3a8a,0 0 24px rgba(37,99,235,0.35);}
-.btn-go:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 7px 0 #991b1b,0 0 36px rgba(239,68,68,0.35);}
+.btn-go{background:#2563eb;color:#fff;border:2px solid #ef4444;padding:13px 48px;font-family:var(--font);font-size:14px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1e3a8a;}
+.btn-go:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 7px 0 #1e3a8a;}
 .btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 #1e3a8a;}
 .score-row{display:flex;justify-content:center;gap:40px;margin:14px 0 20px;}
 .sr-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
@@ -398,7 +398,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:radial-gradient(circ
       </div>
     </div>
 
-    <div style="position:sticky;bottom:0;width:100%;padding-top:10px;background:linear-gradient(180deg,rgba(240,244,255,0) 0%,rgba(240,244,255,.95) 44%,rgba(240,244,255,1) 100%);">
+    <div style="position:sticky;bottom:0;width:100%;padding-top:10px;background:#f0f4ff;">
       <button class="btn-go" id="btnStart">시작하기</button>
     </div>
   </div>
@@ -1394,9 +1394,7 @@ function draw(){
 
 function drawBg(){
   const m=MAPS[mapId];
-  const g=cx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,m.bg0); g.addColorStop(1,m.bg1);
-  cx.fillStyle=g; cx.fillRect(0,0,W,H);
+  cx.fillStyle=m.bg0; cx.fillRect(0,0,W,H);
   cx.fillStyle=m.sky; cx.fillRect(0,0,W,H*.4);
   if(mapId==='factory'){
     cx.fillStyle='rgba(255,255,255,.2)';
@@ -1472,13 +1470,13 @@ function drawRanges(){
     const g=p.guns[p.gi];
     const pcx=p.x+p.w/2,pcy=p.y+p.h/2;
     cx.save();
-    cx.strokeStyle=p.i===0?'rgba(74,240,176,0.1)':'rgba(240,128,74,0.1)';
+    cx.strokeStyle=p.i===0?'rgba(37,99,235,0.2)':'rgba(239,68,68,0.2)';
     cx.lineWidth=1; cx.setLineDash([4,8]);
     cx.beginPath(); cx.arc(pcx,pcy,g.range,0,Math.PI*2); cx.stroke();
     cx.setLineDash([]);
     const ang=Math.atan2(p.aim.y-pcy,p.aim.x-pcx);
     const ex2=pcx+Math.cos(ang)*g.range,ey2=pcy+Math.sin(ang)*g.range;
-    cx.strokeStyle=p.i===0?'rgba(74,240,176,0.18)':'rgba(240,128,74,0.18)';
+    cx.strokeStyle=p.i===0?'rgba(37,99,235,0.3)':'rgba(239,68,68,0.3)';
     cx.lineWidth=1; cx.setLineDash([2,6]);
     cx.beginPath(); cx.moveTo(pcx,pcy); cx.lineTo(ex2,ey2); cx.stroke();
     cx.setLineDash([]);
@@ -1488,30 +1486,34 @@ function drawRanges(){
 
 function drawPlayer(p){
   const x=p.x,y=p.y+p.recoilY;
-  const col=p.i===0?'#4af0b0':'#f0804a';
+  const col=p.i===0?'#2563eb':'#ef4444';
+  const accent=p.i===0?'#1d4ed8':'#dc2626';
   cx.fillStyle='rgba(0,0,0,0.22)';
   cx.beginPath(); cx.ellipse(x+p.w/2,p.y+p.h,p.w*.42,4,0,0,Math.PI*2); cx.fill();
-  if(p.inv>0&&Math.floor(p.inv/70)%2===0) return;
+  const blinkGhost=p.inv>0&&Math.floor(p.inv/70)%2===0;
   cx.save(); cx.translate(x+p.w/2,y+p.h/2);
+  if(blinkGhost) cx.globalAlpha=.45;
   if(p.facing===-1) cx.scale(-1,1);
-  // body
-  cx.fillStyle='#161628';
-  cx.beginPath(); if(cx.roundRect) cx.roundRect(-p.w/2,-p.h/2,p.w,p.h,3); else cx.rect(-p.w/2,-p.h/2,p.w,p.h);
+  // body (명확한 캐릭터 형태)
+  cx.fillStyle=col;
+  cx.beginPath(); if(cx.roundRect) cx.roundRect(-p.w/2,-p.h/2,p.w,p.h,4); else cx.rect(-p.w/2,-p.h/2,p.w,p.h);
   cx.fill();
-  // armor
-  cx.fillStyle=col+'30'; cx.fillRect(-p.w/2+2,-p.h/2+2,p.w-4,p.h*.42);
+  cx.strokeStyle='#ffffff'; cx.lineWidth=1.3;
+  cx.strokeRect(-p.w/2,-p.h/2,p.w,p.h);
+  // helmet/head
+  cx.fillStyle=accent;
+  cx.beginPath(); cx.arc(0,-p.h/2-5,6,0,Math.PI*2); cx.fill();
+  cx.strokeStyle='#ffffff'; cx.lineWidth=1;
+  cx.beginPath(); cx.arc(0,-p.h/2-5,6,0,Math.PI*2); cx.stroke();
   // visor
-  cx.fillStyle=col+'cc'; cx.fillRect(-p.w/2+3,-p.h/2+5,p.w-6,7);
-  // carry strap/shoulder gear
-  cx.strokeStyle=col+'70'; cx.lineWidth=1.8;
-  cx.beginPath(); cx.moveTo(-p.w/2+3,-p.h/2+4); cx.lineTo(p.w/2-3,p.h/2-6); cx.stroke();
+  cx.fillStyle='#dbeafe'; cx.fillRect(-4,-p.h/2-7,8,3);
   // gun arm
   const aimAng=Math.atan2(p.aim.y-(y+p.h/2),p.aim.x-(x+p.w/2))*p.facing;
   cx.save(); cx.rotate(Math.max(-.65,Math.min(.65,aimAng)));
   const g=p.guns[p.gi];
-  cx.fillStyle=col+'88'; cx.fillRect(2,-3,7,6);
+  cx.fillStyle=accent; cx.fillRect(2,-3,7,6);
   cx.fillStyle='#0f172a'; cx.fillRect(0,-1,4,3); // hand
-  cx.fillStyle=col;
+  cx.fillStyle='#1f2937';
   const bl=g.id==='sniper'?30:g.id==='shotgun'?20:g.id==='rifle'?26:22;
   cx.fillRect(6,-3,bl,6);
   cx.fillStyle='rgba(15,23,42,.8)'; cx.fillRect(10,2,6,4); // magazine
