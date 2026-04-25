@@ -12,18 +12,17 @@
 @media(orientation:portrait){#rotate-msg{display:flex;}html,body{overflow:hidden;}}
 </style>
 <title>GUNSHOOTER 2P</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
 :root{
-  --bg:#f7f2ff;--surface:#fff4f8;--border:rgba(109,161,255,0.45);
-  --p1:#5b8dff;--p2:#ff7f9f;
-  --p1d:#4f70e8;--p2d:#ef6b8d;
-  --muted:#7f88aa;--text:#27304b;
+  --bg:#0b1220;--surface:#111b34;--border:rgba(59,130,246,0.55);
+  --p1:#2f7dff;--p2:#ff3b59;
+  --p1d:#1d4ed8;--p2d:#dc2626;
+  --muted:#9fb0ce;--text:#e7f0ff;
   --danger:#ef4444;--warn:#f59e0b;--info:#3b82f6;
-  --font:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --font:'Pretendard','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135deg,#dbeafe 0%,#ffd9e4 52%,#e9e8ff 100%);font-family:var(--font);color:var(--text);}
+html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:var(--font);color:var(--text);}
 #c{display:block;position:absolute;top:0;left:0;}
 
 /* ── HUD ──────────────────────────────────── */
@@ -54,10 +53,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 .rld-fill{height:100%;background:var(--warn);width:0%;}
 
 /* ── SCORE ────────────────────────────────── */
-#cscore{position:absolute;top:12px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;}
+#cscore{position:absolute;top:10px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;padding:6px 14px;border:2px solid #355a9a;background:#111f3d;border-radius:16px;box-shadow:0 4px 0 #0a1222;}
 .cs-kills{font-size:26px;font-weight:900;letter-spacing:-2px;display:flex;gap:16px;align-items:center;}
-.cs-sep{font-size:14px;color:var(--muted);}
-.cs-wave{font-size:10px;letter-spacing:0;color:#64748b;margin-top:4px;font-weight:700;}
+.cs-sep{font-size:14px;color:#bfd0f4;}
+.cs-wave{font-size:10px;letter-spacing:0;color:#d3e0ff;margin-top:4px;font-weight:700;}
 
 /* ── KILL FEED ────────────────────────────── */
 #kfeed{position:absolute;top:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:3px;align-items:center;z-index:11;pointer-events:none;}
@@ -109,7 +108,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:linear-gradient(130deg,#d9e8ff 0%,#ffe0ea 100%);overflow:hidden;touch-action:none;}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0b1220;overflow:hidden;touch-action:none;}
 .ov-card{max-width:700px;width:100%;padding:14px 18px 14px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:none;max-height:100dvh;overflow:hidden;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
@@ -122,9 +121,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 .ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;}
 
 /* Arcade splash */
-#arcadeCard{max-width:520px;padding:24px 18px 24px;border-radius:24px;background:linear-gradient(140deg,#7fa9ff 0%,#ff9bb4 100%);box-shadow:0 14px 0 rgba(79,112,232,.9),0 24px 44px rgba(101,94,166,.28);border:3px solid rgba(255,255,255,.55);}
+#arcadeCard{max-width:520px;padding:24px 18px 24px;border-radius:24px;background:#131f3d;box-shadow:0 14px 0 #091327,0 24px 44px rgba(9,19,39,.4);border:3px solid rgba(47,125,255,.55);}
 .arcade-title{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;color:#fff8d6;text-shadow:2px 2px 0 rgba(28,17,74,.5);}
-.arcade-sub{font-size:11px;letter-spacing:5px;color:#ffde7d;margin:8px 0 16px;}
+.arcade-sub{font-size:11px;letter-spacing:5px;color:#ff667e;margin:8px 0 16px;}
 .arcade-guns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:2px 0 10px;}
 .arcade-gun{border:2px solid rgba(255,255,255,.2);border-radius:16px;background:#1d4ed8;color:#d4f0ff;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;font-family:var(--font);transition:transform .12s,border-color .12s,box-shadow .12s;touch-action:manipulation;}
 .arcade-gun:hover,.arcade-gun:focus-visible{transform:translateY(-2px) scale(1.02);border-color:#60a5fa;box-shadow:0 0 22px rgba(59,130,246,.3);}
@@ -155,7 +154,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 /* section label */
 .sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:7px;text-transform:uppercase;}
 
-.btn-go{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;border:2px solid rgba(255,255,255,.9);padding:11px 40px;font-family:var(--font);font-size:13px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 rgba(79,112,232,.85);}
+.btn-go{background:#2f7dff;color:#fff;border:2px solid rgba(255,255,255,.9);padding:11px 40px;font-family:var(--font);font-size:13px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1b4fb0;}
 .btn-go:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 7px 0 rgba(79,112,232,.85);}
 .btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(79,112,232,.85);}
 .score-row{display:flex;justify-content:center;gap:40px;margin:14px 0 20px;}
@@ -182,8 +181,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 .gp-name{font-size:7px;line-height:1.1;color:#334155;font-weight:800;letter-spacing:.2px;text-align:center;}
 .gp-stat{font-size:6px;color:var(--muted);letter-spacing:.2px;}
 
-.record-box{width:100%;margin-bottom:8px;border:3px solid rgba(82,57,35,.2);background:#fff7ea;border-radius:14px;padding:8px;box-shadow:0 3px 0 rgba(108,71,43,.24);}
-.round-box{width:100%;margin-bottom:8px;border:3px dashed rgba(82,57,35,.25);background:#fff4e0;border-radius:14px;padding:8px;}
+.record-box{width:100%;margin-bottom:8px;border:3px solid rgba(47,125,255,.45);background:#15274a;border-radius:14px;padding:8px;box-shadow:0 3px 0 rgba(9,19,39,.45);}
+.round-box{width:100%;margin-bottom:8px;border:3px dashed rgba(255,59,89,.35);background:#1d2344;border-radius:14px;padding:8px;}
 .round-row{display:flex;justify-content:space-between;gap:8px;align-items:center;}
 .round-btns{display:flex;gap:7px;}
 .round-btn{border:2px solid rgba(82,57,35,.25);background:#fff;border-radius:10px;padding:6px 10px;font-size:9px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 rgba(108,71,43,.2);}
@@ -203,7 +202,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 .record-item{display:flex;flex-direction:column;align-items:center;}
 .record-lbl{font-size:8px;color:var(--muted);}
 .record-val{font-size:20px;font-weight:900;line-height:1.1;}
-#startCard{max-width:min(1100px,98vw);height:100dvh;justify-content:flex-start;gap:6px;}
+#startCard{max-width:min(1100px,98vw);height:100dvh;justify-content:flex-start;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:20px;}
 #startCard .ov-card-title-block{margin-bottom:2px!important;}
 #startCard .ov-sub{margin-bottom:6px;}
 #startCard .sec-lbl{margin-bottom:4px;}
@@ -373,12 +372,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135d
 
     <div class="record-box">
       <div class="record-head">
-        <div class="record-title">로컬 기록</div>
+        <div class="record-title" id="recordTitle">로컬 기록 · 2인 대전</div>
         <button class="btn-reset" id="btnResetRecord" type="button">초기화</button>
       </div>
       <div class="record-row">
-        <div class="record-item"><div class="record-lbl">P1 승</div><div class="record-val n1" id="rw1">0</div></div>
-        <div class="record-item"><div class="record-lbl">P2 승</div><div class="record-val n2" id="rw2">0</div></div>
+        <div class="record-item"><div class="record-lbl" id="rLbl1">P1 승</div><div class="record-val n1" id="rw1">0</div></div>
+        <div class="record-item"><div class="record-lbl" id="rLbl2">P2 승</div><div class="record-val n2" id="rw2">0</div></div>
         <div class="record-item"><div class="record-lbl">총 판수</div><div class="record-val" id="rtg">0</div></div>
       </div>
     </div>
@@ -701,8 +700,11 @@ let startGun=[0,0];
 const ROUND_CHOICES=[1,2,3,5];
 let roundsToWin=2;
 let roundWins=[0,0];
-const REC_KEY='gunshooter_record_v1';
-let record={p1Wins:0,p2Wins:0,games:0};
+const REC_KEY='gunshooter_record_v2';
+let record={
+  versus:{p1Wins:0,p2Wins:0,games:0},
+  solo:{wins:0,losses:0,games:0}
+};
 const SKILLS=[
   {id:'tank',name:'든든갑',desc:'체력 +25 / 이동 -10%',hp:25,speedMul:0.9},
   {id:'sprinter',name:'질주본능',desc:'이동 +20%',speedMul:1.2},
@@ -712,13 +714,52 @@ const SKILLS=[
 let skillSel=['tank','shield'];
 const BOT_CFG={reactionMs:380,aimErrorBase:68,aimErrorDist:0.065,maxRangeMul:0.56,triggerChance:0.24};
 let botAimTimer=0;
+let bgmCtx=null,bgmGain=null,bgmStarted=false;
+
+function startBgm(){
+  if(bgmStarted) return;
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC) return;
+  bgmCtx=new AC();
+  bgmGain=bgmCtx.createGain();
+  bgmGain.gain.value=.04;
+  bgmGain.connect(bgmCtx.destination);
+  const notes=[261.63,329.63,392.0,329.63,293.66,349.23,440.0,349.23];
+  const bass=[130.81,146.83,164.81,146.83];
+  let step=0;
+  const tick=()=>{
+    if(!bgmCtx||bgmCtx.state==='closed') return;
+    const now=bgmCtx.currentTime;
+    const osc=bgmCtx.createOscillator();
+    const g=bgmCtx.createGain();
+    osc.type='square';
+    osc.frequency.value=notes[step%notes.length];
+    g.gain.setValueAtTime(0.001,now);
+    g.gain.exponentialRampToValueAtTime(0.08,now+0.02);
+    g.gain.exponentialRampToValueAtTime(0.001,now+0.24);
+    osc.connect(g); g.connect(bgmGain); osc.start(now); osc.stop(now+0.25);
+
+    const osc2=bgmCtx.createOscillator();
+    const g2=bgmCtx.createGain();
+    osc2.type='triangle';
+    osc2.frequency.value=bass[step%bass.length];
+    g2.gain.setValueAtTime(0.001,now);
+    g2.gain.exponentialRampToValueAtTime(0.05,now+0.03);
+    g2.gain.exponentialRampToValueAtTime(0.001,now+0.3);
+    osc2.connect(g2); g2.connect(bgmGain); osc2.start(now); osc2.stop(now+0.31);
+    step++;
+    setTimeout(tick,290);
+  };
+  bgmStarted=true;
+  tick();
+}
 
 function loadRecord(){
   try{
     const raw=localStorage.getItem(REC_KEY);
     if(!raw) return;
     const parsed=JSON.parse(raw);
-    if(typeof parsed?.p1Wins==='number'&&typeof parsed?.p2Wins==='number'&&typeof parsed?.games==='number'){
+    if(parsed?.versus&&parsed?.solo){
       record=parsed;
     }
   }catch(e){}
@@ -727,7 +768,11 @@ function saveRecord(){
   try{ localStorage.setItem(REC_KEY,JSON.stringify(record)); }catch(e){}
 }
 function resetRecord(){
-  record={p1Wins:0,p2Wins:0,games:0};
+  if(gameMode==='solo'){
+    record.solo={wins:0,losses:0,games:0};
+  } else {
+    record.versus={p1Wins:0,p2Wins:0,games:0};
+  }
   saveRecord();
   renderRecord();
 }
@@ -736,9 +781,24 @@ function renderRecord(){
   const p2=document.getElementById('rw2');
   const tg=document.getElementById('rtg');
   if(!p1||!p2||!tg) return;
-  p1.textContent=record.p1Wins;
-  p2.textContent=record.p2Wins;
-  tg.textContent=record.games;
+  const title=document.getElementById('recordTitle');
+  const l1=document.getElementById('rLbl1');
+  const l2=document.getElementById('rLbl2');
+  if(gameMode==='solo'){
+    if(title) title.textContent='로컬 기록 · 1인 모드';
+    if(l1) l1.textContent='승리';
+    if(l2) l2.textContent='패배';
+    p1.textContent=record.solo.wins;
+    p2.textContent=record.solo.losses;
+    tg.textContent=record.solo.games;
+  } else {
+    if(title) title.textContent='로컬 기록 · 2인 대전';
+    if(l1) l1.textContent='P1 승';
+    if(l2) l2.textContent='P2 승';
+    p1.textContent=record.versus.p1Wins;
+    p2.textContent=record.versus.p2Wins;
+    tg.textContent=record.versus.games;
+  }
 }
 
 // ─── CANVAS ──────────────────────────────────────────────
@@ -929,9 +989,7 @@ function buildMapGrid(){
     pv.style.cssText='width:100%;height:36px;border-radius:3px;display:block;';
     const pc=pv.getContext('2d');
     // draw mini preview
-    const g=pc.createLinearGradient(0,0,0,36);
-    g.addColorStop(0,m.bg0); g.addColorStop(1,m.bg1);
-    pc.fillStyle=g; pc.fillRect(0,0,120,36);
+    pc.fillStyle=m.bg0; pc.fillRect(0,0,120,36);
     pc.fillStyle=m.gc; pc.fillRect(0,28,120,8);
     pc.fillStyle=m.pc;
     // draw some mini platforms
@@ -966,6 +1024,7 @@ function setMode(m){
   detectMobile();
   buildStartGunSelectors();
   buildSkillSelectors();
+  renderRecord();
 }
 window.setMode=setMode;
 
@@ -1381,12 +1440,23 @@ function checkEnd(){
   }
   running=false;
   let wc,wTxt;
-  record.games+=1;
-  if(w===0) record.p1Wins+=1; else record.p2Wins+=1;
+  if(gameMode==='solo'){
+    record.solo.games+=1;
+    if(w===0) record.solo.wins+=1;
+    else record.solo.losses+=1;
+  } else {
+    record.versus.games+=1;
+    if(w===0) record.versus.p1Wins+=1;
+    else record.versus.p2Wins+=1;
+  }
   saveRecord();
   renderRecord();
   wc=w===0?'var(--p1)':'var(--p2)';
-  wTxt=`<span style="color:${wc}">P${w+1}</span> 최종 승리`;
+  if(gameMode==='solo'){
+    wTxt=w===0?`<span style="color:var(--p1)">승리!</span>`:`<span style="color:var(--p2)">패배...</span>`;
+  } else {
+    wTxt=`<span style="color:${wc}">P${w+1}</span> 최종 승리`;
+  }
   document.getElementById('winTxt').innerHTML=wTxt;
   document.getElementById('fk1').textContent=P[0].kills;
   document.getElementById('fk2').textContent=P[1].kills;
@@ -1409,40 +1479,23 @@ function draw(){
 }
 
 function drawBg(){
-  const m=MAPS[mapId];
-  cx.fillStyle=m.bg0; cx.fillRect(0,0,W,H);
-  cx.fillStyle=m.sky; cx.fillRect(0,0,W,H*.4);
-  if(mapId==='factory'){
-    cx.fillStyle='rgba(255,255,255,.2)';
-    for(let i=0;i<52;i++){
-      const sx=((i*173+Math.floor(cam.x*.28))%W+W)%W;
-      const sy=((i*113)%(H*.72));
-      cx.beginPath(); cx.arc(sx,sy,.9,0,Math.PI*2); cx.fill();
-    }
-    cx.fillStyle='rgba(20,20,40,0.46)';
-    for(let i=0;i<10;i++){ const bx=((i*250-cam.x*.14)%W+W)%W-90; cx.fillRect(bx,H-56-(70+i*28),50+i*12,70+i*28); }
-  } else if(mapId==='rooftop'){
-    cx.fillStyle='rgba(255,255,255,.45)';
-    for(let i=0;i<7;i++){
-      const x=((i*270-cam.x*.2)%W+W)%W-120;
-      cx.beginPath(); cx.ellipse(x,120+i*12,78,20,0,0,Math.PI*2); cx.fill();
-    }
-    cx.fillStyle='rgba(45,77,122,.36)';
-    for(let i=0;i<11;i++){ const x=((i*185-cam.x*.18)%W+W)%W-20; cx.fillRect(x,H-100-(i%3)*20,38,44+(i%2)*24); }
-  } else if(mapId==='cave'){
-    cx.fillStyle='rgba(62,34,10,.2)';
-    for(let i=0;i<15;i++){
-      const x=(i*180-cam.x*.1)%W;
-      cx.beginPath(); cx.moveTo(x,0); cx.lineTo(x+20,45); cx.lineTo(x+40,0); cx.closePath(); cx.fill();
-      cx.beginPath(); cx.moveTo(x+70,H); cx.lineTo(x+95,H-40); cx.lineTo(x+120,H); cx.closePath(); cx.fill();
-    }
-  } else {
-    cx.strokeStyle='rgba(160,90,90,.22)';
-    cx.lineWidth=2;
-    for(let i=0;i<11;i++){
-      const y=90+i*32;
-      cx.beginPath(); cx.moveTo(0,y+Math.sin((cam.x+i*40)/120)*8); cx.lineTo(W,y+Math.cos((cam.x+i*40)/130)*8); cx.stroke();
-    }
+  cx.fillStyle='#091429'; cx.fillRect(0,0,W,H);
+  cx.fillStyle='rgba(47,125,255,0.18)'; cx.fillRect(0,0,W*.52,H);
+  cx.fillStyle='rgba(255,59,89,0.16)'; cx.fillRect(W*.48,0,W*.52,H);
+  cx.fillStyle='rgba(255,255,255,.08)';
+  for(let i=0;i<14;i++){
+    const y=40+i*44+Math.sin((cam.x+i*60)/120)*7;
+    cx.fillRect(0,y,W,2);
+  }
+  cx.fillStyle='rgba(47,125,255,.23)';
+  for(let i=0;i<9;i++){
+    const bx=((i*260-cam.x*.14)%W+W)%W-80;
+    cx.fillRect(bx,H-56-(60+i*22),46+i*9,60+i*22);
+  }
+  cx.fillStyle='rgba(255,59,89,.18)';
+  for(let i=0;i<9;i++){
+    const bx=((i*280-cam.x*.1+120)%W+W)%W-80;
+    cx.fillRect(bx,H-56-(54+i*18),42+i*7,54+i*18);
   }
 }
 
@@ -1699,14 +1752,17 @@ function openSetupScreen(){
   renderRecord();
 }
 
-document.getElementById('btnStart').addEventListener('click',startGame);
+document.getElementById('btnStart').addEventListener('click',()=>{ startBgm(); startGame(); });
 document.getElementById('btnRestart').addEventListener('click',backToLobby);
 document.getElementById('btnResetRecord').addEventListener('click',resetRecord);
 document.querySelectorAll('[data-open-setup]').forEach(btn=>btn.addEventListener('click',()=>{
+  startBgm();
   const m=btn.dataset.mode;
   if(m) setMode(m);
   openSetupScreen();
 }));
+window.addEventListener('keydown',startBgm,{once:true});
+window.addEventListener('touchstart',startBgm,{once:true});
 
 // ─── INIT ────────────────────────────────────────────────
 resize();
