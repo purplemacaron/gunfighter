@@ -203,7 +203,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .record-item{display:flex;flex-direction:column;align-items:center;}
 .record-lbl{font-size:8px;color:var(--muted);}
 .record-val{font-size:20px;font-weight:900;line-height:1.1;}
-#startCard{max-width:min(900px,96vw);display:flex!important;height:auto;min-height:86dvh;gap:10px;overflow:hidden;padding:16px;background:#0b1220;border:none;border-radius:16px;}
+#startCard{max-width:min(980px,96vw);display:flex!important;height:auto;min-height:auto;max-height:96dvh;gap:8px;overflow:hidden;padding:10px;background:#0b1220;border:none;border-radius:16px;}
 #startCard .ov-card-title-block{margin-bottom:2px!important;}
 #startCard .ov-sub{margin-bottom:6px;}
 #startCard .sec-lbl{margin-bottom:4px;}
@@ -214,14 +214,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .setup-menu{display:flex;gap:8px;width:100%;}
 .setup-tab{flex:1;border:none;background:#1e3a8a;color:#e2e8f0;border-radius:12px;padding:9px 8px;font-weight:800;font-size:11px;cursor:pointer;}
 .setup-tab.sel{background:#b91c1c;}
-.setup-screen{display:none;width:100%;max-height:58dvh;overflow:auto;padding-right:4px;}
+.setup-screen{display:none;width:100%;max-height:none;overflow:hidden;padding-right:0;}
 .setup-screen.active{display:block;}
 .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .main-grid .full{grid-column:1/-1;}
 
 @media(max-width:1050px){
   .main-grid{grid-template-columns:1fr;}
-  .setup-screen{max-height:62dvh;}
+  .setup-screen{max-height:none;}
 }
 
 @media(max-width:600px){
@@ -250,13 +250,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 }
 html,body{background:#000;color:#fff;}
 #ov{background:#000;}
-#startCard{
-  max-width:min(980px,96vw);
-  border:1px solid #2e2e2e;
-  border-radius:14px;
-  background:#0a0a0a;
-  padding:14px;
-}
+#startCard{max-width:min(980px,96vw);border:1px solid #2e2e2e;border-radius:14px;background:#0a0a0a;padding:10px;}
 #startCard .ov-title,#goCard .ov-title{color:#fff;letter-spacing:0;}
 #startCard .ov-sub,#goCard .ov-sub{color:#bdbdbd;letter-spacing:2px;}
 .setup-menu{gap:6px;}
@@ -267,7 +261,7 @@ html,body{background:#000;color:#fff;}
   border-radius:10px;
 }
 .setup-tab.sel{background:#fff;color:#000;border-color:#fff;}
-.setup-screen{background:#0f0f0f;border:1px solid #262626;border-radius:10px;padding:10px;max-height:52dvh;}
+.setup-screen{background:#0f0f0f;border:1px solid #262626;border-radius:10px;padding:8px;max-height:none;}
 .sec-lbl,.record-title,.gp-title,.record-lbl{color:#c3c3c3;}
 .map-card,.gp-card,.record-box,.round-box,.skill-item,.gp-item{
   background:#151515;
@@ -301,6 +295,31 @@ html,body{background:#000;color:#fff;}
   margin-bottom:10px;
 }
 .lobby-head .btn-go{min-width:170px;}
+.setup-menu{display:none;}
+#startCard .ov-title{font-size:30px;}
+#startCard .ov-sub{margin-bottom:0;font-size:9px;}
+.lobby-head{margin-bottom:4px;}
+.lobby-head .btn-go{min-width:140px;padding:8px 16px;font-size:11px;}
+#startCard .setup-screen{display:block;width:100%;margin:0;}
+#startCard{
+  display:grid!important;
+  grid-template-columns:1.2fr 1fr;
+  align-content:start;
+}
+#startCard .ov-card-title-block,#startCard .lobby-head{grid-column:1/-1;}
+#startCard #screen-main{grid-column:1/2;}
+#startCard #screen-weapon{grid-column:2/3;}
+#startCard #screen-record{grid-column:1/-1;}
+#startCard .main-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:6px;}
+#startCard .map-grid{gap:5px;}
+#startCard .map-card{padding:5px;border-radius:10px;}
+#startCard .gp-row{gap:5px;}
+#startCard .gp-list{gap:3px;}
+#startCard .record-row{gap:12px;}
+@media(max-width:1024px){
+  #startCard{grid-template-columns:1fr 1fr;}
+  #startCard .main-grid{grid-template-columns:1fr 1fr;}
+}
 </style>
 </head>
 <body>
@@ -785,6 +804,15 @@ const MAPS={
     }
   }
 };
+Object.values(MAPS).forEach((m,idx)=>{
+  const shades=['#232323','#1f1f1f','#2a2a2a','#252525'];
+  m.bgMode='mono';
+  m.gc='#343434';
+  m.gt='#222';
+  m.pc=shades[idx%shades.length];
+  m.pg='rgba(255,255,255,0.05)';
+  m.edge='#8f8f8f';
+});
 let mapId='factory';
 let platforms=[];
 let mapBounds={minX:-200,maxX:2200};
@@ -807,13 +835,15 @@ const SKILLS=[
 let skillSel=['tank','shield'];
 const BOT_CFG={reactionMs:380,aimErrorBase:68,aimErrorDist:0.065,maxRangeMul:0.56,triggerChance:0.24};
 let botAimTimer=0;
-let bgmCtx=null,bgmGain=null,bgmStarted=false,bgmEnabled=false,bgmTimer=null;
+const BGM_KEY='gunshooter_bgm_enabled_v1';
+let bgmCtx=null,bgmGain=null,bgmStarted=false,bgmEnabled=true,bgmTimer=null;
 
 function startBgm(){
   if(bgmStarted||!bgmEnabled) return;
   const AC=window.AudioContext||window.webkitAudioContext;
   if(!AC) return;
   bgmCtx=new AC();
+  if(bgmCtx.state==='suspended') bgmCtx.resume().catch(()=>{});
   bgmGain=bgmCtx.createGain();
   bgmGain.gain.value=.025;
   bgmGain.connect(bgmCtx.destination);
@@ -844,10 +874,20 @@ function stopBgm(){
 }
 function toggleBgm(){
   bgmEnabled=!bgmEnabled;
+  try{ localStorage.setItem(BGM_KEY,bgmEnabled?'1':'0'); }catch(e){}
   const btn=document.getElementById('btnBgmToggle');
   if(btn) btn.textContent=`배경음악: ${bgmEnabled?'ON':'OFF'}`;
   if(bgmEnabled) startBgm();
   else stopBgm();
+}
+function loadBgmPref(){
+  try{
+    const stored=localStorage.getItem(BGM_KEY);
+    if(stored==='0') bgmEnabled=false;
+    if(stored==='1') bgmEnabled=true;
+  }catch(e){}
+  const btn=document.getElementById('btnBgmToggle');
+  if(btn) btn.textContent=`배경음악: ${bgmEnabled?'ON':'OFF'}`;
 }
 
 function loadRecord(){
@@ -1084,21 +1124,12 @@ function buildMapGrid(){
     pv.width=120; pv.height=36;
     pv.style.cssText='width:100%;height:36px;border-radius:3px;display:block;';
     const pc=pv.getContext('2d');
-    // draw mini preview
-    pc.fillStyle='#1e3a8a'; pc.fillRect(0,0,120,36);
-    if(m.bgMode==='stripe'){
-      pc.fillStyle='#b91c1c';
-      for(let i=0;i<120;i+=14) pc.fillRect(i,0,7,36);
-    } else if(m.bgMode==='bands'){
-      pc.fillStyle='#1e40af'; pc.fillRect(0,0,120,12);
-      pc.fillStyle='#991b1b'; pc.fillRect(0,12,120,12);
-      pc.fillStyle='#1e40af'; pc.fillRect(0,24,120,12);
-    } else if(m.bgMode==='arena'){
-      pc.fillStyle='#991b1b'; pc.fillRect(0,0,120,36);
-      pc.fillStyle='#1e40af'; pc.fillRect(55,0,10,36);
-    } else {
-      pc.fillStyle='#b91c1c'; pc.fillRect(60,0,60,36);
-    }
+    // draw mini preview (monochrome)
+    pc.fillStyle='#171717'; pc.fillRect(0,0,120,36);
+    pc.fillStyle='#1f1f1f';
+    for(let i=0;i<120;i+=16) pc.fillRect(i,0,8,36);
+    pc.fillStyle='rgba(255,255,255,0.04)';
+    pc.fillRect(0,12,120,10);
     pc.fillStyle=m.gc; pc.fillRect(0,28,120,8);
     pc.fillStyle=m.pc;
     // draw some mini platforms
@@ -1138,18 +1169,11 @@ function setMode(m){
 window.setMode=setMode;
 
 function setSetupScreen(name='main'){
-  document.querySelectorAll('.setup-screen').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.setup-screen').forEach(el=>el.classList.add('active'));
   document.querySelectorAll('.setup-tab').forEach(el=>el.classList.remove('sel'));
-  const screen=document.getElementById('screen-'+name);
-  if(screen) screen.classList.add('active');
-  const tab=document.querySelector(`.setup-tab[data-setup-screen="${name}"]`);
-  if(tab) tab.classList.add('sel');
 }
 
 function initSetupTabs(){
-  document.querySelectorAll('.setup-tab').forEach(tab=>{
-    tab.addEventListener('click',()=>setSetupScreen(tab.dataset.setupScreen));
-  });
   setSetupScreen('main');
 }
 
@@ -1899,6 +1923,7 @@ resize();
 detectMobile();
 window.addEventListener('resize',detectMobile);
 loadRecord();
+loadBgmPref();
 renderRecord();
 buildMapGrid();
 initSetupTabs();
