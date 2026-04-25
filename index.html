@@ -15,7 +15,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:none;}
 :root{
-  --bg:#0b1220;--surface:#111b34;--border:rgba(59,130,246,0.55);
+  --bg:#0b1220;--surface:#111b34;--border:rgba(255,255,255,0.65);
   --p1:#2f7dff;--p2:#ff3b59;
   --p1d:#1d4ed8;--p2d:#dc2626;
   --muted:#9fb0ce;--text:#e7f0ff;
@@ -108,7 +108,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 #mobileIndicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:5;opacity:0.06;}
 
 /* ── OVERLAY ──────────────────────────────── */
-#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0b1220;overflow:hidden;touch-action:none;}
+#ov{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#2155d6 0 50%,#d9344e 50% 100%);overflow:hidden;touch-action:none;}
+#ov::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.75);transform:translateX(-50%);pointer-events:none;}
 .ov-card{max-width:700px;width:100%;padding:14px 18px 14px;text-align:center;margin:auto;display:flex;flex-direction:column;align-items:center;touch-action:none;max-height:100dvh;overflow:hidden;}
 @media(orientation:landscape){
   .ov-card{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:0 24px;align-items:flex-start;padding:12px 16px;}
@@ -121,7 +122,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .ov-sub{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;}
 
 /* Arcade splash */
-#arcadeCard{max-width:520px;padding:24px 18px 24px;border-radius:24px;background:#131f3d;box-shadow:0 14px 0 #091327,0 24px 44px rgba(9,19,39,.4);border:3px solid rgba(47,125,255,.55);}
+#arcadeCard{display:none!important;}
 .arcade-title{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;color:#fff8d6;text-shadow:2px 2px 0 rgba(28,17,74,.5);}
 .arcade-sub{font-size:11px;letter-spacing:5px;color:#ff667e;margin:8px 0 16px;}
 .arcade-guns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;margin:2px 0 10px;}
@@ -135,7 +136,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 /* Map select in title screen */
 #mapSelScreen{margin-bottom:14px;width:100%;}
 .map-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:10px;}
-.map-card{border:3px solid rgba(91,141,255,.4);border-radius:14px;padding:8px;cursor:pointer;transition:all .15s;background:#f3f6ff;box-shadow:0 3px 0 rgba(91,141,255,.3);}
+.map-card{border:none;border-radius:14px;padding:8px;cursor:pointer;transition:all .15s;background:#f3f6ff;box-shadow:none;}
 .map-card:hover{background:#edf3ff;transform:translateY(-1px);}
 .map-card.sel{border-color:var(--p2);background:#ffeaf0;transform:translateY(-1px);}
 .map-card-name{font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:2px;color:#32406f;}
@@ -145,7 +146,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 /* Mode select */
 .mode-section{width:100%;margin-bottom:14px;}
 .mode-row{display:flex;gap:7px;margin-bottom:0;justify-content:center;}
-.mode-btn{flex:1;max-width:150px;padding:9px 10px;border-radius:14px;border:3px solid rgba(37,99,235,.35);background:#111b35;cursor:pointer;transition:all .15s;font-family:var(--font);box-shadow:0 3px 0 rgba(15,23,42,.6);}
+.mode-btn{flex:1;max-width:150px;padding:9px 10px;border-radius:14px;border:2px solid rgba(255,255,255,.8);background:rgba(10,20,45,.55);cursor:pointer;transition:all .15s;font-family:var(--font);box-shadow:none;}
 .mode-btn:hover{background:#172554;transform:translateY(-1px);}
 .mode-btn.sel{border-color:var(--p2);background:#3b1021;transform:translateY(-1px);}
 .mode-btn-name{font-size:10px;font-weight:900;letter-spacing:1px;color:#e2e8f0;margin-bottom:3px;}
@@ -154,7 +155,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 /* section label */
 .sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-align:left;margin-bottom:7px;text-transform:uppercase;}
 
-.btn-go{background:#2f7dff;color:#fff;border:2px solid rgba(255,255,255,.9);padding:11px 40px;font-family:var(--font);font-size:13px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:0 5px 0 #1b4fb0;}
+.btn-go{background:#2f7dff;color:#fff;border:2px solid #fff;padding:11px 40px;font-family:var(--font);font-size:13px;font-weight:900;letter-spacing:2px;border-radius:18px;cursor:pointer;transition:all .12s;pointer-events:all;box-shadow:none;}
 .btn-go:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 7px 0 rgba(79,112,232,.85);}
 .btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(79,112,232,.85);}
 .score-row{display:flex;justify-content:center;gap:40px;margin:14px 0 20px;}
@@ -170,7 +171,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .gp-picked-role{font-size:8px;letter-spacing:1px;color:var(--muted);font-weight:700;}
 .gp-picked-name{font-size:10px;font-weight:900;color:#e2e8f0;}
 .gp-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.gp-card{border:2px solid rgba(0,0,0,.12);background:#fff;border-radius:12px;padding:8px;}
+.gp-card{border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.94);border-radius:12px;padding:8px;}
 .gp-title{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:5px;font-weight:700;}
 .gp-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;max-height:none;overflow:hidden;padding-right:0;touch-action:none;}
 .gp-item{border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:5px 3px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:#f8fbff;transition:all .12s;}
@@ -181,8 +182,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .gp-name{font-size:7px;line-height:1.1;color:#334155;font-weight:800;letter-spacing:.2px;text-align:center;}
 .gp-stat{font-size:6px;color:var(--muted);letter-spacing:.2px;}
 
-.record-box{width:100%;margin-bottom:8px;border:3px solid rgba(47,125,255,.45);background:#15274a;border-radius:14px;padding:8px;box-shadow:0 3px 0 rgba(9,19,39,.45);}
-.round-box{width:100%;margin-bottom:8px;border:3px dashed rgba(255,59,89,.35);background:#1d2344;border-radius:14px;padding:8px;}
+.record-box{width:100%;margin-bottom:8px;border:2px solid rgba(255,255,255,.85);background:rgba(21,39,74,.75);border-radius:14px;padding:8px;box-shadow:none;}
+.round-box{width:100%;margin-bottom:8px;border:2px solid rgba(255,255,255,.85);background:rgba(29,35,68,.72);border-radius:14px;padding:8px;}
 .round-row{display:flex;justify-content:space-between;gap:8px;align-items:center;}
 .round-btns{display:flex;gap:7px;}
 .round-btn{border:2px solid rgba(82,57,35,.25);background:#fff;border-radius:10px;padding:6px 10px;font-size:9px;font-weight:800;cursor:pointer;box-shadow:0 2px 0 rgba(108,71,43,.2);}
@@ -202,7 +203,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 .record-item{display:flex;flex-direction:column;align-items:center;}
 .record-lbl{font-size:8px;color:var(--muted);}
 .record-val{font-size:20px;font-weight:900;line-height:1.1;}
-#startCard{max-width:min(1100px,98vw);height:100dvh;justify-content:flex-start;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:20px;}
+#startCard{max-width:min(1240px,99vw);height:100dvh;justify-content:flex-start;gap:6px;overflow:hidden;overscroll-behavior:contain;padding:10px 12px 12px;background:rgba(10,15,30,.16);backdrop-filter:none;border:none;}
 #startCard .ov-card-title-block{margin-bottom:2px!important;}
 #startCard .ov-sub{margin-bottom:6px;}
 #startCard .sec-lbl{margin-bottom:4px;}
@@ -316,7 +317,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
 <!-- overlay -->
 <div id="ov">
   <!-- GUNSHOOTER SPLASH -->
-  <div class="ov-card" id="arcadeCard">
+  <div class="ov-card" id="arcadeCard" style="display:none">
     <div class="arcade-title">GUNSHOOTER READY</div>
     <div class="arcade-sub">GUNSHOOTER 2P</div>
     <div class="arcade-guns">
@@ -343,7 +344,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
   </div>
 
   <!-- START CARD -->
-  <div class="ov-card" id="startCard" style="display:none">
+  <div class="ov-card" id="startCard" style="display:flex">
     <div class="ov-card-title-block" style="width:100%;text-align:center;">
       <div class="ov-title">GUN<span style="color:var(--p1)">SHOO</span><span style="color:var(--p2)">TER</span></div>
       <div class="ov-sub">LOCAL GUNSHOOTER</div>
@@ -356,7 +357,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b1220;font-family:
     </div>
 
     <!-- MODE SELECTION (인원은 메인 화면에서만 선택) -->
-    <div class="mode-section" style="display:none">
+    <div class="mode-section">
       <div class="sec-lbl">게임 모드</div>
       <div class="mode-row">
         <div class="mode-btn sel" id="mode-versus" onclick="setMode('versus')">
@@ -1479,24 +1480,12 @@ function draw(){
 }
 
 function drawBg(){
-  cx.fillStyle='#091429'; cx.fillRect(0,0,W,H);
-  cx.fillStyle='rgba(47,125,255,0.18)'; cx.fillRect(0,0,W*.52,H);
-  cx.fillStyle='rgba(255,59,89,0.16)'; cx.fillRect(W*.48,0,W*.52,H);
-  cx.fillStyle='rgba(255,255,255,.08)';
-  for(let i=0;i<14;i++){
-    const y=40+i*44+Math.sin((cam.x+i*60)/120)*7;
-    cx.fillRect(0,y,W,2);
-  }
-  cx.fillStyle='rgba(47,125,255,.23)';
-  for(let i=0;i<9;i++){
-    const bx=((i*260-cam.x*.14)%W+W)%W-80;
-    cx.fillRect(bx,H-56-(60+i*22),46+i*9,60+i*22);
-  }
-  cx.fillStyle='rgba(255,59,89,.18)';
-  for(let i=0;i<9;i++){
-    const bx=((i*280-cam.x*.1+120)%W+W)%W-80;
-    cx.fillRect(bx,H-56-(54+i*18),42+i*7,54+i*18);
-  }
+  cx.fillStyle='#2563eb';
+  cx.fillRect(0,0,Math.ceil(W/2),H);
+  cx.fillStyle='#ef4444';
+  cx.fillRect(Math.floor(W/2),0,Math.ceil(W/2),H);
+  cx.fillStyle='rgba(255,255,255,.88)';
+  cx.fillRect(Math.floor(W/2)-1,0,2,H);
 }
 
 function drawPlats(){
@@ -1567,13 +1556,9 @@ function drawPlayer(p){
   cx.fillStyle=col;
   cx.beginPath(); if(cx.roundRect) cx.roundRect(-p.w/2,-p.h/2,p.w,p.h,4); else cx.rect(-p.w/2,-p.h/2,p.w,p.h);
   cx.fill();
-  cx.strokeStyle='#ffffff'; cx.lineWidth=1.3;
-  cx.strokeRect(-p.w/2,-p.h/2,p.w,p.h);
   // helmet/head
   cx.fillStyle=accent;
   cx.beginPath(); cx.arc(0,-p.h/2-5,6,0,Math.PI*2); cx.fill();
-  cx.strokeStyle='#ffffff'; cx.lineWidth=1;
-  cx.beginPath(); cx.arc(0,-p.h/2-5,6,0,Math.PI*2); cx.stroke();
   // visor
   cx.fillStyle='#dbeafe'; cx.fillRect(-4,-p.h/2-7,8,3);
   // gun arm
@@ -1740,9 +1725,10 @@ function backToLobby(){
   running=false;
   bullets=[]; enemies=[]; parts=[]; floats=[];
   document.getElementById('goCard').style.display='none';
-  document.getElementById('arcadeCard').style.display='flex';
-  document.getElementById('startCard').style.display='none';
+  document.getElementById('arcadeCard').style.display='none';
+  document.getElementById('startCard').style.display='flex';
   document.getElementById('ov').style.display='flex';
+  renderRecord();
 }
 
 function openSetupScreen(){
@@ -1755,12 +1741,6 @@ function openSetupScreen(){
 document.getElementById('btnStart').addEventListener('click',()=>{ startBgm(); startGame(); });
 document.getElementById('btnRestart').addEventListener('click',backToLobby);
 document.getElementById('btnResetRecord').addEventListener('click',resetRecord);
-document.querySelectorAll('[data-open-setup]').forEach(btn=>btn.addEventListener('click',()=>{
-  startBgm();
-  const m=btn.dataset.mode;
-  if(m) setMode(m);
-  openSetupScreen();
-}));
 window.addEventListener('keydown',startBgm,{once:true});
 window.addEventListener('touchstart',startBgm,{once:true});
 
